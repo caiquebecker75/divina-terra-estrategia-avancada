@@ -140,7 +140,8 @@ def escolher(x,cat,f,nuc=None):
             while e['f']<lim and usado+e['w']<=cap: e['f']+=1;usado+=e['w']
     # ainda sobra: entram os próximos produtos da venda, até encher
     ja={e['sku'] for e in esc}
-    for r in g.itertuples():
+    _fm=R/'assets/produtos/mapa.json';_fm=json.loads(_fm.read_text()) if _fm.exists() else {}
+    for r in sorted(g.itertuples(),key=lambda r:(str(r.sku) not in _fm,-r.v)):
         if r.sku in ja or (teto and len(esc)>=teto): continue
         w=largura(r.desc)
         if usado+w>cap: continue
