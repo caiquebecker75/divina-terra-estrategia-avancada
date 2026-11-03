@@ -1,4 +1,11 @@
 <style>
+.s-can [data-abas]{margin-top:10px}.s-can .abas{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.s-can .aba{background:var(--aveia);border-radius:99px;padding:8px 18px;font-weight:600;font-size:16.5px}.s-can .aba.on{background:var(--choco);color:#fff}
+.s-can .grafico{width:auto;height:330px;margin:4px auto 0}.s-can .leg{display:flex;gap:18px;font-size:16px;margin-top:6px}.s-can .leg i{display:inline-block;width:22px;height:5px;margin-right:7px;vertical-align:3px;border-radius:3px}
+.s-can .ler{font-size:19px;line-height:1.3;background:var(--matcha);border-radius:12px;padding:10px 16px;margin-top:6px}
+.s-esc .cas{display:grid;gap:7px;margin-top:14px}.s-esc .e{display:grid;grid-template-columns:280px 1fr;border-radius:15px;overflow:hidden;background:var(--aveia)}.s-esc .e>b{background:var(--w);color:#fff;font:400 27px/1.08 var(--serif);padding:12px 18px;display:flex;align-items:center}.s-esc .e>span{padding:11px 18px;font-size:18px;line-height:1.3;align-self:center}
+.s-ver .g{display:grid;grid-template-columns:1.45fr 1fr;grid-template-rows:1fr 1fr;gap:10px;margin-top:12px;height:560px}.s-ver figure{position:relative;margin:0;border-radius:16px;overflow:hidden;cursor:zoom-in}.s-ver figure:first-child{grid-row:span 2}.s-ver img{width:100%;height:100%;object-fit:cover;display:block}.s-ver figure span{position:absolute;left:12px;bottom:12px;background:rgba(70,29,23,.88);color:#fff;border-radius:99px;padding:6px 14px;font-size:15.5px;font-weight:600}
+</style>
+<style>
 .s-dest .frase{font:300 150px/.98 var(--serif);letter-spacing:-.03em;margin-top:18px}.s-dest .frase em{color:var(--choco)}
 .s-dest .tr{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;margin-top:30px;align-items:start}
 .s-dest .lead{font-size:27px;margin:0}
@@ -19,11 +26,11 @@
 .s-vis .st h4{font:400 28px/1.08 var(--serif);margin-top:12px}.s-vis .st p{font-size:18px;line-height:1.32;color:var(--cinza);margin-top:6px}
 .s-vis .cesta{margin-top:30px;background:var(--terra);color:var(--iogurte);border-radius:18px;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}.s-vis .cesta p{font:300 italic 28px/1.2 var(--serif)}.s-vis .cesta small{font-size:15px;opacity:.8;max-width:430px;line-height:1.3}
 </style>
-<section id="c1" class="tela s-cap" data-titulo="Capítulo 1" data-cap="(1) Para onde vamos" data-capitulo="1" data-etapa="1">
-  <div class="lado"><img src="assets/logos/dt-icone-claro.svg" alt=""><span class="num">1</span></div>
+<section id="c1" class="tela s-cap" data-titulo="Capítulo 1" data-cap="(1) Para onde vamos" data-capitulo="1" data-etapa="2">
+  <div class="lado"><img class="fundo lento" src="assets/img/ren-mesa.jpg" alt=""><img class="ic flut" src="assets/logos/dt-icone-claro.svg" alt=""><span class="num">1</span></div>
   <div class="dir"><span class="eb">Capítulo 1</span><h2>Para onde vamos</h2><p>Antes de falar de gôndola, o destino. É ele que decide tudo o que vem depois.</p><ul><li>O destino em uma frase</li><li>Três motivos para entrar na loja</li><li>Como fica a venda lá na frente</li><li>A visita de uma cliente, no futuro</li></ul><trilha k="1"></trilha></div>
 </section>
-<section id="posicao" class="tela s-dest" data-titulo="O destino em uma frase" data-cap="(1) Para onde vamos" data-etapa="1" data-fala="Esta é a frase de trabalho. Não é campanha, é critério: tudo o que entra na loja precisa caber nela. Saúde continua sendo a porta de entrada.">
+<section id="posicao" class="tela s-dest" data-titulo="O destino em uma frase" data-cap="(1) Para onde vamos" data-etapa="2" data-fala="Esta é a frase de trabalho. Não é campanha, é critério: tudo o que entra na loja precisa caber nela. Saúde continua sendo a porta de entrada.">
   <span class="eb">O destino</span>
   <p class="frase">O empório de <em>quem se cuida.</em></p>
   <div class="tr"><p class="lead">A saúde continua sendo a porta de entrada. O prazer de comer bem, receber e presentear vira mais um motivo para voltar.</p>
@@ -31,9 +38,33 @@
   <div class="base"><div><b>Na rede</b>Slogan e território já estão no Posicionamento de Marca.</div><div><b>No mercado</b>Nenhum concorrente junta empório curado e conversa sobre saúde.</div><div><b>Na teoria</b><span>Posicionamento é ocupar um lugar claro na cabeça do cliente (<em>Ries e Trout, 1981</em>).</span></div></div>
   <p class="fonte">Fonte: Posicionamento de Marca, p. 23 e 24; mapa de concorrência da 75 LAB a partir da reunião de 29/10/2026; Ries e Trout, Positioning, 1981. Frase de trabalho, sujeita a aprovação.</p>
 </section>
-<section id="motores" class="tela s-mot2" data-titulo="Três motivos para entrar" data-cap="(1) Para onde vamos" data-etapa="1" data-fala="Olhem os pontinhos: é um trimestre. Quem vem só pelo suplemento volta umas duas vezes. Quem vem pelo granel, toda semana. E o empório entra nas ocasiões. É a mesma cliente, com mais motivos.">
+<section id="canvas" class="tela s-can" data-titulo="O lugar que ninguém ocupa" data-cap="(1) Para onde vamos" data-etapa="2" data-fala="Cada linha é um concorrente. Vejam como cada um é forte em uma coisa. Quando comparamos, aparece um espaço: muita explicação com muita curadoria e experiência. Ninguém está lá.">
+  <span class="eb">A estratégia competitiva</span><h2>O destino é <em>um lugar que ninguém ocupa</em></h2>
+  <div data-abas>
+    <div class="abas"><button class="aba on" data-k="far">Contra a farmácia</button><button class="aba" data-k="mer">Contra o supermercado premium</button><button class="aba" data-k="net">Contra a internet</button><button class="aba" data-k="dest">A Divina Terra no destino</button><span class="cta so-tela" style="margin-left:6px"><svg><use href="#i-mao"/></svg>Clique para comparar</span></div>
+    <div class="painel on" data-k="far">{{canvas_far}}<div class="ler"><b>Leitura:</b> a farmácia ganha em conveniência e está em toda esquina. Não dá para vencer aí. Ela perde em explicação, e ali a rede já é forte.</div></div>
+    <div class="painel" data-k="mer">{{canvas_mer}}<div class="ler"><b>Leitura:</b> Hortisabor, Santa Luzia e Zaffari têm variedade e prazer, mas não têm quem explique ômega-3. É a fronteira mais próxima do destino.</div></div>
+    <div class="painel" data-k="net">{{canvas_net}}<div class="ler"><b>Leitura:</b> a internet ganha em preço e variedade. Perde em tudo o que precisa de gente e de loja: conversa, prova e presente pronto.</div></div>
+    <div class="painel" data-k="dest">{{canvas_dest}}<div class="ler"><b>Leitura:</b> a rede não precisa virar a mais barata nem a maior. Sobe em curadoria de prazer e em experiência, e mantém o que já é dela.</div></div>
+  </div>
+  <div class="base"><div><b>Na rede</b>Mentoria e Curadoria já são pilares imutáveis da marca.</div><div><b>No mercado</b>Francine visitou o Hortisabor: muito suplemento em pontas, adega e hortifruti. É a referência de variedade.</div><div><b>Na teoria</b><span>Curva de valor: sair da briga, subir no que ninguém oferece (<em>Kim e Mauborgne, 2005</em>).</span></div></div>
+  <p class="fonte">Fonte: Kim e Mauborgne, A Estratégia do Oceano Azul, 2005; Posicionamento de Marca, p. 17; reunião de 29/10/2026. As notas de 1 a 5 são leitura qualitativa da 75 LAB, não medição: servem para mostrar a lógica e devem ser validadas com a rede e com clientes.</p>
+</section>
+<section id="escolhas" class="tela s-esc" data-titulo="As cinco escolhas" data-cap="(1) Para onde vamos" data-etapa="2" data-fala="Estratégia é escolher o que fazer e o que não fazer. Estas são as cinco escolhas de uma tela só, e tudo o que vem depois se liga a elas.">
+  <span class="eb">A estratégia em uma tela</span><h2>Estratégia é <em>escolher,</em> e estas são as escolhas</h2>
+  <div class="cas seq">
+    <div class="e" style="--w:var(--terra)"><b>O que queremos ser</b><span>O empório de quem se cuida: a primeira loja que vem à cabeça para cuidar da saúde, repor a despensa e receber bem.</span></div>
+    <div class="e" style="--w:var(--choco)"><b>Onde vamos jogar</b><span>A cliente que já entra, em três ocasiões: cuidar, abastecer e celebrar. <b>Onde não:</b> briga de preço em tudo, adega grande, balcão de frios, hortifruti.</span></div>
+    <div class="e" style="--w:var(--oliva)"><b>Como vamos ganhar</b><span>Conversa que ninguém oferece, curadoria que escolhe por ela e loja que se explica sozinha, com preço justo nos produtos que ela compara.</span></div>
+    <div class="e" style="--w:var(--cap)"><b>O que precisamos ter</b><span>Árvore de categorias, receita de planograma, comitê de curadoria, parceiro de empório, treinamento e negociação de rede.</span></div>
+    <div class="e" style="--w:var(--acafrao)"><b style="color:var(--terra)">Como vamos medir</b><span>Empório na venda, venda por módulo, venda contra a loja-espelho, itens por cupom e nota de auditoria, toda semana, no painel do piloto.</span></div>
+  </div>
+  <div class="base"><div><b>Na rede</b>A meta de marca é ser top of mind em 10 anos: a primeira lembrança da categoria.</div><div><b>No mercado</b>A falta de foco custa caro: a crise do St Marche foi ligada à expansão mal planejada, não à categoria.</div><div><b>Na teoria</b><span>Cascata de escolhas estratégicas (<em>Lafley e Martin, Playing to Win, 2013</em>).</span></div></div>
+  <p class="fonte">Fonte: Lafley e Martin, Playing to Win, Harvard Business Review Press, 2013; Posicionamento de Marca, p. 4; O Tempo, 24/06/2026; proposta da 75 LAB, a validar com a rede.</p>
+</section>
+<section id="motores" class="tela s-mot2" data-titulo="Três motivos para entrar" data-cap="(1) Para onde vamos" data-etapa="2" data-fala="Olhem os pontinhos: é um trimestre. Quem vem só pelo suplemento volta umas duas vezes. Quem vem pelo granel, toda semana. E o empório entra nas ocasiões. É a mesma cliente, com mais motivos.">
   <span class="eb">A loja no destino</span><h2>Uma loja com <em>três motivos</em> para a cliente entrar</h2>
-  <div class="g">
+  <div class="g seq">
     <div class="c" style="background:var(--choco)"><h3>Cuidar</h3><p>“Preciso de ajuda para escolher o que tomar.” Suplemento com a conversa que ninguém mais oferece.</p><div class="cal"><i class=""></i><i class="v"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class="v"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class="v"></i><i class=""></i></div><span class="ri">A cada 30 a 40 dias</span></div>
     <div class="c" style="background:var(--oliva)"><h3>Abastecer</h3><p>“Vou repor o de casa.” Granel, barrinhas, cafés e chás: a compra de rotina.</p><div class="cal"><i class="v"></i><i class="v"></i><i class="v"></i><i class="v"></i><i class="v"></i><i class="v"></i><i class="v"></i><i class="v"></i><i class="v"></i><i class="v"></i><i class="v"></i><i class="v"></i><i class="v"></i></div><span class="ri">Toda semana</span></div>
     <div class="c" style="background:var(--acafrao);color:var(--terra)"><h3>Celebrar</h3><p>“Vou receber, cozinhar, dar um presente.” Azeite, massa, chocolate, vinho, com curadoria.</p><div class="cal cele"><i class=""></i><i class=""></i><i class="v"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class="v"></i><i class=""></i><i class=""></i><i class="v"></i><i class=""></i><i class=""></i></div><span class="ri">Em cada ocasião</span></div>
@@ -41,16 +72,25 @@
   <div class="base"><div><b>Na rede</b>Francine: a barrinha faz o cliente voltar toda semana; o suplemento, em cerca de 40 dias.</div><div><b>No mercado</b>Nos minimercados, o fluxo de clientes caiu 2,5% em 2025. Quem dá mais motivos de visita protege a loja.</div><div><b>Na teoria</b><span>Marca cresce quando é lembrada em mais situações de compra (<em>Romaniuk e Sharp, category entry points</em>).</span></div></div>
   <p class="fonte">Fonte: reunião de 29/10/2026; Scanntech (Mercado&amp;Consumo, 27/01/2026); Sharp, How Brands Grow, 2010; Romaniuk e Sharp, How Brands Grow Part 2, 2016. Cada ponto é uma semana de um trimestre, ilustrativo.</p>
 </section>
-<section id="cem" class="tela s-cem" data-titulo="Como fica a venda" data-cap="(1) Para onde vamos" data-etapa="1" data-fala="Pensem em cada 100 reais que entram no caixa. Hoje e no destino. Suplemento não encolhe por perder cliente: ele divide espaço porque a loja vende mais outras coisas.">
+<section id="cem" class="tela s-cem" data-titulo="Como fica a venda" data-cap="(1) Para onde vamos" data-etapa="2" data-fala="Pensem em cada 100 reais que entram no caixa. Hoje e no destino. Suplemento não encolhe por perder cliente: ele divide espaço porque a loja vende mais outras coisas.">
   <span class="eb">Cada R$ 100 no caixa</span><h2>A loja deixa de andar <em>com um motor só</em></h2>
   <div class="lin"><b>Hoje</b><div class="mo"><div style="flex:50;background:var(--choco)"><b>R$ 50</b>Suplemento</div><div style="flex:22;background:var(--cap)"><b>R$ 22</b>Granel</div><div style="flex:26;background:var(--oliva)"><b>R$ 26</b>Despensa e outros</div><div style="flex:0 0 96px;background:var(--acafrao);color:var(--terra);padding:0 10px;white-space:nowrap"><b style="font-size:28px">R$ 2</b>Empório</div></div></div>
   <div class="lin"><b>Destino</b><div class="mo"><div style="flex:44;background:var(--choco)"><b>R$ 44</b>Suplemento</div><div style="flex:26;background:var(--cap)"><b>R$ 26</b>Granel</div><div style="flex:22;background:var(--oliva)"><b>R$ 22</b>Despensa e outros</div><div style="flex:0 0 150px;background:var(--acafrao);color:var(--terra);white-space:nowrap"><b>R$ 8</b>Empório</div></div></div>
-  <div class="obs"><div class="bloco"><span class="num" style="font-size:52px;color:var(--choco)">4 vezes</span><p class="p">é o quanto o empório precisa crescer. Parece muito, mas já há loja da rede a meio caminho disso.</p></div><div class="bloco"><span class="num" style="font-size:52px;color:var(--choco)">+R$ 5 mi</span><p class="p">por ano, em cenário-base nas 71 lojas analisadas. Simulação, que o piloto vai confirmar ou corrigir.</p></div><div class="bloco" style="background:var(--terra);color:var(--iogurte)"><span class="num" style="font-size:52px;color:var(--acafrao)">2028</span><p style="font-size:17px;line-height:1.36;opacity:.92;margin-top:4px">é o horizonte de trabalho. A meta é uma direção para decidir hoje, não uma promessa: o número firme sai do piloto.</p></div></div>
+  <div class="obs seq"><div class="bloco"><span class="num" style="font-size:52px;color:var(--choco)">4 vezes</span><p class="p">é o quanto o empório precisa crescer. Parece muito, mas já há loja da rede a meio caminho disso.</p></div><div class="bloco"><span class="num" style="font-size:52px;color:var(--choco)">+R$ 5 mi</span><p class="p">por ano, em cenário-base nas 71 lojas analisadas. Simulação, que o piloto vai confirmar ou corrigir.</p></div><div class="bloco" style="background:var(--terra);color:var(--iogurte)"><span class="num" style="font-size:52px;color:var(--acafrao)">2028</span><p style="font-size:17px;line-height:1.36;opacity:.92;margin-top:4px">é o horizonte de trabalho. A meta é uma direção para decidir hoje, não uma promessa: o número firme sai do piloto.</p></div></div>
   <p class="fonte">Fonte: relatório de vendas por SKU, loja e mês, 11/2025 a 09/2026 (71 lojas). Empório: classificação da 75 LAB, primeira passada. Simulação: empório 8%, granel 26%, metade do crescimento como venda nova. Detalhe no capítulo 4.</p>
 </section>
-<section id="visita" class="tela s-vis" data-titulo="A visita de uma cliente" data-cap="(1) Para onde vamos" data-etapa="1" data-fala="Vamos entrar na loja do futuro. Ela veio buscar ômega, como sempre. Olhem o que muda. É isso que queremos que aconteça em toda loja, em qualquer tamanho.">
+<section class="tela s-ver" data-titulo="Como a loja fica" data-cap="(1) Para onde vamos" data-etapa="2" data-fala="Para a gente enxergar o destino: são simulações feitas a partir das fotos de Pinheiros. Mesma arquitetura, mesmos móveis. Muda o que está em cima deles.">
+  <span class="eb">Visualize o destino</span><h2>A mesma loja, <em>com uma história a mais</em></h2>
+  <div class="g">
+    <figure class="amplia" data-amplia="assets/img/ren-mesa.jpg" data-cursor="Ampliar"><img class="lento" src="assets/img/ren-mesa.jpg" alt="Mesa do Empório no centro da loja"><span>Mesa do mês, no vão central</span></figure>
+    <figure class="amplia" data-amplia="assets/img/ren-modulo.jpg" data-cursor="Ampliar"><img class="lento" src="assets/img/ren-modulo.jpg" alt="Módulos de empório na parede"><span>Dois módulos de empório</span></figure>
+    <figure class="amplia" data-amplia="assets/img/ren-navegacao.jpg" data-cursor="Ampliar"><img class="lento" src="assets/img/ren-navegacao.jpg" alt="Placas de navegação"><span>Placas que se leem da porta</span></figure>
+  </div>
+  <p class="fonte">Simulações ilustrativas geradas por inteligência artificial a partir das fotos da visita a Pinheiros (14/10/2026), sem marcas reais. Ainda não são o projeto executivo: servem para visualizar a ideia. Clique para ampliar.</p>
+</section>
+<section id="visita" class="tela s-vis" data-titulo="A visita de uma cliente" data-cap="(1) Para onde vamos" data-etapa="2" data-fala="Vamos entrar na loja do futuro. Ela veio buscar ômega, como sempre. Olhem o que muda. É isso que queremos que aconteça em toda loja, em qualquer tamanho.">
   <span class="eb">Uma terça-feira, lá na frente</span><h2>Ela veio pelo ômega. <em>Sai com o jantar de sexta</em></h2>
-  <div class="tl">
+  <div class="tl seq">
     <div class="st"><i>1</i><h4>Encontra sozinha</h4><p>A placa de “Ômegas” se lê da porta. Em segundos ela está no lugar certo.</p></div>
     <div class="st"><i>2</i><h4>Conversa e decide</h4><p>A atendente explica qual é o dela. Isso a farmácia não faz.</p></div>
     <div class="st"><i>3</i><h4>Prova uma castanha</h4><p>No caminho, o granel com potinho de prova. Leva para a semana.</p></div>

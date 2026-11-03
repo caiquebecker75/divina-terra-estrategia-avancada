@@ -168,8 +168,10 @@ def aplicar(t):
 def pontos(cols,grupos,tam=26):
     # grade de pontos: grupos = [(qtd,cor)]
     o=f'<div class="pontos" style="grid-template-columns:repeat({cols},{tam}px)">'
+    k=0
     for q,c in grupos:
-        o+=f'<i style="background:{c}"></i>'*q
+        for _ in range(q):
+            o+=f'<i style="background:{c};--d:{k}"></i>';k+=1
     return o+'</div>'
 _ap2=aplicar
 def aplicar(t):
@@ -216,3 +218,44 @@ def aplicar(t):
     if '{{rec_bts}}' in t:
         a,b=receita_tela();t=t.replace('{{rec_bts}}',a).replace('{{rec_pns}}',b)
     return _ap3(t)
+
+
+def mapa_br():
+    D={'RS':34,'SC':15,'SP':9,'PR':5,'RJ':3,'TO':3,'ES':2,'MT':2,'AM':2,'CE':2,'PA':1,'RR':1,'PB':1}
+    P={'RR':(2,0),'AP':(4,0),'AM':(1,1),'PA':(3,1),'MA':(4,1),'CE':(5,1),'RN':(6,1),'AC':(0,2),'RO':(1,2),'TO':(3,2),'PI':(4,2),'PE':(5,2),'PB':(6,2),'MT':(2,3),'GO':(3,3),'BA':(4,3),'SE':(5,3),'AL':(6,3),'MS':(2,4),'DF':(3,4),'MG':(4,4),'ES':(5,4),'SP':(3,5),'RJ':(4,5),'PR':(3,6),'SC':(3,7),'RS':(3,8)}
+    s=60;o=f'<svg viewBox="0 0 {7*s} {9*s}" class="grafico" font-family="General Sans">';k=0
+    for uf,(x,y) in P.items():
+        n=D.get(uf,0);c=C['ave'] if not n else (C['ter'] if n>=15 else C['cho'] if n>=5 else C['cap'])
+        tx=C['lin'] if not n else '#fff'
+        o+=f'<g class="apop" style="--d:{k};transform-box:fill-box;transform-origin:center"><rect x="{x*s+3}" y="{y*s+3}" width="{s-6}" height="{s-6}" rx="9" fill="{c}"/><text x="{x*s+s/2}" y="{y*s+s/2-(5 if n else -5)}" text-anchor="middle" font-size="14" fill="{tx}">{uf}</text>'
+        if n:o+=f'<text x="{x*s+s/2}" y="{y*s+s/2+15}" text-anchor="middle" font-size="19" font-weight="600" fill="#fff">{n}</text>'
+        o+='</g>';k+=1
+    return o+'</svg>'
+CURVAS={'far':('Farmácia',[4,5,3,2,2,1,1],C['lin']),'mer':('Supermercado premium',[3,4,5,1,2,4,3],C['oli']),'net':('Internet',[5,5,5,1,1,1,1],C['cap']),'hoje':('Divina Terra hoje',[2,3,3,5,5,2,3],C['pap']),'dest':('Divina Terra no destino',[3,3,3,5,5,4,5],C['cho'])}
+EIX=['Preço baixo','Conveniência','Variedade','Explicação','Curadoria de saúde','Curadoria de prazer','Experiência na loja']
+def canvas(ativos,cor=True):
+    W,H=1000,400;x0,y0=44,20;pw,ph=W-x0-30,H-y0-70;X=lambda i:x0+i*pw/6;Y=lambda v:y0+ph-(v-1)/4*ph
+    o=f'<svg viewBox="0 0 {W} {H}" class="grafico" font-family="General Sans">'
+    for v,l in ((1,'Pouco'),(5,'Muito')):
+        o+=f'<text x="{x0-8}" y="{Y(v)+5}" text-anchor="end" font-size="13" fill="{C["cin"]}">{l}</text><line x1="{x0}" x2="{x0+pw}" y1="{Y(v)}" y2="{Y(v)}" stroke="{C["ave"]}"/>'
+    for i,e in enumerate(EIX):
+        a,*b=e.split(' ',1) if ' ' in e else (e,)
+        o+=f'<line x1="{X(i)}" x2="{X(i)}" y1="{y0}" y2="{y0+ph}" stroke="{C["ave"]}"/><text x="{X(i)}" y="{H-42}" text-anchor="middle" font-size="16" font-weight="600" fill="{C["ter"]}">{a}</text>'
+        if b:o+=f'<text x="{X(i)}" y="{H-22}" text-anchor="middle" font-size="16" font-weight="600" fill="{C["ter"]}">{b[0]}</text>'
+    for k in ativos:
+        n,v,c=CURVAS[k];w=6 if k=='dest' else 4
+        o+='<polyline class="traco" fill="none" stroke="'+c+f'" stroke-width="{w}" stroke-linejoin="round" points="'+' '.join(f'{X(i)},{Y(z)}' for i,z in enumerate(v))+'"/>'
+        for i,z in enumerate(v):o+=f'<circle cx="{X(i)}" cy="{Y(z)}" r="{7 if k=="dest" else 5}" fill="{c}"/>'
+    return o+'</svg>'
+def caminhada():
+    b=planta(True)
+    ov='''<path id="rotaCli" d="M40 300 C 120 300, 150 215, 240 215 S 420 90, 600 90 S 760 200, 640 250 S 420 305, 380 245 S 700 170, 900 150" fill="none" stroke="#CA3C2E" stroke-width="4" stroke-dasharray="8 9" stroke-linecap="round"/><circle r="13" fill="#CA3C2E" stroke="#fff" stroke-width="3"><animateMotion dur="16s" repeatCount="indefinite" rotate="0"><mpath href="#rotaCli"/></animateMotion></circle>'''
+    for n,x,y in ((1,50,300),(2,240,215),(3,600,90),(4,640,250),(5,380,245),(6,900,150)):
+        ov+=f'<circle cx="{x}" cy="{y}" r="16" fill="#461D17"/><text x="{x}" y="{y+6}" text-anchor="middle" font-size="17" font-weight="600" fill="#fff">{n}</text>'
+    return b.replace('</svg>',ov+'</svg>')
+_ap4=aplicar
+def aplicar(t):
+    M={'mapabr':mapa_br,'caminhada':caminhada,'canvas_far':lambda:canvas(['far','hoje']),'canvas_mer':lambda:canvas(['mer','hoje']),'canvas_net':lambda:canvas(['net','hoje']),'canvas_dest':lambda:canvas(['hoje','dest'])}
+    for k,f in M.items():
+        if '{{'+k+'}}' in t:t=t.replace('{{'+k+'}}',f())
+    return _ap4(t)

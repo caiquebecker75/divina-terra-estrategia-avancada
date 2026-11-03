@@ -70,3 +70,40 @@ h2{font-size:58px;line-height:1.05}.eb{font-size:18px}
 .pontos{display:grid;gap:5px}.pontos i{display:block;border-radius:50%;aspect-ratio:1}
 .s-cap .lado .q{position:absolute;left:60px;right:60px;top:300px;font:300 italic 52px/1.06 var(--serif);color:var(--iogurte)}
 .s-cap .parada{display:flex;gap:7px;margin-top:22px;flex-wrap:wrap}
+
+/* animação: o estado final é o CSS normal; a tela anima só ao ficar ativa; no PDF não anima */
+@keyframes sobe{from{opacity:0;transform:translateY(22px)}}
+@keyframes cx{from{transform:scaleX(0)}}
+@keyframes cy{from{transform:scaleY(0)}}
+@keyframes pop{0%{opacity:0;transform:scale(.3)}70%{transform:scale(1.12)}}
+@keyframes luz{0%,100%{box-shadow:0 0 0 0 rgba(202,148,42,.55)}50%{box-shadow:0 0 0 12px rgba(202,148,42,0)}}
+@keyframes traco{from{stroke-dashoffset:var(--tam,2400)}}
+@keyframes flutua{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes zoomlento{from{transform:scale(1.12)}}
+.tela.ativa .corpo>*{animation:sobe .55s cubic-bezier(.2,.7,.2,1) both}
+.tela.ativa .corpo>*:nth-child(2){animation-delay:.08s}.tela.ativa .corpo>*:nth-child(3){animation-delay:.2s}.tela.ativa .corpo>*:nth-child(4){animation-delay:.34s}.tela.ativa .corpo>*:nth-child(5){animation-delay:.48s}.tela.ativa .corpo>*:nth-child(n+6){animation-delay:.6s}
+.tela.ativa .base>div{animation:sobe .5s both}.tela.ativa .base>div:nth-child(1){animation-delay:.7s}.tela.ativa .base>div:nth-child(2){animation-delay:.85s}.tela.ativa .base>div:nth-child(3){animation-delay:1s}
+.tela.ativa .seq>*{animation:sobe .5s both}.tela.ativa .seq>*:nth-child(2){animation-delay:.14s}.tela.ativa .seq>*:nth-child(3){animation-delay:.28s}.tela.ativa .seq>*:nth-child(4){animation-delay:.42s}.tela.ativa .seq>*:nth-child(5){animation-delay:.56s}.tela.ativa .seq>*:nth-child(6){animation-delay:.7s}.tela.ativa .seq>*:nth-child(7){animation-delay:.84s}.tela.ativa .seq>*:nth-child(8){animation-delay:.98s}
+.tela.ativa .ax{animation:cx .9s cubic-bezier(.2,.7,.2,1) both;transform-origin:left;animation-delay:calc(var(--d,0)*.12s + .25s)}
+.tela.ativa .ay{animation:cy .9s cubic-bezier(.2,.7,.2,1) both;transform-origin:bottom;animation-delay:calc(var(--d,0)*.12s + .25s)}
+.tela.ativa .apop{animation:pop .5s both;animation-delay:calc(var(--d,0)*.06s + .2s)}
+.tela.ativa .pontos i{animation:pop .35s both;animation-delay:calc(var(--d,0)*16ms + .2s)}
+.tela.ativa .traco{stroke-dasharray:var(--tam,2400);animation:traco 2s ease-out both;animation-delay:.3s}
+.tela.ativa .aluz{animation:luz 1.8s ease-out infinite}
+.tela.ativa .flut{animation:flutua 3.4s ease-in-out infinite}
+.tela.ativa img.lento{animation:zoomlento 9s ease-out both}
+.tela.ativa .s-x{}
+.tela.ativa.s-cem .mo div,.tela.ativa.s-mixr .mo div{animation:cx .8s both;transform-origin:left}
+.tela.ativa.s-r5 .cols span,.tela.ativa.s-r6 .vis span,.tela.ativa.s-fre2 .sobe span{animation:cy .9s .3s both;transform-origin:bottom}
+.tela.ativa.s-r1 .barras span{animation:cx .9s .4s both;transform-origin:left}
+.tela.ativa.s-mot2 .cal i{animation:pop .3s both}
+.tela.ativa .s-esp .mdl,.tela.ativa .parede2 .mdl{animation:pop .4s both}
+.tela.ativa.s-eon .deg>div{animation:cy .7s both;transform-origin:bottom}.tela.ativa.s-eon .deg>div:nth-child(2){animation-delay:.15s}.tela.ativa.s-eon .deg>div:nth-child(3){animation-delay:.3s}.tela.ativa.s-eon .deg>div:nth-child(4){animation-delay:.45s}
+.tela.ativa .s-sis .parede i,.tela.ativa.s-sis .parede i{animation:pop .3s both}
+.tela.ativa.s-pil2 .tl2 i{animation:cx .8s .3s both;transform-origin:left}
+.tela.ativa.s-lin circle{animation:pop .5s .4s both}
+.pdf .tela *{animation:none!important}
+
+.s-cap .lado{overflow:hidden;background:var(--terra)}.s-cap .lado .fundo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;right:auto;top:auto;opacity:1}
+.s-cap .lado:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(70,29,23,.25),rgba(70,29,23,.82))}
+.s-cap .lado .ic{position:absolute;left:70px;top:90px;right:auto;width:84px;opacity:.95;z-index:2}.s-cap .lado .num{position:relative;z-index:2}

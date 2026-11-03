@@ -3,6 +3,7 @@ import { chromium } from '/Volumes/hd caique becker/Mac Caique/Projetos/ariuno-v
 import { writeFileSync } from 'node:fs';
 const b=await chromium.launch({channel:'chrome'});const pg=await b.newPage({viewport:{width:1600,height:900}});
 await pg.goto('http://localhost:4911/?pdf=1#1',{waitUntil:'networkidle'});await pg.evaluate(()=>document.fonts.ready);
+await pg.addStyleTag({content:'.pdf .so-tela{display:inline-flex!important}'});
 const res=await pg.evaluate(async()=>{
   const telas=[...document.querySelectorAll('.tela')],out={};
   const AREA=900-78;

@@ -6,6 +6,7 @@ mkdirSync(OUT,{recursive:true});
 const b=await chromium.launch({channel:'chrome'});const pg=await b.newPage({viewport:{width:1600,height:900}});
 pg.on('pageerror',e=>console.log('ERRO',e.message));
 await pg.goto(BASE+'?pdf=1#1',{waitUntil:'networkidle'});await pg.evaluate(()=>document.fonts.ready);
+await pg.addStyleTag({content:'.pdf .so-tela{display:inline-flex!important}'});
 const total=await pg.evaluate(()=>document.querySelectorAll('.tela').length);
 const checa=()=>pg.evaluate(()=>{
   const t=document.querySelector('.tela.ativa'),m=t.querySelector('.miolo');const lim=document.querySelector('#stage').getBoundingClientRect();const out=[];
