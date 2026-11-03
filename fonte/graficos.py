@@ -109,7 +109,7 @@ def simulador():
             cells=[('Cuidar',su,C['cho'],'#fff'),('Abastecer',de,C['oli'],'#fff'),('Granel',gr,C['cap'],'#fff'),('Chás',ch,C['mat'],C['ter']),('Celebrar',em,C['aca'],C['ter'])]
             w=''.join(''.join(f'<i style="background:{c}"></i>' for _ in range(n)) for _,n,c,_ in cells)
             leg=''.join(f'<li><i style="background:{c}"></i><b>{n}</b> {nm}</li>' for nm,n,c,_ in cells)
-            pns+=f'<div class="painel{" on" if first else ""}" data-k="{k}"><div class="parede t{t}">{w}</div><ul class="leg">{leg}</ul><div class="infos"><div><span class="num">{CONT[(t,p)]}</span><small>lojas neste quadro hoje</small></div><p class="p"><b>{pn}, {dt["n"]}.</b> Exemplos: {EX[(t,p)]}. Empório com {em} módulo{"s" if em>1 else ""} e {br(sum(1 for _ in range(0)))if False else ""}{ {1:"36",2:"68",3:"96",4:"130"}[em]} SKUs.</p></div></div>'
+            pns+=f'<div class="painel{" on" if first else ""}" data-k="{k}"><div class="parede t{t}">{w}</div><ul class="leg">{leg}</ul><div class="infos"><div><span class="num">{CONT[(t,p)]}</span><small>lojas neste quadro hoje</small></div><p class="p"><b>{pn}, {dt["n"]}.</b> Exemplos: {EX[(t,p)]}. Empório com {em} módulo{"s" if em>1 else ""} e {br(sum(1 for _ in range(0)))if False else ""}{ {1:"36",2:"68",3:"96",4:"130"}[em]} produtos.</p></div></div>'
             first=False
     tab='<table class="grade"><tr><th></th>'+''.join(f'<th>{v[0]}</th>' for v in PER.values())+'</tr>'
     for t,dt in TAM.items():
@@ -163,3 +163,56 @@ def aplicar(t):
     for k,f in {'ficha':ficha,'planta_a':lambda:planta(False),'planta_b':lambda:planta(True)}.items():
         if '{{'+k+'}}' in t: t=t.replace('{{'+k+'}}',f())
     return _ap(t)
+
+
+def pontos(cols,grupos,tam=26):
+    # grade de pontos: grupos = [(qtd,cor)]
+    o=f'<div class="pontos" style="grid-template-columns:repeat({cols},{tam}px)">'
+    for q,c in grupos:
+        o+=f'<i style="background:{c}"></i>'*q
+    return o+'</div>'
+_ap2=aplicar
+def aplicar(t):
+    M={'p100canal':lambda:pontos(10,[(48,C['lin']),(24,C['cap']),(15,C['oli']),(8,C['pap']),(5,C['ave'])],34),
+       'p100sku':lambda:pontos(10,[(9,C['cho']),(91,C['ave'])],34),
+       'p100venda':lambda:pontos(10,[(80,C['cho']),(20,C['ave'])],34),
+       'rogers':rogers}
+    for k,f in M.items():
+        if '{{'+k+'}}' in t: t=t.replace('{{'+k+'}}',f())
+    return _ap2(t)
+def rogers():
+    import math
+    W,H=1000,330;pts=[]
+    f=lambda x:math.exp(-((x-500)/170)**2/2)
+    for x in range(0,1001,10): pts.append((x,H-60-f(x)*230))
+    seg=[(0,160,C['aca'],'2 lojas','Piloto: Pinheiros e Alphaville'),(160,330,C['oli'],'8 lojas','Uma de cada tipo, com quem tem vontade'),(330,1000,C['cho'],'70 lojas','A rede, em lotes de 10 a 15 por mês')]
+    s=f'<svg viewBox="0 0 {W} {H}" class="grafico" font-family="General Sans">'
+    for a,b,c,_,_2 in seg:
+        po=[p for p in pts if a<=p[0]<=b]
+        s+=f'<polygon points="{a},{H-60} '+' '.join(f'{x},{y:.1f}' for x,y in po)+f' {b},{H-60}" fill="{c}"/>'
+    s+=f'<line x1="0" x2="{W}" y1="{H-60}" y2="{H-60}" stroke="{C["ter"]}" stroke-width="3"/>'
+    for a,b,c,n,d in seg:
+        x=(a+b)/2 if b<1000 else 660
+        s+=f'<text x="{x}" y="{H-32}" text-anchor="middle" font-size="19" font-weight="600" fill="{C["ter"]}">{n}</text>'
+    return s+'</svg>'
+
+def receita_tela():
+    import receita as RC
+    COR={'Cuidar':C['cho'],'Abastecer':C['oli']}
+    bts='';pns=''
+    for i,(l,n,t,e,tp) in enumerate(RC.EX):
+        a=RC.alocar(l,t,e);k=f'r{i}'
+        bts+=f'<button class="aba{" on" if i==0 else ""}" data-k="{k}"><b>{n}</b><span>{tp} · {t} módulos</span></button>'
+        tiles=''
+        for _,r in a.sort_values(['mot','f'],ascending=[False,False]).iterrows():
+            if r.f<=0: continue
+            tiles+=f'<div class="mdl" style="flex:{r.f} 1 0;background:{COR[r.mot]}"><b>{br(r.f,1).replace(",0","")}</b><span>{r.s}</span></div>'
+        tiles+=f'<div class="mdl" style="flex:{e} 1 0;background:{C["aca"]};color:{C["ter"]}"><b>{e}</b><span>Empório</span></div>'
+        cr=a[a.s=='Creatina'].iloc[0]
+        pns+=f'<div class="painel{" on" if i==0 else ""}" data-k="{k}"><div class="parede2">{tiles}</div><p class="obs2">Creatina faz {br(cr.pv,1)}% da venda desta loja, mas {int(cr.n80)} produtos respondem por 80% dela: {br(cr.f,1).replace(",0","")} módulo basta, se estiver no melhor lugar. Número = módulos de 0,90 m, sem contar granel, frio, café e caixa.</p></div>'
+    return bts,pns
+_ap3=aplicar
+def aplicar(t):
+    if '{{rec_bts}}' in t:
+        a,b=receita_tela();t=t.replace('{{rec_bts}}',a).replace('{{rec_pns}}',b)
+    return _ap3(t)

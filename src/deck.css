@@ -47,11 +47,26 @@ h2{font-size:50px;line-height:1.07}h2 em{font-style:italic;color:var(--choco)}
 .painel{display:none}.painel.on{display:block}
 .pill{display:inline-block;padding:4px 12px;border-radius:99px;background:var(--aveia);font-size:14px;font-weight:600}
 /* capa de capítulo */
-.s-cap .lado{position:absolute;right:0;top:0;bottom:0;width:560px;background:var(--choco);color:var(--iogurte);padding:150px 70px;display:flex;flex-direction:column;justify-content:flex-end}
+.s-cap .lado{position:absolute;right:0;top:0;bottom:0;width:470px;background:var(--choco);color:var(--iogurte);padding:150px 70px;display:flex;flex-direction:column;justify-content:flex-end}
 .s-cap .lado .num{font-size:190px;opacity:.95}
 .s-cap .lado img{position:absolute;right:-120px;top:-60px;width:520px;opacity:.12}
-.s-cap .dir{position:absolute;left:0;right:560px;top:0;bottom:0;padding:0 70px 0 90px;display:flex;flex-direction:column;justify-content:center}
+.s-cap .dir{position:absolute;left:0;right:470px;top:0;bottom:0;padding:0 70px 0 90px;display:flex;flex-direction:column;justify-content:center}
 .s-cap h2{font-size:84px;line-height:1.03}.s-cap .dir p{font-size:26px;line-height:1.36;color:var(--cinza);margin-top:18px;max-width:700px}
 .s-cap ul{list-style:none;margin-top:26px}.s-cap li{font-size:22px;padding:11px 0;display:flex;gap:12px;align-items:baseline;border-top:1px solid var(--aveia)}.s-cap li b{color:var(--cap);font-weight:600}
 .trilha-cap{display:flex;gap:6px;margin-top:30px}.trilha-cap span{width:44px;height:6px;border-radius:9px;background:var(--aveia)}.trilha-cap span.on{background:var(--choco)}
 #stage.sobre-capitulo #topo .acoes>*{background:rgba(247,245,241,.9)}
+
+/* jornada */
+#trilhaTopo{display:flex;align-items:center;gap:8px;font-size:15px}#trilhaTopo button{padding:6px 14px;border-radius:99px;color:var(--cinza);font-weight:500}#trilhaTopo button.foi{color:var(--choco)}#trilhaTopo button.on{background:var(--choco);color:#fff;font-weight:600}#trilhaTopo i{width:26px;height:2px;background:var(--linho);display:block}
+#stage.capa #trilhaTopo{opacity:0;pointer-events:none}
+h2{font-size:58px;line-height:1.05}.eb{font-size:18px}
+.lead{font-size:24px;line-height:1.36;color:var(--cinza);max-width:1200px}
+.base{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:18px}
+.base>div{background:var(--aveia);border-radius:14px;padding:12px 16px;font-size:16.5px;line-height:1.28}
+.base b{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--choco);margin-bottom:3px}.base b:before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor}
+.base>div:nth-child(2) b{color:var(--oliva)}.base>div:nth-child(3) b{color:#94661c}
+.base em{font-style:italic}
+.num{font-family:var(--serif)}
+.pontos{display:grid;gap:5px}.pontos i{display:block;border-radius:50%;aspect-ratio:1}
+.s-cap .lado .q{position:absolute;left:60px;right:60px;top:300px;font:300 italic 52px/1.06 var(--serif);color:var(--iogurte)}
+.s-cap .parada{display:flex;gap:7px;margin-top:22px;flex-wrap:wrap}

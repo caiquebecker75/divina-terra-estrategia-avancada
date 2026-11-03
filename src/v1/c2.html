@@ -1,0 +1,183 @@
+<style>
+.s-base h2{width:calc(100% - 530px)!important}.s-base .gr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px 26px;margin-top:22px;width:calc(100% - 530px)}.s-base .gr div b{display:block;white-space:nowrap;font:400 46px/1.05 var(--serif);color:var(--choco)}.s-base .gr div span{font-size:17px;color:var(--cinza)}
+.s-base .fora{position:absolute;right:0;top:0;width:500px;min-height:620px;background:var(--terra);color:var(--iogurte);border-radius:20px;padding:26px}
+.s-base .fora h3{font-size:31px;line-height:1.1}.s-base .fora p{font-size:17px;line-height:1.36;margin-top:10px;opacity:.9}.s-base .fora ul{list-style:none;margin-top:12px;display:grid;grid-template-columns:1fr auto;gap:3px 14px;font-size:16px}.s-base .fora li{display:contents}.s-base .fora .num{font-size:66px;color:var(--acafrao);margin-top:8px;display:block}
+.s-base .docs{margin-top:22px;width:calc(100% - 530px);display:flex;flex-wrap:wrap;gap:8px}
+.s-mix .barra{display:flex;height:138px;border-radius:14px;overflow:hidden;margin-top:26px}.s-mix .barra div{padding:12px 14px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;font-size:16px;line-height:1.15;min-width:0}.s-mix .barra b{font:400 40px/1 var(--serif);display:block}
+.s-mix h4{font-size:20px;font-weight:600;margin-top:28px}
+.s-mix .canal{display:flex;gap:6px;height:88px;margin-top:10px}.s-mix .canal div{border-radius:12px;padding:10px 14px;font-size:16px;line-height:1.15;display:flex;flex-direction:column;justify-content:center}.s-mix .canal b{font:400 30px var(--serif)}
+.s-mix .tira{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.s-disp .g{display:grid;grid-template-columns:880px 1fr;gap:26px;margin-top:6px}.grafico{width:100%;display:block}
+.s-disp .reg{display:flex;flex-direction:column;gap:10px;margin-top:8px}.s-disp .reg div{background:var(--aveia);border-radius:14px;padding:14px 18px}.s-disp .reg b{font-size:18px;display:block}.s-disp .reg p{display:flex;justify-content:space-between;font-size:17px;margin-top:4px;color:var(--cinza)}.s-disp .reg i{font:400 30px var(--serif);font-style:normal;color:var(--terra)}
+.s-conc .g{display:grid;grid-template-columns:640px 1fr;gap:40px;margin-top:12px}
+.s-conc .pen div{margin-bottom:16px}.s-conc .pen .t{display:flex;justify-content:space-between;font-size:18px}.s-conc .bx{display:flex;height:30px;border-radius:8px;overflow:hidden;margin-top:5px;background:var(--aveia)}.s-conc .bx i{display:block;background:var(--choco)}.s-conc .bx i.b{background:var(--cap)}
+.s-conc .frase{background:var(--aveia);border-radius:16px;padding:16px 20px;font:italic 400 23px/1.25 var(--serif);margin-top:8px}
+.s-freq h2{width:calc(100% - 460px)!important}.s-freq .q{position:relative;height:540px;margin:14px 0 0;width:calc(100% - 460px);min-width:790px;background:var(--aveia);border-radius:18px}
+.s-freq .q span{position:absolute;font-size:16px;font-weight:600;background:var(--iogurte);border-radius:99px;padding:5px 12px;white-space:nowrap}
+.s-freq .q .s1{background:var(--choco);color:#fff}.s-freq .q .s2{background:var(--oliva);color:#fff}
+.s-freq .eixo{position:absolute;font-size:15px;color:var(--cinza);background:none!important;font-weight:500;padding:0}
+.s-freq .lat{position:absolute;right:0;top:0;width:440px}.s-freq .lat .num{font-size:74px;color:var(--choco)}.s-freq .lat .c{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 14px}
+.s-gou .g{display:grid;grid-template-columns:820px 1fr;gap:30px;margin-top:8px}
+.s-gou .rec{background:#fff;border-radius:6px;padding:18px 20px;box-shadow:0 8px 26px rgba(70,29,23,.1);font-size:15.5px}.s-gou .rec h4{font-size:18px;font-weight:600;margin-bottom:7px}.s-gou .rec li{display:flex;justify-content:space-between;gap:12px;padding:4.5px 0;border-bottom:1px dashed var(--linho)}.s-gou .rec ul{list-style:none}
+.s-gou .res{margin-top:14px;background:var(--terra);color:var(--iogurte);border-radius:14px;padding:14px 18px;font-size:18px;line-height:1.3}
+.s-emp h2{width:calc(100% - 590px)!important}.s-emp .prat{margin-top:18px;width:calc(100% - 590px)}.s-emp .prat div{display:grid;grid-template-columns:200px 1fr 92px;align-items:center;gap:12px;padding:5.5px 0;border-bottom:5px solid var(--linho)}.s-emp .prat span{font-size:17px}.s-emp .prat i{display:block;height:27px;background:var(--choco);border-radius:5px 5px 0 0}.s-emp .prat b{font-size:16px;text-align:right}
+.s-emp .lat{position:absolute;right:0;top:0;width:560px;display:flex;flex-direction:column;gap:12px}
+.s-emp .tag{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.s-emp .tag span{background:var(--iogurte);padding:3px 10px;border-radius:99px;font-size:14.5px}
+.s-gr .tubos{display:flex;gap:10px;align-items:flex-end;margin-top:16px;height:320px}
+.s-gr .tb{flex:1;text-align:center}.s-gr .tb .v{height:250px;background:var(--aveia);border-radius:44px 44px 8px 8px;position:relative;overflow:hidden}.s-gr .tb .v i{position:absolute;left:0;right:0;bottom:0;background:var(--cap)}.s-gr .tb.so .v i{background:var(--oliva)}.s-gr .tb.su .v i{background:var(--acafrao)}
+.s-gr .tb b{display:block;font:400 25px var(--serif);margin-top:5px}.s-gr .tb span{font-size:15px;color:var(--cinza)}
+.s-gr .pe{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+</style>
+<section id="c2" class="tela s-cap" data-titulo="Capítulo 2" data-cap="(2) O que os números dizem" data-capitulo="2">
+  <div class="lado"><img src="assets/logos/dt-icone-claro.svg" alt=""><span class="num">2</span></div>
+  <div class="dir"><h2>O que os números dizem</h2><p>A base nova abre a venda por SKU, por loja e por mês. Ela confirma a intuição da rede e traz três surpresas.</p><ul><li><b>A</b>A dependência é regional, não igual em toda a rede</li><li><b>B</b>O gourmet que cresce não é empório</li><li><b>C</b>O granel é forte no Sul e fraco no Sudeste</li></ul><trilha k="2"></trilha></div>
+</section>
+<section class="tela s-base" data-titulo="O que analisamos e o que falta" data-cap="(2) O que os números dizem" data-fala="Olhamos tudo o que está no Drive. E achamos um ponto importante: a base de vendas não traz 11 lojas, entre elas Holambra e seis das nove Diamante.">
+  <span class="eb">A base</span><h2>Lemos tudo o que a rede mandou, e <em>11 lojas ainda faltam</em></h2>
+  <div class="gr">
+    <div><b data-conta="603720">603.720</b><span>linhas de venda por SKU, loja e mês</span></div>
+    <div><b>R$ 77,4 mi</b><span>em 13 meses (out/25 a out/26, parciais nas pontas)</span></div>
+    <div><b data-conta="22155">22.155</b><span>SKUs com venda, de 51.925 no cadastro</span></div>
+    <div><b data-conta="71">71</b><span>lojas com venda na base</span></div>
+    <div><b data-conta="1470">1.470</b><span>marcas com venda, de 3.038 no cadastro</span></div>
+    <div><b data-conta="10">10</b><span>plantas executivas conferidas</span></div>
+  </div>
+  <div class="docs"><span class="pill">8 guias de execução</span><span class="pill">2 encartes</span><span class="pill">7 catálogos de marca</span><span class="pill">Padrão de 16 setores</span><span class="pill">Posicionamento e identidade</span><span class="pill">Clusterização e presença</span><span class="pill">M² de 81 lojas</span><span class="pill">Reunião de 29/10</span></div>
+  <div class="fora"><h3>As lojas que não vieram no relatório</h3><span class="num">27%</span><p>É o peso delas na média mensal de faturamento da clusterização: cerca de R$ 2,6 mi por mês. Incluem Holambra, a loja que mais conhece importados.</p>
+  <ul><li><span>Belém Plaza</span><span>R$ 555 mil</span></li><li><span>Itajaí</span><span>R$ 352 mil</span></li><li><span>Capão da Canoa</span><span>R$ 331 mil</span></li><li><span>Iguatemi</span><span>R$ 329 mil</span></li><li><span>Santa Cruz</span><span>R$ 283 mil</span></li><li><span>Xangri-Lá e Xangri-Lá Max</span><span>R$ 359 mil</span></li><li><span>Holambra</span><span>R$ 172 mil</span></li><li><span>S. J. dos Campos, Bauru, F. Beltrão</span><span>R$ 217 mil</span></li></ul>
+  <p>Os números daqui em diante valem para as 71 lojas. Pedimos as outras 11 na tela de decisões.</p></div>
+  <p class="fonte">Fonte: relatório de vendas por SKU, loja e mês (23/10/2026); Clusterização de Lojas, 1º semestre de 2026 (média Jan a Jun); plantas e documentos do Drive do projeto.</p>
+</section>
+<section class="tela s-mix" data-titulo="Metade da venda em um canal que encolhe" data-cap="(2) O que os números dizem" data-fala="Metade da venda vem de suplemento, e o consumidor diz que compra suplemento principalmente na farmácia. Olhem o tamanho da fatia da loja especializada.">
+  <span class="eb">O mix</span><h2>Metade da venda depende de uma porta <em>que está ficando estreita</em></h2>
+  <div class="barra">
+    <div style="flex:50.4;background:var(--choco)"><b>50,4%</b>Suplemento</div>
+    <div style="flex:21.8;background:var(--cap)"><b>21,8%</b>Granel</div>
+    <div style="flex:6.6;background:var(--oliva)"><b>6,6%</b>Sem glúten e sem lactose</div>
+    <div style="flex:4;background:#7f9266"><b style="font-size:28px">4,1%</b>Naturais</div>
+    <div style="flex:15.8;background:var(--linho);color:var(--terra)"><b>15,8%</b>Outros 21 departamentos</div>
+    <div style="flex:1.8;background:var(--acafrao);padding:0"></div>
+  </div>
+  <p style="text-align:right;font-size:16px;margin-top:4px;font-weight:600;color:var(--terra)">Gourmet: 1,4%</p>
+  <h4>Onde o consumidor diz que compra suplemento</h4>
+  <div class="canal">
+    <div style="flex:48;background:var(--aveia)"><b>48%</b>Farmácia</div>
+    <div style="flex:24;background:var(--aveia)"><b>24%</b>Marketplace e e-commerce</div>
+    <div style="flex:15;background:var(--aveia)"><b>15%</b>Supermercado</div>
+    <div style="flex:13;background:var(--paprica);color:#fff"><b>8%</b>Especializada</div>
+  </div>
+  <div class="tira">
+    <div class="bloco"><div class="t">O mercado cresce</div><p class="p">R$ 7,6 bi em 2025, alta de 15%. O problema não é a categoria, é quem fica com ela.</p></div>
+    <div class="bloco"><div class="t">O supermercado chegou</div><p class="p">Whey +124% e creatina +89% no varejo alimentar, de janeiro a outubro de 2025.</p></div>
+    <div class="bloco"><div class="t">O custo apertou</div><p class="p">Insumo do whey +105% em 12 meses na Europa e R$ 180/kg no Brasil em setembro.</p></div>
+  </div>
+  <p class="fonte">Fonte: base de vendas 10/2025 a 10/2026; IFEPEC/Febrafar, 1.200 consumidores, declaração de compra, instituto ligado a farmácias (Panorama Farmacêutico, 14/07/2026); Brasnutri/Euromonitor (Revista Suplementação, 23/03/2026); Scanntech (Agora RN); StoneX (Terra, 26/05/2026); MilkPoint (PowerMix, 15/10/2026).</p>
+</section>
+<section class="tela s-disp" data-titulo="Dependência é regional" data-cap="(2) O que os números dizem" data-fala="Cada ponto é uma loja. O Sul já tem o granel como segundo motor. O Sudeste depende muito mais de suplemento. Por isso São Paulo sentiu primeiro.">
+  <span class="eb">Loja a loja</span><h2>A dependência não é igual: <em>o Sudeste sente mais</em></h2>
+  <div class="g"><div>{{scatter}}</div>
+    <div><div class="reg">
+      <div><b>Sudeste · 11 lojas</b><p>Suplemento <i>59,1%</i></p><p>Granel <i>9,9%</i></p></div>
+      <div><b>Sul · 49 lojas</b><p>Suplemento <i>47,9%</i></p><p>Granel <i>25,7%</i></p></div>
+      <div><b>Norte, Nordeste e Centro-Oeste · 11 lojas</b><p>Suplemento <i>51,7%</i></p><p>Granel <i>16,7%</i></p></div>
+    </div><p class="p" style="margin-top:12px">Não existe uma única receita. Um mesmo tamanho de loja precisa de regras diferentes conforme o perfil: é daí que nascem os 12 quadros do sistema.</p></div></div>
+  <p class="fonte">Fonte: base de vendas, média de 11/2025 a 09/2026, 62 lojas com 8 meses ou mais para os pontos e 71 lojas para as regiões. Em vermelho, as lojas de São Paulo citadas.</p>
+</section>
+<section class="tela s-conc" data-titulo="9% dos SKUs fazem 80%" data-cap="(2) O que os números dizem" data-fala="Francine, você caiu para trás e tinha razão. Mas o número não manda jogar fora 80% do mix: ele mostra onde está o espaço para o que vem depois.">
+  <span class="eb">Concentração</span><h2>O espaço do empório <em>já existe:</em> ele está na cauda</h2>
+  <div class="g"><div>{{lorenz}}</div>
+    <div class="pen">
+      <div><p class="t"><span><b>SKUs:</b> 2.006 de 22.155 fazem 80%</span><span>9,1%</span></p><div class="bx"><i style="width:9.1%"></i></div></div>
+      <div><p class="t"><span><b>Marcas:</b> 32 de 1.470 fazem 80%</span><span>2,2%</span></p><div class="bx"><i style="width:2.2%"></i></div></div>
+      <div><p class="t"><span><b>Marcas pequenas:</b> 924 somam 0,9% da venda</span><span>63%</span></p><div class="bx"><i class="b" style="width:63%"></i></div></div>
+      <div><p class="t"><span><b>Cadastro:</b> 62% dos SKUs sem venda em 13 meses</span><span>32 mil</span></p><div class="bx"><i class="b" style="width:62%"></i></div></div>
+      <div><p class="t"><span><b>Numa loja de 50 a 80 m²:</b> 539 SKUs fazem 80%, de 1.868</span><span>29%</span></p><div class="bx"><i style="width:29%"></i></div></div>
+      <p class="frase">“Vamos descontinuar umas 400 que ninguém vai morrer.”</p><p class="p" style="margin-top:6px">Francine, 29/10. A base mostra que há margem para isso, com regra e sem queima de estoque: a peneira está no capítulo 5.</p>
+    </div></div>
+  <p class="fonte">Fonte: base de vendas (SKUs e marcas: 13 meses; lojas: mediana por faixa de m²; marcas pequenas: menos de R$ 3 mil em 11 meses); Produtos cadastrados, ERP, 07/10/2026.</p>
+</section>
+<section id="frequencia" class="tela s-freq" data-titulo="Frequência e tíquete" data-cap="(2) O que os números dizem" data-fala="Aqui concordamos com vocês: venda não é tudo. A Bold tem menos peso em reais, mas o preço por unidade é baixo e o giro é alto. Falta o dado de cupom para provar a frequência.">
+  <span class="eb">Não é só o número</span><h2 style="font-size:44px">Quem traz o cliente de volta <em>não é quem mais fatura</em></h2>
+  <div class="q">
+    <span class="eixo" style="left:18px;top:14px">Preço médio alto: decisão espaçada</span><span class="eixo" style="right:18px;bottom:12px">Muitas unidades: compra frequente</span>
+    <span class="s1" style="left:60px;top:58px">Essential Cacao Whey 30 doses · R$ 489</span>
+    <span class="s1" style="left:90px;top:112px">Essential Crealift · R$ 326</span>
+    <span class="s1" style="left:230px;top:162px">Essential Super Ômega 3 180 · R$ 279</span>
+    <span class="s1" style="left:320px;top:214px">Supercoffee Língua de Gato 380 g · R$ 221</span>
+    <span class="s2" style="left:360px;top:276px">Semente de abóbora a granel · R$ 98/kg</span>
+    <span class="s1" style="left:60px;top:276px">True Magnésio · R$ 236</span>
+    <span class="s2" style="left:90px;top:340px">Castanha de caju a granel · R$ 136/kg</span>
+    <span style="left:520px;top:386px">Pincbar 50 g · R$ 13</span>
+    <span style="left:380px;top:432px">Bold 60 g · R$ 17</span>
+    <span style="left:640px;top:432px">Liquidz 5 g · R$ 9</span>
+    <span style="left:210px;top:484px">Supercoffee 10 g · R$ 10</span>
+  </div>
+  <div class="lat">
+    <div class="c"><div class="bloco"><span class="num" style="font-size:54px">R$ 60</span><p class="p">por unidade em suplemento</p></div><div class="bloco"><span class="num" style="font-size:54px">R$ 18</span><p class="p">por unidade na Bold</p></div></div>
+    <p class="t">A Bold pesa 1,2% do valor e 1,7% das unidades, em 70 das 71 lojas.</p>
+    <p class="p" style="margin-top:8px">Francine trouxe o raciocínio: a barrinha faz o cliente voltar toda semana; o suplemento, em cerca de 40 dias.</p>
+    <p class="t" style="margin-top:16px">Regra do plano</p>
+    <p class="p">Nenhum SKU sai só por venda baixa. Cada corte passa por três perguntas: traz frequência? Completa a cesta? Tem substituto na loja?</p>
+    <p class="t" style="margin-top:16px">O que falta medir</p>
+    <p class="p">A base não tem cupom. Sem ele, a frequência acima é uma pista, não uma prova. Por isso o relatório de cupom está entre os dados pedidos.</p>
+  </div>
+  <p class="fonte">Fonte: base de vendas, valor dividido por quantidade em 13 meses. Posição no quadro: ilustrativa, ordenada por preço médio e unidades.</p>
+</section>
+<section class="tela s-gou" data-titulo="O gourmet que cresce não é empório" data-cap="(2) O que os números dizem" data-fala="Essa é a maior surpresa. O departamento Gourmet quase triplicou, mas quando abrimos os SKUs, é suplemento em forma de doce. O empório de verdade está parado.">
+  <span class="eb">A surpresa</span><h2>O Gourmet quase triplicou, mas <em>o empório continua parado</em></h2>
+  <div class="g"><div>{{linha}}<p class="p" style="margin-top:4px">Participação na venda da rede, mês a mês. Outubro de 2026 é parcial.</p></div>
+    <div><div class="rec"><h4>Os 7 maiores do departamento Gourmet</h4><ul>
+      <li><span>Hey Mu Doce de Leite Zero 250 g</span><b>R$ 113 mil</b></li>
+      <li><span>Supercoffee Protein Cappuccino 465 g</span><b>R$ 56 mil</b></li>
+      <li><span>Supercoffee Protein Caramelo 465 g</span><b>R$ 46 mil</b></li>
+      <li><span>Essential Coffee Brainstorm 186 g</span><b>R$ 35 mil</b></li>
+      <li><span>Supercoffee Creme de Avelã 380 g</span><b>R$ 33 mil</b></li>
+      <li><span>Supercoffee Creme de Avelã 220 g</span><b>R$ 28 mil</b></li>
+      <li><span>Haoma Biscottino S'mores 34 g</span><b>R$ 20 mil</b></li></ul></div>
+      <div class="res"><b>De agosto a outubro, 47% do Gourmet veio de marcas de suplemento</b>, e só a Caffeine Army fez 38%. É o que Francine descreveu: “tudo na linha do saudável”. O empório real fica em cerca de 1,9%, sem tendência de alta.</div></div></div>
+  <p class="fonte">Fonte: base de vendas por SKU. Empório: classificação da 75 LAB por descrição do produto (massa, azeite, vinho, conserva, chocolate de mesa e similares), excluindo itens de marcas de suplemento e itens com proteína ou sabor apenas. Primeira passada, a validar com compras.</p>
+</section>
+<section class="tela s-emp" data-titulo="O empório hoje, em reais" data-cap="(2) O que os números dizem" data-fala="Vejam o tamanho de cada prateleira. Vinho não chega a R$ 13 mil em 13 meses. Mas o cadastro já tem La Pastina, De Cecco, Lindt, sem venda nas 71 lojas. E Vila Madalena mostra que chocolate de origem vende em loja pequena.">
+  <span class="eb">O ponto de partida</span><h2 style="font-size:44px">A rede vende <em>R$ 1,5 milhão</em> de empório em 13 meses, quase tudo sem curadoria</h2>
+  <div class="prat">
+    <div><span>Chocolates e doces finos</span><i style="width:100%"></i><b>R$ 519 mil</b></div>
+    <div><span>Geleias e mel</span><i style="width:38.8%"></i><b>R$ 201 mil</b></div>
+    <div><span>Massas e risotos</span><i style="width:34.6%"></i><b>R$ 179 mil</b></div>
+    <div><span>Azeites e vinagres</span><i style="width:32.2%"></i><b>R$ 167 mil</b></div>
+    <div><span>Molhos e condimentos</span><i style="width:28.9%"></i><b>R$ 150 mil</b></div>
+    <div><span>Cafés especiais</span><i style="width:19.4%"></i><b>R$ 101 mil</b></div>
+    <div><span>Temperos e especiarias</span><i style="width:14.6%"></i><b>R$ 75 mil</b></div>
+    <div><span>Queijos (quase tudo ghee)</span><i style="width:7.8%"></i><b>R$ 41 mil</b></div>
+    <div><span>Conservas e antepastos</span><i style="width:7.7%"></i><b>R$ 40 mil</b></div>
+    <div><span>Vinhos e espumantes</span><i style="width:2.4%"></i><b>R$ 12 mil</b></div>
+  </div>
+  <div class="lat">
+    <div class="bloco"><span class="t">Já está no cadastro, sem venda nas 71 lojas</span><div class="tag"><span>La Pastina · 30 SKUs</span><span>De Cecco · 10</span><span>Lindt · 9</span><span>Ritter · 14</span><span>Lotus Biscoff · 5</span><span>Mutti · 4</span><span>Andorinha · 5</span><span>Miolo · 4</span><span>Salton · 3</span></div><p class="p" style="margin-top:8px">Holambra trabalha Biscoff e Milka, mas não está na base: mais um motivo para pedir essas lojas.</p></div>
+    <div class="bloco" style="background:var(--terra);color:var(--iogurte)"><span class="num" style="font-size:66px;color:var(--acafrao)">6,8%</span><p style="font-size:18px;line-height:1.32;margin-top:6px">é o empório em <b>Vila Madalena</b>, 3,6 vezes a média. A loja tem 64 m² e vende chocolate de origem (Warabu) e café especial (Amarelo). A prova interna de que curadoria vende em loja pequena.</p></div>
+    <div class="bloco" style="background:var(--matcha)"><span class="t">Pouca loja, pouca venda</span><p class="p" style="color:var(--terra)">Vinho vendeu em 28 das 71 lojas. As marcas homologadas nos guias (Jolimont, Amitié) não chegaram à rede.</p></div>
+  </div>
+  <p class="fonte">Fonte: base de vendas, 13 meses; Produtos cadastrados, ERP, 07/10/2026; guia Dia dos Namorados; reunião de 29/10/2026. Classificação de empório da 75 LAB, primeira passada.</p>
+</section>
+<section class="tela s-gr" data-titulo="Granel: forte no Sul, fraco no Sudeste" data-cap="(2) O que os números dizem" data-fala="Francine disse: o granel não é para todos. Os dados concordam, e mostram onde ainda há espaço. Se as 15 lojas abaixo de 15% chegassem à mediana da rede, seriam R$ 169 mil a mais por mês.">
+  <span class="eb">Granel</span><h2>O granel não perdeu no Sul: ele <em>nunca chegou ao Sudeste</em></h2>
+  <div class="tubos">
+    <div class="tb so"><div class="v"><i style="height:62%"></i></div><b>26,8%</b><span>RS · 31 lojas</span></div>
+    <div class="tb so"><div class="v"><i style="height:61%"></i></div><b>26,4%</b><span>SC · 14 lojas</span></div>
+    <div class="tb so"><div class="v"><i style="height:61%"></i></div><b>26,4%</b><span>TO · 3 lojas</span></div>
+    <div class="tb"><div class="v"><i style="height:54%"></i></div><b>23,4%</b><span>PB · 1 loja</span></div>
+    <div class="tb"><div class="v"><i style="height:40%"></i></div><b>17,5%</b><span>RR · 1 loja</span></div>
+    <div class="tb su"><div class="v"><i style="height:33%"></i></div><b>14,1%</b><span>PR · 4 lojas</span></div>
+    <div class="tb su"><div class="v"><i style="height:31%"></i></div><b>13,4%</b><span>MT · 2 lojas</span></div>
+    <div class="tb su"><div class="v"><i style="height:29%"></i></div><b>12,5%</b><span>AM · 2 lojas</span></div>
+    <div class="tb su"><div class="v"><i style="height:28%"></i></div><b>12,0%</b><span>RJ · 3 lojas</span></div>
+    <div class="tb su"><div class="v"><i style="height:27%"></i></div><b>11,8%</b><span>SP · 6 lojas</span></div>
+    <div class="tb su"><div class="v"><i style="height:22%"></i></div><b>9,6%</b><span>CE · 2 lojas</span></div>
+    <div class="tb su"><div class="v"><i style="height:13%"></i></div><b>5,6%</b><span>ES · 2 lojas</span></div>
+  </div>
+  <div class="pe">
+    <div class="bloco"><div class="t">Uma compra que se repete</div><p class="p">Semente de abóbora, caju e castanha-do-brasil estão entre os 3 maiores itens da rede inteira. Só 205 de 2.128 itens fazem 80% do granel.</p></div>
+    <div class="bloco"><div class="t">A diferença é regional</div><p class="p">De 62% em Sobradinho a 0% em Vila Velha. No RS e em SC o granel já é motor; proteger é a tarefa. Nas outras praças, testar.</p></div>
+    <div class="bloco" style="background:var(--terra);color:var(--iogurte)"><div class="t">R$ 169 mil por mês</div><p style="font-size:17px;line-height:1.36;opacity:.9">É o que as 15 lojas abaixo de 15% somariam se chegassem à mediana de 19,7%. Simulação, considerando venda adicional.</p></div>
+  </div>
+  <p class="fonte">Fonte: base de vendas, 11/2025 a 09/2026, participação de A GRANEL por estado. Estados conforme Presença de Lojas por Estado. Simulação da 75 LAB: não desconta troca entre categorias.</p>
+</section>

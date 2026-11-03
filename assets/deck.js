@@ -22,6 +22,7 @@
     pararAutos();telas[atual].classList.remove('ativa');atual=n;const t=telas[n];t.classList.add('ativa');
     stage.classList.toggle('capa',n===0);
     capTxt.textContent=(t.dataset.cap||'').replace(/^\((\d+)\) /,'$1 · ');
+    const et=+(t.dataset.etapa||0);$$('#trilhaTopo button').forEach(b=>{const k=+b.dataset.e;b.classList.toggle('on',k===et);b.classList.toggle('foi',k<et);});
     prog.style.width=((n+1)/total*100)+'%';cont.textContent=dd(n+1)+' / '+dd(total);
     $('#ant').disabled=n===0;$('#prox').disabled=n===total-1;
     t.querySelectorAll('[data-conta]').forEach(contar);
@@ -115,15 +116,15 @@
   /* comparador antes e depois */
   $$('.comparador').forEach(c=>{const mover=x=>{const r=c.getBoundingClientRect();const p=Math.max(2,Math.min(98,(x-r.left)/r.width*100));c.style.setProperty('--p',p+'%');};
     let on=false;c.addEventListener('pointerdown',e=>{on=true;c.setPointerCapture(e.pointerId);mover(e.clientX);e.stopPropagation();});c.addEventListener('pointermove',e=>{if(on)mover(e.clientX);});c.addEventListener('pointerup',()=>{on=false;});c.addEventListener('click',e=>e.stopPropagation());});
-  /* simulador de mix */
+  /* simulador de mix: cada R$ 100 hoje e depois */
   (function(){
     const r=$('#simE');if(!r)return;const g=$('#simG'),i=$('#simI'),B=77.5,a=.0192*B,b=.218*B,sup0=.504,mio0=1-.504-.218-.0192;
     const fmt=(v,c=1)=>v.toLocaleString('pt-BR',{minimumFractionDigits:c,maximumFractionDigits:c});
     function calc(){const E=+r.value/100,G=+g.value/100,I=+i.value/100,N=(B-I*(a+b))/(1-I*(E+G)),res=N*(1-E-G),s=res*sup0/(sup0+mio0),m=res-s;
       $('#simEv').textContent=fmt(E*100,0)+'%';$('#simGv').textContent=fmt(G*100,0)+'%';$('#simIv').textContent=fmt(I*100,0)+'%';
       const seg={s:s/N*100,g:G*100,m:m/N*100,e:E*100};
-      for(const k in seg){const el=$('#bar-'+k);el.style.flexGrow=seg[k];el.querySelector('b').textContent=fmt(seg[k],0)+'%';}
-      $('#simR').textContent=fmt(N-B);$('#simP').textContent=fmt((N/B-1)*100);$('#simS').textContent=fmt(s-sup0*B);}
+      for(const k in seg){const el=$('#bar-'+k);el.style.flexGrow=seg[k];el.querySelector('b').textContent=fmt(seg[k],0);}
+      $('#simR').textContent=fmt(N-B);$('#simP').textContent=fmt((N/B-1)*100,0);}
     [r,g,i].forEach(x=>{x.addEventListener('input',calc);x.addEventListener('click',e=>e.stopPropagation());});calc();
   })();
   /* checklists marcáveis com contador */

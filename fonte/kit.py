@@ -1,7 +1,7 @@
 # Gera o kit de execução em planilha. Rodar da raiz: python3 fonte/kit.py
 import pandas as pd,numpy as np,sys,re,warnings,pathlib
 warnings.filterwarnings('ignore')
-sys.path.insert(0,'analise')
+sys.path.insert(0,'analise');sys.path.insert(0,'fonte')
 from openpyxl import Workbook
 from openpyxl.styles import Font,PatternFill,Alignment,Border,Side
 from openpyxl.utils import get_column_letter as CL
@@ -189,6 +189,58 @@ E=[('1 Diagnóstico',[('Imersão na loja piloto','Entregue'),('Diagnóstico foto
 aba('Entregáveis','Matriz de entregáveis','V1: nesta apresentação e neste kit. Prazos condicionados aos dados e às aprovações.',['Frente','Item','Estágio'],[[f,i,s] for f,it in E for i,s in it],[28,50,18])
 aba('Cronograma','Marcos do projeto','',['Marco','Início','Fim'],[['Decisões e dados','09/11/2026','20/11/2026'],['Visitas e trena','09/11/2026','27/11/2026'],['Árvore, de-para e cotação','16/11/2026','11/12/2026'],['Ponta de Natal (teste)','30/11/2026','24/12/2026'],['Planograma-base e Divina Logic','','18/12/2026'],['Preparar piloto','04/01/2027','17/01/2027'],['Piloto: fase 1','18/01/2027','28/02/2027'],['Piloto: fase 2','01/03/2027','11/04/2027'],['Manual, guia e treinamento','13/04/2027','15/05/2027'],['Onda 2 (8 lojas)','17/05/2027','11/07/2027'],['Onda 3 (rede)','19/07/2027','em lotes de 10 a 15 lojas por mês']],[38,14,34])
 aba('Dados pedidos','O que a rede precisa enviar até 20/11','',['Dado','Para quê','Prioridade'],[['Venda por SKU, loja e mês das 11 lojas fora da base','Fechar quadros, incluir Holambra e as Diamante','Alta'],['Relatório de cupom: itens por cupom, tíquete e frequência','Provar frequência e cesta, base do piloto','Alta'],['Custo e margem por SKU','Preço-teto e rentabilidade','Alta'],['Planta de Alphaville e acesso para a trena','Planograma da loja e conta de módulos','Alta'],['Calendário oficial de trade de 2027','Integrar o calendário proposto','Média'],['Guias de Natal, Páscoa e Dia dos Pais, se existirem','Reaproveitar mecânicas','Média']],[58,50,10])
+
+# ---- receita e calculadoras
+import receita as RC
+RE=[('1','Entender como ela escolhe','Rede','Árvore de decisão por setor: motivo, tipo, marca, preço. Pedir aos fornecedores e validar com clientes.','ECR Brasil e Sebrae, 2014; Rooderkerk e Lehmann, 2021'),('2','Dar um papel a cada categoria','Rede','Destino, rotina, ocasião ou conveniência. O papel decide espaço, preço e lugar na loja.','Partnering Group e ECR, anos 1990'),('3','Saber que loja é esta','Loja','Contar módulos e ver o perfil de venda: suplemento forte, equilibrado ou granel forte.','Umbrex; DotActiv; adaptação 75 LAB'),('4','Escolher os produtos','Rede e loja','Núcleo igual, lista aprovada, até 20% local. Entra um, sai um.','Kök, Fisher e Vaidyanathan; Kaufmann e Eroglu, 1999'),('5','Dividir o espaço','Loja, com a calculadora','Módulos da loja x venda x peso do papel, conferindo o que cabe. Aba Calc espaço.','Corstjens e Doyle, 1981; Eisend, 2014; pesos da 75 LAB, a calibrar'),('6','Definir as frentes','Loja, com a calculadora','Para não faltar: fórmula da aba Calc frentes. Para ser visto: líder do bloco até 3 frentes.','Patente Walmart adaptada; Chandon e outros, 2009; Drèze e outros, 1994'),('7','Montar pela regra','Loja','Um setor por gôndola, uma subcategoria por prateleira, olhos para o que mais gira, líder no centro, marca em bloco, pesado embaixo, uma casa por produto.','Padrão de setores da rede; Atalay e outros, 2012; Deng e outros, 2016'),('8','Conferir e ajustar','Loja e consultor','Auditoria com foto; ritual mensal de mix; revisão de espaço por trimestre; papéis e tipos por ano.','Umbrex; Vasconcellos e Sampaio, 2009')]
+aba('Receita','A receita em 8 passos','Mesma lógica para qualquer loja. Parâmetros numéricos são proposta da 75 LAB, a calibrar no piloto.',['Passo','O que é','Quem faz','Como','Base'],[list(x) for x in RE],[7,30,22,70,50])
+# calculadora de espaço, com exemplo editável (Pinheiros)
+a=RC.alocar('DT PINHEIROS',30,3)
+ws=aba('Calc espaço','Calculadora de espaço, passo 5','Edite as células em amarelo: total de módulos, empório, venda % de cada setor, produtos que fazem 80% e 95%, e quantos cabem no módulo. Exemplo carregado: Pinheiros.',['Setor','Papel','Motor','Venda % (edite)','Peso do papel','Pontos','Módulos pela venda','Produtos que fazem 80%','Produtos que fazem 95%','Cabem por módulo (a medir)','Mínimo','Máximo','Módulos sugeridos'],[],[20,11,11,10,8,9,10,10,10,10,8,8,11])
+ws['O4']='Total de módulos (sem granel, frio, café e caixa)';ws['P4']=30;ws['O5']='Módulos de empório (espaço de teste)';ws['P5']=3;ws['O6']='Disponível';ws['P6']='=P4-P5';ws.column_dimensions['O'].width=46
+AM=PatternFill('solid',fgColor='F6E7B8')
+for c in ('P4','P5'): ws[c].fill=AM
+ws['O8']='Peso: Destino';ws['P8']=1.2;ws['O9']='Peso: Rotina';ws['P9']=1.0;ws['O10']='Peso: Ocasião';ws['P10']=0.8;ws['O11']='Peso: Conveniência';ws['P11']=0.7
+n=len(a);fim=4+n
+for i,r in enumerate(a.itertuples(),5):
+    ws.cell(row=i,column=1,value=r.s);ws.cell(row=i,column=2,value=r.pap);ws.cell(row=i,column=3,value=r.mot)
+    x=ws.cell(row=i,column=4,value=round(r.pv,1));x.fill=AM
+    ws.cell(row=i,column=5,value=f'=IF(B{i}="Destino",$P$8,IF(B{i}="Rotina",$P$9,IF(B{i}="Ocasião",$P$10,$P$11)))')
+    ws.cell(row=i,column=6,value=f'=D{i}*E{i}').number_format='0.0'
+    ws.cell(row=i,column=7,value=f'=$P$6*F{i}/SUM($F$5:$F${fim})').number_format='0.0'
+    for c,v in ((8,r.n80),(9,r.n95),(10,r.cap)):
+        y=ws.cell(row=i,column=c,value=int(v));y.fill=AM
+    ws.cell(row=i,column=11,value=f'=H{i}*1.25/J{i}').number_format='0.0'
+    ws.cell(row=i,column=12,value=f'=I{i}*1.25/J{i}').number_format='0.0'
+    ws.cell(row=i,column=13,value=f'=ROUND(MEDIAN(K{i},G{i},L{i})*2,0)/2').number_format='0.0'
+ws.cell(row=fim+1,column=1,value='Soma').font=Font(bold=True);ws.cell(row=fim+1,column=13,value=f'=SUM(M5:M{fim})').number_format='0.0'
+ws.cell(row=fim+2,column=1,value='Sobra ou falta frente ao disponível: distribuir meio módulo por vez, começando pelo destino').font=Font(italic=True);ws.cell(row=fim+2,column=13,value=f'=P6-M{fim+1}').number_format='0.0'
+ws.auto_filter.ref=None
+# calculadora de frentes
+ws=aba('Calc frentes','Calculadora de frentes, passo 6','Frentes = (venda por semana ÷ 7 × dias até a próxima entrega + segurança) ÷ quantas cabem atrás de uma frente, arredondando para cima. Depois, a regra de visibilidade. Exemplos ilustrativos.',['Produto','Venda por semana','Dias até a próxima entrega','Segurança (unidades)','Cabem atrás de uma frente','Frentes para não faltar','Líder do bloco? (Sim ou Não)','Frentes finais'],[],[42,10,12,10,12,12,14,10])
+EXF=[('Líder de creatina em Pinheiros',1.7,21,1,6,'Sim'),('Líder de ômega em Pinheiros',0.6,21,1,6,'Sim'),('Produto de curva B',0.3,21,1,6,'Não')]
+for i,(n_,v,dd,sg,cb,lid) in enumerate(EXF+[('',None,21,1,6,'Não')]*12,5):
+    ws.cell(row=i,column=1,value=n_ or None).fill=AM
+    for c,val in ((2,v),(3,dd),(4,sg),(5,cb),(7,lid)):
+        ws.cell(row=i,column=c,value=val).fill=AM
+    ws.cell(row=i,column=6,value=f'=IF(N(B{i})=0,"",MAX(1,ROUNDUP((B{i}/7*C{i}+D{i})/E{i},0)))')
+    ws.cell(row=i,column=8,value=f'=IF(F{i}="","",IF(G{i}="Sim",MIN(3,MAX(F{i},2)),F{i}))')
+ws.auto_filter.ref=None
+# espaço por loja
+lin=[]
+TOT={'P':(11,1),'M':(23,2),'G':(33,3),'GG':(45,4)}
+for l,r in LC.sort_values('media_mes',ascending=False).iterrows():
+    if r.tam not in TOT: continue
+    t,em=(30,3) if l=='DT PINHEIROS' else TOT[r.tam]
+    b=RC.alocar(l,t,em).set_index('s').f
+    lin.append([l.replace('DT ','').title(),r.tam,r.perfil,t]+[float(b[s[0]]) for s in RC.SET]+[em])
+aba('Espaço por loja','Módulos sugeridos por loja, com a venda real','Resultado da receita para 59 lojas. O total de módulos é estimado pelo tamanho da loja: troque pela contagem real na aba Calc espaço. Exclui granel, frio, café e caixa.',['Loja','Tamanho','Perfil','Total de módulos']+[s[0] for s in RC.SET]+['Empório'],lin,[24,8,17,8]+[9]*len(RC.SET)+[8])
+ORD=['Leia-me','Receita','Calc espaço','Calc frentes','Espaço por loja'];wb._sheets=[wb[n] for n in ORD]+[x for x in wb._sheets if x.title not in ORD]
+ws=wb['Leia-me']
+for i,(a_,b_) in enumerate([('Receita','Os 8 passos, quem faz e a base de cada um'),('Calc espaço','Calculadora de módulos por setor, para qualquer loja'),('Calc frentes','Calculadora de frentes por produto'),('Espaço por loja','Resultado da receita para 59 lojas, com venda real')],27):
+    ws.cell(row=i,column=1,value=a_).font=Font(bold=True,color=TER);ws.cell(row=i,column=1).hyperlink=f"#'{a_}'!A1";ws.cell(row=i,column=2,value=b_)
+ws.cell(row=26,column=1,value='Novas abas').font=Font(bold=True,color=CHO)
+
 pathlib.Path('kit').mkdir(exist_ok=True)
 out='kit/Divina-Terra-Kit-de-Execucao-do-Piloto-v1.xlsx';wb.save(out)
 print(out,pathlib.Path(out).stat().st_size//1024,'KB',wb.sheetnames)

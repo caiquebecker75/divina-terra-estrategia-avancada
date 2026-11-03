@@ -1,183 +1,87 @@
 <style>
-.s-base h2{width:calc(100% - 530px)!important}.s-base .gr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px 26px;margin-top:22px;width:calc(100% - 530px)}.s-base .gr div b{display:block;white-space:nowrap;font:400 46px/1.05 var(--serif);color:var(--choco)}.s-base .gr div span{font-size:17px;color:var(--cinza)}
-.s-base .fora{position:absolute;right:0;top:0;width:500px;min-height:620px;background:var(--terra);color:var(--iogurte);border-radius:20px;padding:26px}
-.s-base .fora h3{font-size:31px;line-height:1.1}.s-base .fora p{font-size:17px;line-height:1.36;margin-top:10px;opacity:.9}.s-base .fora ul{list-style:none;margin-top:12px;display:grid;grid-template-columns:1fr auto;gap:3px 14px;font-size:16px}.s-base .fora li{display:contents}.s-base .fora .num{font-size:66px;color:var(--acafrao);margin-top:8px;display:block}
-.s-base .docs{margin-top:22px;width:calc(100% - 530px);display:flex;flex-wrap:wrap;gap:8px}
-.s-mix .barra{display:flex;height:138px;border-radius:14px;overflow:hidden;margin-top:26px}.s-mix .barra div{padding:12px 14px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;font-size:16px;line-height:1.15;min-width:0}.s-mix .barra b{font:400 40px/1 var(--serif);display:block}
-.s-mix h4{font-size:20px;font-weight:600;margin-top:28px}
-.s-mix .canal{display:flex;gap:6px;height:88px;margin-top:10px}.s-mix .canal div{border-radius:12px;padding:10px 14px;font-size:16px;line-height:1.15;display:flex;flex-direction:column;justify-content:center}.s-mix .canal b{font:400 30px var(--serif)}
-.s-mix .tira{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
-.s-disp .g{display:grid;grid-template-columns:880px 1fr;gap:26px;margin-top:6px}.grafico{width:100%;display:block}
-.s-disp .reg{display:flex;flex-direction:column;gap:10px;margin-top:8px}.s-disp .reg div{background:var(--aveia);border-radius:14px;padding:14px 18px}.s-disp .reg b{font-size:18px;display:block}.s-disp .reg p{display:flex;justify-content:space-between;font-size:17px;margin-top:4px;color:var(--cinza)}.s-disp .reg i{font:400 30px var(--serif);font-style:normal;color:var(--terra)}
-.s-conc .g{display:grid;grid-template-columns:640px 1fr;gap:40px;margin-top:12px}
-.s-conc .pen div{margin-bottom:16px}.s-conc .pen .t{display:flex;justify-content:space-between;font-size:18px}.s-conc .bx{display:flex;height:30px;border-radius:8px;overflow:hidden;margin-top:5px;background:var(--aveia)}.s-conc .bx i{display:block;background:var(--choco)}.s-conc .bx i.b{background:var(--cap)}
-.s-conc .frase{background:var(--aveia);border-radius:16px;padding:16px 20px;font:italic 400 23px/1.25 var(--serif);margin-top:8px}
-.s-freq h2{width:calc(100% - 460px)!important}.s-freq .q{position:relative;height:540px;margin:14px 0 0;width:calc(100% - 460px);min-width:790px;background:var(--aveia);border-radius:18px}
-.s-freq .q span{position:absolute;font-size:16px;font-weight:600;background:var(--iogurte);border-radius:99px;padding:5px 12px;white-space:nowrap}
-.s-freq .q .s1{background:var(--choco);color:#fff}.s-freq .q .s2{background:var(--oliva);color:#fff}
-.s-freq .eixo{position:absolute;font-size:15px;color:var(--cinza);background:none!important;font-weight:500;padding:0}
-.s-freq .lat{position:absolute;right:0;top:0;width:440px}.s-freq .lat .num{font-size:74px;color:var(--choco)}.s-freq .lat .c{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 14px}
-.s-gou .g{display:grid;grid-template-columns:820px 1fr;gap:30px;margin-top:8px}
-.s-gou .rec{background:#fff;border-radius:6px;padding:18px 20px;box-shadow:0 8px 26px rgba(70,29,23,.1);font-size:15.5px}.s-gou .rec h4{font-size:18px;font-weight:600;margin-bottom:7px}.s-gou .rec li{display:flex;justify-content:space-between;gap:12px;padding:4.5px 0;border-bottom:1px dashed var(--linho)}.s-gou .rec ul{list-style:none}
-.s-gou .res{margin-top:14px;background:var(--terra);color:var(--iogurte);border-radius:14px;padding:14px 18px;font-size:18px;line-height:1.3}
-.s-emp h2{width:calc(100% - 590px)!important}.s-emp .prat{margin-top:18px;width:calc(100% - 590px)}.s-emp .prat div{display:grid;grid-template-columns:200px 1fr 92px;align-items:center;gap:12px;padding:5.5px 0;border-bottom:5px solid var(--linho)}.s-emp .prat span{font-size:17px}.s-emp .prat i{display:block;height:27px;background:var(--choco);border-radius:5px 5px 0 0}.s-emp .prat b{font-size:16px;text-align:right}
-.s-emp .lat{position:absolute;right:0;top:0;width:560px;display:flex;flex-direction:column;gap:12px}
-.s-emp .tag{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.s-emp .tag span{background:var(--iogurte);padding:3px 10px;border-radius:99px;font-size:14.5px}
-.s-gr .tubos{display:flex;gap:10px;align-items:flex-end;margin-top:16px;height:320px}
-.s-gr .tb{flex:1;text-align:center}.s-gr .tb .v{height:250px;background:var(--aveia);border-radius:44px 44px 8px 8px;position:relative;overflow:hidden}.s-gr .tb .v i{position:absolute;left:0;right:0;bottom:0;background:var(--cap)}.s-gr .tb.so .v i{background:var(--oliva)}.s-gr .tb.su .v i{background:var(--acafrao)}
-.s-gr .tb b{display:block;font:400 25px var(--serif);margin-top:5px}.s-gr .tb span{font-size:15px;color:var(--cinza)}
-.s-gr .pe{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+.s-r{--c:var(--oliva)}
+.rz{display:inline-flex;align-items:center;gap:8px;font-size:18px;font-weight:600;color:var(--oliva);margin-bottom:6px}.rz i{font:400 30px var(--serif);font-style:normal}
+.s-r1 .g{display:grid;grid-template-columns:1.1fr 1fr;gap:34px;margin-top:20px;align-items:center}
+.s-r1 .barras{display:grid;gap:14px}.s-r1 .barras div{font-size:18px}.s-r1 .barras span{display:flex;align-items:center;height:64px;border-radius:12px;color:#fff;font:400 38px var(--serif);padding:0 18px;margin-top:4px}
+.s-r2 .mat{display:grid;grid-template-columns:150px 1fr 1fr;grid-template-rows:auto 190px 190px;gap:8px;margin-top:14px}
+.s-r2 .mat .h{font-size:17px;font-weight:600;display:flex;align-items:flex-end;padding:0 4px 2px}.s-r2 .mat .v{font-size:17px;font-weight:600;display:flex;align-items:center}
+.s-r2 .q{border-radius:16px;padding:16px 18px;background:var(--aveia);font-size:17px;line-height:1.28;color:var(--cinza)}.s-r2 .q b{display:block;font:400 28px/1.1 var(--serif);color:var(--terra);margin-bottom:5px}
+.s-r2 .q.on{background:var(--oliva);color:#fff}.s-r2 .q.on b{color:#fff}
+.s-r2 .g{display:grid;grid-template-columns:1fr 450px;gap:24px;align-items:start}
+.s-r3 .g{display:grid;grid-template-columns:auto 1fr;gap:40px;margin-top:18px;align-items:center}
+.s-r3 .leg{display:grid;gap:9px;font-size:21px}.s-r3 .leg i{display:inline-block;width:20px;height:20px;border-radius:50%;margin-right:10px;vertical-align:-3px}.s-r3 .leg b{font:400 34px var(--serif);margin-right:8px}
+.s-r3 .dup{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.s-r4 .g{display:grid;grid-template-columns:auto auto 1fr;gap:34px;margin-top:18px;align-items:center}.s-r4 .cap{font-size:19px;line-height:1.25;margin-bottom:9px;font-weight:600}
+.s-r4 .lista{display:grid;gap:12px}.s-r4 .lista .bloco{font-size:18px;line-height:1.32}
+.s-r5 .cols{display:flex;align-items:flex-end;gap:26px;height:300px;margin-top:18px;border-bottom:4px solid var(--terra);padding:0 30px}
+.s-r5 .cols div{flex:1;text-align:center;font-size:18px;line-height:1.2}.s-r5 .cols span{display:block;border-radius:10px 10px 0 0;margin-top:8px}.s-r5 .cols b{font:400 46px var(--serif);display:block}
+.s-r5 .g{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:end}
+.s-r6 .g{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.s-r6 .c{background:var(--aveia);border-radius:18px;padding:18px;min-height:300px;display:flex;flex-direction:column;gap:7px}.s-r6 h3{font-size:32px}.s-r6 .c p{font-size:17px;line-height:1.3;color:var(--cinza)}
+.s-r6 .vis{height:118px;display:flex;align-items:flex-end;gap:10px}.s-r6 .vis div{flex:1;text-align:center;font-size:13.5px;line-height:1.1}.s-r6 .vis span{display:block;border-radius:6px 6px 0 0;margin-top:3px}.s-r6 .vis b{font:400 22px var(--serif);display:block}
+.s-r6 .faz{margin-top:auto;font-weight:600;color:var(--terra)!important}
+.s-hip .g{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;margin-top:22px;align-items:stretch}.s-hip .c{border-radius:20px;padding:24px}.s-hip h3{font-size:36px;margin-bottom:10px}.s-hip li{list-style:none;font-size:19px;line-height:1.3;padding:8px 0;border-top:1px solid rgba(70,29,23,.14)}.s-hip .sta{display:grid;place-items:center;color:var(--cap)}.s-hip .sta svg{width:50px;height:50px}
 </style>
-<section id="c2" class="tela s-cap" data-titulo="Capítulo 2" data-cap="(2) O que os números dizem" data-capitulo="2">
+<section id="c2" class="tela s-cap" data-titulo="Capítulo 2" data-cap="(2) Por que vamos" data-capitulo="2" data-etapa="2">
   <div class="lado"><img src="assets/logos/dt-icone-claro.svg" alt=""><span class="num">2</span></div>
-  <div class="dir"><h2>O que os números dizem</h2><p>A base nova abre a venda por SKU, por loja e por mês. Ela confirma a intuição da rede e traz três surpresas.</p><ul><li><b>A</b>A dependência é regional, não igual em toda a rede</li><li><b>B</b>O gourmet que cresce não é empório</li><li><b>C</b>O granel é forte no Sul e fraco no Sudeste</li></ul><trilha k="2"></trilha></div>
+  <div class="dir"><span class="eb">Capítulo 2</span><h2>Por que vamos</h2><p>Seis razões para escolher esse caminho. Cada uma se apoia em três bases: o que a rede vive, o que o mercado mostra e o que a teoria ensina.</p><ul><li>A cliente, o caminho mais seguro e o que ninguém copia</li><li>O espaço, a prova dentro de casa e as portas abertas</li><li>O que ainda precisa ser testado</li></ul><trilha k="2"></trilha></div>
 </section>
-<section class="tela s-base" data-titulo="O que analisamos e o que falta" data-cap="(2) O que os números dizem" data-fala="Olhamos tudo o que está no Drive. E achamos um ponto importante: a base de vendas não traz 11 lojas, entre elas Holambra e seis das nove Diamante.">
-  <span class="eb">A base</span><h2>Lemos tudo o que a rede mandou, e <em>11 lojas ainda faltam</em></h2>
-  <div class="gr">
-    <div><b data-conta="603720">603.720</b><span>linhas de venda por SKU, loja e mês</span></div>
-    <div><b>R$ 77,4 mi</b><span>em 13 meses (out/25 a out/26, parciais nas pontas)</span></div>
-    <div><b data-conta="22155">22.155</b><span>SKUs com venda, de 51.925 no cadastro</span></div>
-    <div><b data-conta="71">71</b><span>lojas com venda na base</span></div>
-    <div><b data-conta="1470">1.470</b><span>marcas com venda, de 3.038 no cadastro</span></div>
-    <div><b data-conta="10">10</b><span>plantas executivas conferidas</span></div>
-  </div>
-  <div class="docs"><span class="pill">8 guias de execução</span><span class="pill">2 encartes</span><span class="pill">7 catálogos de marca</span><span class="pill">Padrão de 16 setores</span><span class="pill">Posicionamento e identidade</span><span class="pill">Clusterização e presença</span><span class="pill">M² de 81 lojas</span><span class="pill">Reunião de 29/10</span></div>
-  <div class="fora"><h3>As lojas que não vieram no relatório</h3><span class="num">27%</span><p>É o peso delas na média mensal de faturamento da clusterização: cerca de R$ 2,6 mi por mês. Incluem Holambra, a loja que mais conhece importados.</p>
-  <ul><li><span>Belém Plaza</span><span>R$ 555 mil</span></li><li><span>Itajaí</span><span>R$ 352 mil</span></li><li><span>Capão da Canoa</span><span>R$ 331 mil</span></li><li><span>Iguatemi</span><span>R$ 329 mil</span></li><li><span>Santa Cruz</span><span>R$ 283 mil</span></li><li><span>Xangri-Lá e Xangri-Lá Max</span><span>R$ 359 mil</span></li><li><span>Holambra</span><span>R$ 172 mil</span></li><li><span>S. J. dos Campos, Bauru, F. Beltrão</span><span>R$ 217 mil</span></li></ul>
-  <p>Os números daqui em diante valem para as 71 lojas. Pedimos as outras 11 na tela de decisões.</p></div>
-  <p class="fonte">Fonte: relatório de vendas por SKU, loja e mês (23/10/2026); Clusterização de Lojas, 1º semestre de 2026 (média Jan a Jun); plantas e documentos do Drive do projeto.</p>
+<section class="tela s-r1" data-titulo="Razão 1: a cliente já vive assim" data-cap="(2) Por que vamos" data-etapa="2" data-fala="Tem um estudo muito bonito sobre isso. Quem acabou de fazer algo bom se dá mais permissão para um prazer. Saúde e prazer não brigam: um abre a porta para o outro.">
+  <span class="rz"><i>1</i> Razão um</span><h2>Quem se cuida <em>se permite</em> um prazer</h2>
+  <div class="g"><div><p class="lead" style="margin:0">Cuidar da saúde e aproveitar a vida não são opostos. A pesquisa mostra que fazer algo bom para si dá “licença” para o prazer. Por isso o empório combina com quem já entra na loja.</p></div>
+    <div class="barras"><p class="cap" style="font-size:17px;color:var(--cinza)">Quantos escolheram o item de prazer, em um experimento</p><div>Sem ter feito nada virtuoso antes<span style="width:42%;background:var(--linho);color:var(--terra)">28%</span></div><div>Depois de um gesto virtuoso<span style="width:87%;background:var(--oliva)">57%</span></div></div></div>
+  <div class="base"><div><b>Na rede</b>Francine, como cliente: “tenho estilo de vida saudável, como queijo, bebo vinho, como macarrão gostoso”.</div><div><b>No mercado</b>No vinho, o preço do premium subiu 10% e o de entrada caiu 3%. Há quem pague mais por qualidade.</div><div><b>Na teoria</b><span>Efeito de licença (<em>Khan e Dhar, 2006</em>) e o “novo luxo”: pagar mais no que importa (<em>Silverstein e Fiske, 2003</em>).</span></div></div>
+  <p class="fonte">Fonte: Khan e Dhar, Journal of Marketing Research, 2006, estudo 1 da versão de trabalho (57,4% e 27,7%, escolha de um produto de grife); Silverstein e Fiske, HBR, 2003; Bloomberg Línea, 12/03/2026; reunião de 29/10/2026. O experimento não foi feito em loja de alimentos: é um princípio, a ser testado no piloto.</p>
 </section>
-<section class="tela s-mix" data-titulo="Metade da venda em um canal que encolhe" data-cap="(2) O que os números dizem" data-fala="Metade da venda vem de suplemento, e o consumidor diz que compra suplemento principalmente na farmácia. Olhem o tamanho da fatia da loja especializada.">
-  <span class="eb">O mix</span><h2>Metade da venda depende de uma porta <em>que está ficando estreita</em></h2>
-  <div class="barra">
-    <div style="flex:50.4;background:var(--choco)"><b>50,4%</b>Suplemento</div>
-    <div style="flex:21.8;background:var(--cap)"><b>21,8%</b>Granel</div>
-    <div style="flex:6.6;background:var(--oliva)"><b>6,6%</b>Sem glúten e sem lactose</div>
-    <div style="flex:4;background:#7f9266"><b style="font-size:28px">4,1%</b>Naturais</div>
-    <div style="flex:15.8;background:var(--linho);color:var(--terra)"><b>15,8%</b>Outros 21 departamentos</div>
-    <div style="flex:1.8;background:var(--acafrao);padding:0"></div>
+<section class="tela s-r2" data-titulo="Razão 2: o caminho mais seguro" data-cap="(2) Por que vamos" data-etapa="2" data-fala="Essa é uma matriz clássica, de 1957. Há quatro formas de crescer. A nossa é vender coisas novas para quem já é cliente. Não precisa abrir mercado novo nem convencer gente nova a entrar.">
+  <span class="rz"><i>2</i> Razão dois</span><h2>Vender mais <em>para quem já entra</em> é o caminho mais curto</h2>
+  <div class="g"><div class="mat">
+    <span></span><span class="h">Produtos de hoje</span><span class="h">Produtos novos</span>
+    <span class="v">Clientes de hoje</span><div class="q"><b>Vender mais do mesmo</b>É disputar suplemento com quem tem mais escala. Segue, mas tem limite.</div><div class="q on"><b>Vender coisas novas para a mesma cliente</b>Este é o empório. A cliente e a loja já existem; só falta a oferta.</div>
+    <span class="v">Clientes novos</span><div class="q"><b>Abrir novas praças</b>É a expansão que a rede já faz, lojas novas.</div><div class="q"><b>Produto novo para cliente novo</b>O caminho de maior risco. Não é o caso aqui.</div>
   </div>
-  <p style="text-align:right;font-size:16px;margin-top:4px;font-weight:600;color:var(--terra)">Gourmet: 1,4%</p>
-  <h4>Onde o consumidor diz que compra suplemento</h4>
-  <div class="canal">
-    <div style="flex:48;background:var(--aveia)"><b>48%</b>Farmácia</div>
-    <div style="flex:24;background:var(--aveia)"><b>24%</b>Marketplace e e-commerce</div>
-    <div style="flex:15;background:var(--aveia)"><b>15%</b>Supermercado</div>
-    <div style="flex:13;background:var(--paprica);color:#fff"><b>8%</b>Especializada</div>
-  </div>
-  <div class="tira">
-    <div class="bloco"><div class="t">O mercado cresce</div><p class="p">R$ 7,6 bi em 2025, alta de 15%. O problema não é a categoria, é quem fica com ela.</p></div>
-    <div class="bloco"><div class="t">O supermercado chegou</div><p class="p">Whey +124% e creatina +89% no varejo alimentar, de janeiro a outubro de 2025.</p></div>
-    <div class="bloco"><div class="t">O custo apertou</div><p class="p">Insumo do whey +105% em 12 meses na Europa e R$ 180/kg no Brasil em setembro.</p></div>
-  </div>
-  <p class="fonte">Fonte: base de vendas 10/2025 a 10/2026; IFEPEC/Febrafar, 1.200 consumidores, declaração de compra, instituto ligado a farmácias (Panorama Farmacêutico, 14/07/2026); Brasnutri/Euromonitor (Revista Suplementação, 23/03/2026); Scanntech (Agora RN); StoneX (Terra, 26/05/2026); MilkPoint (PowerMix, 15/10/2026).</p>
+  <div style="display:grid;gap:10px"><div class="bloco" style="background:var(--terra);color:var(--iogurte)"><span class="num" style="font-size:66px;color:var(--acafrao)">+100 mil</span><p style="font-size:19px;line-height:1.3">clientes por mês já entram nas lojas. É o ativo de partida.</p></div><div class="base" style="grid-template-columns:1fr;margin:0"><div><b>Na rede</b>Empório de hoje é só 1,9% da venda: há espaço para crescer sem depender de loja nova.</div><div><b>No mercado</b>Mundo Verde reformou 3 lojas com degustação e relata cerca de 20% a mais em algumas.</div><div><b>Na teoria</b><span>Matriz de crescimento: produto novo para mercado atual (<em>Ansoff, 1957</em>).</span></div></div></div></div>
+  <p class="fonte">Fonte: Ansoff, HBR, 1957 (a ordem de risco vem de leituras posteriores); Apresentação Institucional, p. 9; relatório de vendas, 71 lojas; Business Moment, 11/09/2026, declaração da empresa, sem isolar o efeito do mix.</p>
 </section>
-<section class="tela s-disp" data-titulo="Dependência é regional" data-cap="(2) O que os números dizem" data-fala="Cada ponto é uma loja. O Sul já tem o granel como segundo motor. O Sudeste depende muito mais de suplemento. Por isso São Paulo sentiu primeiro.">
-  <span class="eb">Loja a loja</span><h2>A dependência não é igual: <em>o Sudeste sente mais</em></h2>
-  <div class="g"><div>{{scatter}}</div>
-    <div><div class="reg">
-      <div><b>Sudeste · 11 lojas</b><p>Suplemento <i>59,1%</i></p><p>Granel <i>9,9%</i></p></div>
-      <div><b>Sul · 49 lojas</b><p>Suplemento <i>47,9%</i></p><p>Granel <i>25,7%</i></p></div>
-      <div><b>Norte, Nordeste e Centro-Oeste · 11 lojas</b><p>Suplemento <i>51,7%</i></p><p>Granel <i>16,7%</i></p></div>
-    </div><p class="p" style="margin-top:12px">Não existe uma única receita. Um mesmo tamanho de loja precisa de regras diferentes conforme o perfil: é daí que nascem os 12 quadros do sistema.</p></div></div>
-  <p class="fonte">Fonte: base de vendas, média de 11/2025 a 09/2026, 62 lojas com 8 meses ou mais para os pontos e 71 lojas para as regiões. Em vermelho, as lojas de São Paulo citadas.</p>
+<section class="tela s-r3" data-titulo="Razão 3: o que ninguém copia" data-cap="(2) Por que vamos" data-etapa="2" data-fala="De cada 100 pessoas que compram suplemento, olhem de onde dizem comprar. A categoria cresce 15% ao ano. Não dá para ganhar em todo lugar no preço. Dá para ganhar no que os outros não sabem fazer.">
+  <span class="rz"><i>3</i> Razão três</span><h2>Preço todos têm. <em>A conversa e a curadoria,</em> não</h2>
+  <div class="g">{{p100canal}}<div><p class="lead" style="margin:0 0 14px">De cada 100 consumidores de suplemento, onde dizem que compram. O mercado cresceu 15% em 2025: há muita compra acontecendo, em muitos lugares.</p><div class="leg"><span><i style="background:#BCAD99"></i><b>48</b>na farmácia</span><span><i style="background:#AC834C"></i><b>24</b>na internet</span><span><i style="background:#596D49"></i><b>15</b>no supermercado</span><span><i style="background:#CA3C2E"></i><b>8</b>em loja especializada</span></div></div></div>
+  <div class="dup"><div class="bloco"><div class="t">Onde empatar</div><p class="p">Nos produtos que a cliente compara. Sem isso, ela nem considera a loja.</p></div><div class="bloco" style="background:var(--oliva);color:#fff"><div class="t">Onde ganhar</div><p style="font-size:17px;line-height:1.36;opacity:.95">Na mentora que explica e na curadoria que escolhe por ela: suplemento e, agora, empório.</p></div></div>
+  <div class="base"><div><b>Na rede</b>Mentoria no Atendimento e Curadoria Confiável já são pilares imutáveis da marca.</div><div><b>No mercado</b>Francine: Supercoffee ninguém precisa explicar; ômega-3 tem para coração, para cérebro, “5 milhões de coisas”.</div><div><b>Na teoria</b><span>Marca forte empata no básico e se diferencia onde importa (<em>Keller, Sternthal e Tybout, 2002; Porter, 1980</em>).</span></div></div>
+  <p class="fonte">Fonte: IFEPEC/Febrafar, 1.200 consumidores, declaração de compra, instituto ligado a farmácias (Panorama Farmacêutico, 14/07/2026; 5% em outros); Brasnutri/Euromonitor, 23/03/2026; Posicionamento de Marca, p. 17; HBR, 2002; Porter, Competitive Strategy, 1980.</p>
 </section>
-<section class="tela s-conc" data-titulo="9% dos SKUs fazem 80%" data-cap="(2) O que os números dizem" data-fala="Francine, você caiu para trás e tinha razão. Mas o número não manda jogar fora 80% do mix: ele mostra onde está o espaço para o que vem depois.">
-  <span class="eb">Concentração</span><h2>O espaço do empório <em>já existe:</em> ele está na cauda</h2>
-  <div class="g"><div>{{lorenz}}</div>
-    <div class="pen">
-      <div><p class="t"><span><b>SKUs:</b> 2.006 de 22.155 fazem 80%</span><span>9,1%</span></p><div class="bx"><i style="width:9.1%"></i></div></div>
-      <div><p class="t"><span><b>Marcas:</b> 32 de 1.470 fazem 80%</span><span>2,2%</span></p><div class="bx"><i style="width:2.2%"></i></div></div>
-      <div><p class="t"><span><b>Marcas pequenas:</b> 924 somam 0,9% da venda</span><span>63%</span></p><div class="bx"><i class="b" style="width:63%"></i></div></div>
-      <div><p class="t"><span><b>Cadastro:</b> 62% dos SKUs sem venda em 13 meses</span><span>32 mil</span></p><div class="bx"><i class="b" style="width:62%"></i></div></div>
-      <div><p class="t"><span><b>Numa loja de 50 a 80 m²:</b> 539 SKUs fazem 80%, de 1.868</span><span>29%</span></p><div class="bx"><i style="width:29%"></i></div></div>
-      <p class="frase">“Vamos descontinuar umas 400 que ninguém vai morrer.”</p><p class="p" style="margin-top:6px">Francine, 29/10. A base mostra que há margem para isso, com regra e sem queima de estoque: a peneira está no capítulo 5.</p>
-    </div></div>
-  <p class="fonte">Fonte: base de vendas (SKUs e marcas: 13 meses; lojas: mediana por faixa de m²; marcas pequenas: menos de R$ 3 mil em 11 meses); Produtos cadastrados, ERP, 07/10/2026.</p>
+<section class="tela s-r4" data-titulo="Razão 4: o espaço já existe" data-cap="(2) Por que vamos" data-etapa="2" data-fala="Não é preciso obra nem loja maior. Olhem os dois quadrados. Nove em cada cem produtos fazem oitenta por cento da venda. O empório cabe no espaço dos que quase não vendem.">
+  <span class="rz"><i>4</i> Razão quatro</span><h2>O espaço do empório <em>já está na loja</em></h2>
+  <div class="g"><div><p class="cap">De cada 100 produtos,<br>estes 9...</p>{{p100sku}}</div><div><p class="cap">...fazem 80 de cada<br>100 reais de venda</p>{{p100venda}}</div>
+    <div class="lista"><div class="bloco"><b>Cabe sem obra.</b> Numa loja de 50 a 80 m², cerca de 540 produtos fazem 80% da venda, de 1.870 em exposição.</div><div class="bloco"><b>Nada de queima.</b> Sai aos poucos, com regra e um a um. Entra e sai é decidido por mês.</div><div class="bloco" style="background:var(--terra);color:var(--iogurte)"><b>E se a cliente sentir falta?</b> O corte respeita os favoritos dela. Quem perde o favorito percebe. Por isso cada saída passa por três perguntas: traz a cliente de volta? Completa a cesta? Tem substituto?</div></div></div>
+  <div class="base"><div><b>Na rede</b>924 marcas somam 0,9% da venda, e 62% do cadastro não vendeu em 13 meses. Francine: “vamos descontinuar umas 400”.</div><div><b>No mercado</b>A Casa Santa Luzia usa 2.200 m² para 30 mil itens. Em 70 m², curadoria não é opção, é o negócio.</div><div><b>Na teoria</b><span>Dá para cortar itens de baixa venda sem a cliente sentir menos variedade (<em>Broniarczyk, Hoyer e McAlister, 1998</em>).</span></div></div>
+  <p class="fonte">Fonte: relatório de vendas (2.006 de 22.155 SKUs; mediana de lojas de 50 a 80 m²); Produtos cadastrados, 07/10/2026; SA+, 20/05/2026; Broniarczyk e outros, JMR, 1998, via fontes secundárias. Há estudo em que cortar sortimento reduziu a venda (Borle e outros, Marketing Science, 2005): por isso o corte passa pelo piloto.</p>
 </section>
-<section id="frequencia" class="tela s-freq" data-titulo="Frequência e tíquete" data-cap="(2) O que os números dizem" data-fala="Aqui concordamos com vocês: venda não é tudo. A Bold tem menos peso em reais, mas o preço por unidade é baixo e o giro é alto. Falta o dado de cupom para provar a frequência.">
-  <span class="eb">Não é só o número</span><h2 style="font-size:44px">Quem traz o cliente de volta <em>não é quem mais fatura</em></h2>
-  <div class="q">
-    <span class="eixo" style="left:18px;top:14px">Preço médio alto: decisão espaçada</span><span class="eixo" style="right:18px;bottom:12px">Muitas unidades: compra frequente</span>
-    <span class="s1" style="left:60px;top:58px">Essential Cacao Whey 30 doses · R$ 489</span>
-    <span class="s1" style="left:90px;top:112px">Essential Crealift · R$ 326</span>
-    <span class="s1" style="left:230px;top:162px">Essential Super Ômega 3 180 · R$ 279</span>
-    <span class="s1" style="left:320px;top:214px">Supercoffee Língua de Gato 380 g · R$ 221</span>
-    <span class="s2" style="left:360px;top:276px">Semente de abóbora a granel · R$ 98/kg</span>
-    <span class="s1" style="left:60px;top:276px">True Magnésio · R$ 236</span>
-    <span class="s2" style="left:90px;top:340px">Castanha de caju a granel · R$ 136/kg</span>
-    <span style="left:520px;top:386px">Pincbar 50 g · R$ 13</span>
-    <span style="left:380px;top:432px">Bold 60 g · R$ 17</span>
-    <span style="left:640px;top:432px">Liquidz 5 g · R$ 9</span>
-    <span style="left:210px;top:484px">Supercoffee 10 g · R$ 10</span>
-  </div>
-  <div class="lat">
-    <div class="c"><div class="bloco"><span class="num" style="font-size:54px">R$ 60</span><p class="p">por unidade em suplemento</p></div><div class="bloco"><span class="num" style="font-size:54px">R$ 18</span><p class="p">por unidade na Bold</p></div></div>
-    <p class="t">A Bold pesa 1,2% do valor e 1,7% das unidades, em 70 das 71 lojas.</p>
-    <p class="p" style="margin-top:8px">Francine trouxe o raciocínio: a barrinha faz o cliente voltar toda semana; o suplemento, em cerca de 40 dias.</p>
-    <p class="t" style="margin-top:16px">Regra do plano</p>
-    <p class="p">Nenhum SKU sai só por venda baixa. Cada corte passa por três perguntas: traz frequência? Completa a cesta? Tem substituto na loja?</p>
-    <p class="t" style="margin-top:16px">O que falta medir</p>
-    <p class="p">A base não tem cupom. Sem ele, a frequência acima é uma pista, não uma prova. Por isso o relatório de cupom está entre os dados pedidos.</p>
-  </div>
-  <p class="fonte">Fonte: base de vendas, valor dividido por quantidade em 13 meses. Posição no quadro: ilustrativa, ordenada por preço médio e unidades.</p>
+<section class="tela s-r5" data-titulo="Razão 5: a prova dentro de casa" data-cap="(2) Por que vamos" data-etapa="2" data-fala="Não é teoria só. Uma loja de 64 metros já faz isso sem ninguém ter pedido. Chocolate de origem, café especial. Se dá certo sem sistema, com sistema pode ir além.">
+  <span class="rz"><i>5</i> Razão cinco</span><h2>Uma loja da rede <em>já está lá</em></h2>
+  <div class="g"><div class="cols"><div><b>1,9%</b>Média da rede<span style="height:50px;background:var(--linho)"></span></div><div><b>2,9%</b>Alphaville<span style="height:80px;background:var(--cap)"></span></div><div><b>6,8%</b>Vila Madalena<span style="height:190px;background:var(--choco)"></span></div><div style="opacity:.7"><b>8%</b>Destino<span style="height:224px;background:repeating-linear-gradient(135deg,var(--acafrao) 0 10px,#e2bd6e 10px 20px)"></span></div></div>
+    <div><p class="lead" style="margin:0">Vila Madalena tem 64 m² e já vende 3,6 vezes a média em empório, com chocolate de origem e café especial. Em tamanho de loja, dá para a rede inteira.</p>
+    <div class="bloco" style="margin-top:14px;font-size:18px;line-height:1.32">Holambra, com público turista, já trabalha Biscoff e Milka. Alphaville quer ampliar empório. <b>Há franqueadas puxando antes do sistema existir.</b></div></div></div>
+  <div class="base"><div><b>Na rede</b>Warabu e Amarelo Café puxam o empório de Vila Madalena.</div><div><b>No mercado</b>Hirota em Casa: 30 a 50 m², cerca de 700 itens, com bebidas, frios e laticínios perto de 50% da receita.</div><div><b>Na teoria</b><span>Toda mudança começa pelos primeiros que aderem, e a rede copia o que vê dar certo (<em>Rogers, 1962</em>).</span></div></div>
+  <p class="fonte">Fonte: relatório de vendas, 11/2025 a 09/2026, classificação de empório da 75 LAB; reunião de 29/10/2026; Giro News, 24/03/2026; Rogers, Diffusion of Innovations, 1962. Vila Madalena: venda total menor que a média de lojas, então o percentual é sinal de caminho, não meta de receita.</p>
 </section>
-<section class="tela s-gou" data-titulo="O gourmet que cresce não é empório" data-cap="(2) O que os números dizem" data-fala="Essa é a maior surpresa. O departamento Gourmet quase triplicou, mas quando abrimos os SKUs, é suplemento em forma de doce. O empório de verdade está parado.">
-  <span class="eb">A surpresa</span><h2>O Gourmet quase triplicou, mas <em>o empório continua parado</em></h2>
-  <div class="g"><div>{{linha}}<p class="p" style="margin-top:4px">Participação na venda da rede, mês a mês. Outubro de 2026 é parcial.</p></div>
-    <div><div class="rec"><h4>Os 7 maiores do departamento Gourmet</h4><ul>
-      <li><span>Hey Mu Doce de Leite Zero 250 g</span><b>R$ 113 mil</b></li>
-      <li><span>Supercoffee Protein Cappuccino 465 g</span><b>R$ 56 mil</b></li>
-      <li><span>Supercoffee Protein Caramelo 465 g</span><b>R$ 46 mil</b></li>
-      <li><span>Essential Coffee Brainstorm 186 g</span><b>R$ 35 mil</b></li>
-      <li><span>Supercoffee Creme de Avelã 380 g</span><b>R$ 33 mil</b></li>
-      <li><span>Supercoffee Creme de Avelã 220 g</span><b>R$ 28 mil</b></li>
-      <li><span>Haoma Biscottino S'mores 34 g</span><b>R$ 20 mil</b></li></ul></div>
-      <div class="res"><b>De agosto a outubro, 47% do Gourmet veio de marcas de suplemento</b>, e só a Caffeine Army fez 38%. É o que Francine descreveu: “tudo na linha do saudável”. O empório real fica em cerca de 1,9%, sem tendência de alta.</div></div></div>
-  <p class="fonte">Fonte: base de vendas por SKU. Empório: classificação da 75 LAB por descrição do produto (massa, azeite, vinho, conserva, chocolate de mesa e similares), excluindo itens de marcas de suplemento e itens com proteína ou sabor apenas. Primeira passada, a validar com compras.</p>
+<section class="tela s-r6" data-titulo="Razão 6: as portas abertas" data-cap="(2) Por que vamos" data-etapa="2" data-fala="Cada categoria tem um motivo próprio. Azeite ficou mais barato e mais desconfiado. Vinho premium sobe. Chocolate tem cacau caindo. Queijo vem crescendo há anos. Curadoria é a resposta em todas.">
+  <span class="rz"><i>6</i> Razão seis</span><h2>O mercado <em>abre portas</em> para quem tem curadoria</h2>
+  <div class="g">
+    <div class="c"><h3>Azeite</h3><div class="vis"><div><b>R$ 100</b><span style="height:70px;background:var(--linho)"></span>antes</div><div><b>R$ 83</b><span style="height:58px;background:var(--oliva)"></span>12 meses depois</div></div><p>O preço caiu 17%, e a fiscalização cresceu: 14 ocorrências em 2025.</p><p class="faz">Procedência vira motivo de compra.</p></div>
+    <div class="c"><h3>Vinho</h3><div class="vis"><div><b>−3%</b><span style="height:26px;background:var(--linho)"></span>preço de entrada</div><div><b>+10%</b><span style="height:78px;background:var(--choco)"></span>preço do premium</div></div><p>R$ 21,1 bi em 2025. Abaixo de R$ 30, mercado domina.</p><p class="faz">Entrar de R$ 50 para cima, com poucos rótulos.</p></div>
+    <div class="c"><h3>Chocolate</h3><div class="vis"><div><b>R$ 1.100</b><span style="height:62px;background:var(--linho)"></span>antes</div><div><b>R$ 330</b><span style="height:20px;background:var(--terra)"></span>em 2026</div></div><p>A arroba do cacau caiu, e a importação de chocolate somou US$ 227 mi em 2025.</p><p class="faz">Maior bloco da rede: origem e importado.</p></div>
+    <div class="c"><h3>Queijo</h3><div class="vis"><div><b>5,7 kg</b><span style="height:60px;background:var(--linho)"></span>por pessoa, 2017</div><div><b>7,3 kg</b><span style="height:78px;background:var(--acafrao)"></span>hoje</div></div><p>Grandes grupos compram marcas finas. Exige frio e giro.</p><p class="faz">Depois, só na geladeira que já existe.</p></div>
+  </div>
+  <div class="base"><div><b>Na rede</b>Empório real hoje: chocolates R$ 519 mil, massas R$ 179 mil, azeites R$ 167 mil em 13 meses.</div><div><b>No mercado</b>Não achamos dado confiável para massas, molhos e conservas premium. Aí, só o piloto responde.</div><div><b>Na teoria</b><span>Em cada ocasião, a marca que vem à cabeça leva a compra (<em>Romaniuk e Sharp, 2016</em>).</span></div></div>
+  <p class="fonte">Fonte: Apas/Fipe (InfoPrice, 19/08/2026); Forbes Agro, 30/10/2026; Bloomberg Línea, 12/03/2026; Agas (A Vindima, 09/05/2025); Agência Brasil, 07/2026; Abiq e MilkPoint, 28/07/2026; relatório de vendas. Não encontramos fonte para a tese de que vinho e queijo sofreram menos: tratamos como hipótese.</p>
 </section>
-<section class="tela s-emp" data-titulo="O empório hoje, em reais" data-cap="(2) O que os números dizem" data-fala="Vejam o tamanho de cada prateleira. Vinho não chega a R$ 13 mil em 13 meses. Mas o cadastro já tem La Pastina, De Cecco, Lindt, sem venda nas 71 lojas. E Vila Madalena mostra que chocolate de origem vende em loja pequena.">
-  <span class="eb">O ponto de partida</span><h2 style="font-size:44px">A rede vende <em>R$ 1,5 milhão</em> de empório em 13 meses, quase tudo sem curadoria</h2>
-  <div class="prat">
-    <div><span>Chocolates e doces finos</span><i style="width:100%"></i><b>R$ 519 mil</b></div>
-    <div><span>Geleias e mel</span><i style="width:38.8%"></i><b>R$ 201 mil</b></div>
-    <div><span>Massas e risotos</span><i style="width:34.6%"></i><b>R$ 179 mil</b></div>
-    <div><span>Azeites e vinagres</span><i style="width:32.2%"></i><b>R$ 167 mil</b></div>
-    <div><span>Molhos e condimentos</span><i style="width:28.9%"></i><b>R$ 150 mil</b></div>
-    <div><span>Cafés especiais</span><i style="width:19.4%"></i><b>R$ 101 mil</b></div>
-    <div><span>Temperos e especiarias</span><i style="width:14.6%"></i><b>R$ 75 mil</b></div>
-    <div><span>Queijos (quase tudo ghee)</span><i style="width:7.8%"></i><b>R$ 41 mil</b></div>
-    <div><span>Conservas e antepastos</span><i style="width:7.7%"></i><b>R$ 40 mil</b></div>
-    <div><span>Vinhos e espumantes</span><i style="width:2.4%"></i><b>R$ 12 mil</b></div>
+<section class="tela s-hip" data-titulo="O que ainda precisa ser testado" data-cap="(2) Por que vamos" data-etapa="2" data-fala="Sendo honesto: não encontramos nenhuma rede de saudáveis que tenha feito esse movimento e publicado o resultado. Por isso a viagem tem uma parada de teste antes de ir para a rede inteira.">
+  <span class="eb">Com os pés no chão</span><h2>Ninguém publicou esse caminho. <em>Por isso testamos antes</em></h2>
+  <div class="g">
+    <div class="c" style="background:var(--aveia)"><h3>O que ainda é hipótese</h3><ul><li>A cliente compra empório na mesma visita?</li><li>Quanto é venda nova e quanto sai de outro produto?</li><li>O módulo paga o espaço que ocupa?</li><li>A margem é melhor que a da loja?</li></ul></div>
+    <div class="sta"><svg><use href="#i-seta"/></svg></div>
+    <div class="c" style="background:var(--oliva);color:#fff"><h3>Como responder</h3><ul style="border-color:rgba(255,255,255,.2)"><li>Duas lojas, por 12 semanas</li><li>Cada uma com uma loja-espelho, que não muda nada</li><li>Critério de decisão escrito antes de começar</li><li>Só então a rede inteira</li></ul></div>
   </div>
-  <div class="lat">
-    <div class="bloco"><span class="t">Já está no cadastro, sem venda nas 71 lojas</span><div class="tag"><span>La Pastina · 30 SKUs</span><span>De Cecco · 10</span><span>Lindt · 9</span><span>Ritter · 14</span><span>Lotus Biscoff · 5</span><span>Mutti · 4</span><span>Andorinha · 5</span><span>Miolo · 4</span><span>Salton · 3</span></div><p class="p" style="margin-top:8px">Holambra trabalha Biscoff e Milka, mas não está na base: mais um motivo para pedir essas lojas.</p></div>
-    <div class="bloco" style="background:var(--terra);color:var(--iogurte)"><span class="num" style="font-size:66px;color:var(--acafrao)">6,8%</span><p style="font-size:18px;line-height:1.32;margin-top:6px">é o empório em <b>Vila Madalena</b>, 3,6 vezes a média. A loja tem 64 m² e vende chocolate de origem (Warabu) e café especial (Amarelo). A prova interna de que curadoria vende em loja pequena.</p></div>
-    <div class="bloco" style="background:var(--matcha)"><span class="t">Pouca loja, pouca venda</span><p class="p" style="color:var(--terra)">Vinho vendeu em 28 das 71 lojas. As marcas homologadas nos guias (Jolimont, Amitié) não chegaram à rede.</p></div>
-  </div>
-  <p class="fonte">Fonte: base de vendas, 13 meses; Produtos cadastrados, ERP, 07/10/2026; guia Dia dos Namorados; reunião de 29/10/2026. Classificação de empório da 75 LAB, primeira passada.</p>
-</section>
-<section class="tela s-gr" data-titulo="Granel: forte no Sul, fraco no Sudeste" data-cap="(2) O que os números dizem" data-fala="Francine disse: o granel não é para todos. Os dados concordam, e mostram onde ainda há espaço. Se as 15 lojas abaixo de 15% chegassem à mediana da rede, seriam R$ 169 mil a mais por mês.">
-  <span class="eb">Granel</span><h2>O granel não perdeu no Sul: ele <em>nunca chegou ao Sudeste</em></h2>
-  <div class="tubos">
-    <div class="tb so"><div class="v"><i style="height:62%"></i></div><b>26,8%</b><span>RS · 31 lojas</span></div>
-    <div class="tb so"><div class="v"><i style="height:61%"></i></div><b>26,4%</b><span>SC · 14 lojas</span></div>
-    <div class="tb so"><div class="v"><i style="height:61%"></i></div><b>26,4%</b><span>TO · 3 lojas</span></div>
-    <div class="tb"><div class="v"><i style="height:54%"></i></div><b>23,4%</b><span>PB · 1 loja</span></div>
-    <div class="tb"><div class="v"><i style="height:40%"></i></div><b>17,5%</b><span>RR · 1 loja</span></div>
-    <div class="tb su"><div class="v"><i style="height:33%"></i></div><b>14,1%</b><span>PR · 4 lojas</span></div>
-    <div class="tb su"><div class="v"><i style="height:31%"></i></div><b>13,4%</b><span>MT · 2 lojas</span></div>
-    <div class="tb su"><div class="v"><i style="height:29%"></i></div><b>12,5%</b><span>AM · 2 lojas</span></div>
-    <div class="tb su"><div class="v"><i style="height:28%"></i></div><b>12,0%</b><span>RJ · 3 lojas</span></div>
-    <div class="tb su"><div class="v"><i style="height:27%"></i></div><b>11,8%</b><span>SP · 6 lojas</span></div>
-    <div class="tb su"><div class="v"><i style="height:22%"></i></div><b>9,6%</b><span>CE · 2 lojas</span></div>
-    <div class="tb su"><div class="v"><i style="height:13%"></i></div><b>5,6%</b><span>ES · 2 lojas</span></div>
-  </div>
-  <div class="pe">
-    <div class="bloco"><div class="t">Uma compra que se repete</div><p class="p">Semente de abóbora, caju e castanha-do-brasil estão entre os 3 maiores itens da rede inteira. Só 205 de 2.128 itens fazem 80% do granel.</p></div>
-    <div class="bloco"><div class="t">A diferença é regional</div><p class="p">De 62% em Sobradinho a 0% em Vila Velha. No RS e em SC o granel já é motor; proteger é a tarefa. Nas outras praças, testar.</p></div>
-    <div class="bloco" style="background:var(--terra);color:var(--iogurte)"><div class="t">R$ 169 mil por mês</div><p style="font-size:17px;line-height:1.36;opacity:.9">É o que as 15 lojas abaixo de 15% somariam se chegassem à mediana de 19,7%. Simulação, considerando venda adicional.</p></div>
-  </div>
-  <p class="fonte">Fonte: base de vendas, 11/2025 a 09/2026, participação de A GRANEL por estado. Estados conforme Presença de Lojas por Estado. Simulação da 75 LAB: não desconta troca entre categorias.</p>
+  <div class="base"><div><b>Na rede</b>O projeto aprovado já prevê a loja piloto antes de escalar.</div><div><b>No mercado</b>A Kohl's testou mudanças em 100 lojas antes de decidir, com grupo de comparação.</div><div><b>Na teoria</b><span>Decidir por experimento, não por opinião (<em>Thomke e Manzi, 2014; Anderson e Simester, 2011</em>).</span></div></div>
+  <p class="fonte">Fonte: Estratégia Completa Divina Navegação, seção 4.5; Thomke e Manzi, HBR, 2014; Anderson e Simester, HBR, 2011; pesquisa de mercado da 75 LAB, 03/11/2026, sem caso publicado de rede de saudáveis que tenha adicionado empório.</p>
 </section>
