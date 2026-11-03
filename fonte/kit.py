@@ -241,8 +241,39 @@ for i,(a_,b_) in enumerate([('Receita','Os 8 passos, quem faz e a base de cada u
     ws.cell(row=i,column=1,value=a_).font=Font(bold=True,color=TER);ws.cell(row=i,column=1).hyperlink=f"#'{a_}'!A1";ws.cell(row=i,column=2,value=b_)
 ws.cell(row=26,column=1,value='Novas abas').font=Font(bold=True,color=CHO)
 
+# planogramas P, M e G, custo por ponto e marcas (v2)
+import plano_html as PH_,novas as N_
+_r=PH_.dados()
+for T_ in 'PMG':
+    lin=[]
+    for c_ in N_.ORD:
+        cc=_r[T_]['cats'].get(c_)
+        if not cc: continue
+        if 'niveis' in cc:
+            nuc=PH_.nucleo(_r,c_)
+            for x in PH_.relatorio(cc,{},nuc):
+                lin.append([c_,N_.MOT[c_],x['mod'],x['niv'],PH_.NIV[x['niv']],x['pos'],x['sub'],x['sku'],x['nome'],x['marca'],x['fr'],x['cap'],x['larg'],x['cl'],x['pmin'],x['pmax'],x['pm']])
+        else:
+            for i_,tb in enumerate(cc['tubos'],1): lin.append([c_,'Granel',(i_-1)//7+1,None,'Tubo',i_,tb['fam'],tb['sku'],tb['desc'],'A granel',1,None,None,'Núcleo' if i_<=20 else 'Lista',tb.get('pmin'),tb.get('pmax'),None])
+    aba(f'Planograma {T_}',f'Planograma da loja {T_}: {N_.TAMN[T_]}, {int(sum(_r[T_]["modulos"].values()))} módulos','Relatório de posições de toda a loja, por categoria. Níveis de 1 (alto) a 6 (baixo). Capacidade: frentes × 6, a confirmar. Largura em cm, estimada pelo peso e formato: a trena fecha. Faixa de preço: do preço pago por loja e mês, de 25% a 90%, a calibrar com custo e pesquisa.',['Categoria','Motor','Módulo','Nível','Altura','Posição','Subcategoria','SKU','Produto','Marca','Frentes','Capacidade','Largura cm','Classe','Preço mín. R$','Preço máx. R$','Médio pago R$'],lin,[18,11,8,7,8,8,22,9,52,20,8,10,9,9,10,10,10],fmt={15:'#,##0.00',16:'#,##0.00',17:'#,##0.00'})
+_q={T_:N_.quant(_r,T_) for T_ in 'PMG'};lin=[]
+for nm,ds,a_,b_,fq,ic_,ver in N_.PONTOS:
+    lin.append([nm,ds,a_,b_,ver]+[fq(_q[T_]) for T_ in 'PMG'])
+ws=aba('Custo por ponto','Custo por ponto da loja','Estimativa de referência da 75 LAB, antes de cotação, baixa tiragem, sem frete, instalação e móveis. Troque os custos pelas cotações. Quantidades vêm dos planogramas.',['Ponto','O que é','Custo mínimo R$','Custo máximo R$','Verba de marca?','Qtd. P','Qtd. M','Qtd. G','P mín','P máx','M mín','M máx','G mín','G máx'],lin,[26,44,11,11,14,7,7,7,10,10,10,10,10,10],fmt={3:'#,##0.00',4:'#,##0.00'})
+for i_ in range(5,5+len(lin)):
+    for k_,(cq,col) in enumerate((('F','I'),('F','J'),('G','K'),('G','L'),('H','M'),('H','N'))):
+        lim='C' if k_%2==0 else 'D';ws[f'{col}{i_}']=f'={cq}{i_}*{lim}{i_}';ws[f'{col}{i_}'].number_format='#,##0'
+fim=5+len(lin);ws[f'A{fim}']='Total por loja';ws[f'A{fim}'].font=Font(bold=True)
+for col in 'IJKLMN': ws[f'{col}{fim}']=f'=SUM({col}5:{col}{fim-1})';ws[f'{col}{fim}'].font=Font(bold=True);ws[f'{col}{fim}'].number_format='#,##0'
+_m=json.loads(pathlib.Path('analise/marcas_alta.json').read_text()) if 'json' in globals() else __import__('json').loads(pathlib.Path('analise/marcas_alta.json').read_text())
+aba('Decisão por marca','Marcas: em alta, lacunas e decisão','18 linhas em ordem de prioridade. Venda nas mesmas lojas. Nenhuma marca foi contatada.',['#','Marca ou tipo','Categoria','Motor','Situação na rede','Venda na rede','Mercado','Decisão','Cuidado'],[[int(x['prioridade']),x['marcaOuTipo'],x['categoria'],x['motor'],x['situacao'],x['dadoInterno'],x['evidenciaExterna'],x['acao'],x['risco']] for x in _m['recomendacoes']],[5,34,18,12,28,42,42,14,44])
+aba('Evidências de mercado','Evidências de mercado, com fonte','Cada linha tem a página de origem. Números de empresa costumam vir da própria empresa: veja o tipo de evidência.',['Categoria','Marca ou movimento','Evidência','Tipo','Data','Veículo','Link'],[[x.get('categoria'),x.get('marcaOuMovimento'),x.get('evidencia'),x.get('tipoEvidencia'),(x.get('fonte') or {}).get('data'),(x.get('fonte') or {}).get('veiculo'),(x.get('fonte') or {}).get('url')] for x in _m['emAltaMercado']['evidencias']],[20,26,60,22,11,24,50])
+ws=wb['Leia-me'];ws.cell(row=27,column=1,value='Planograma P, M e G').font=Font(bold=True,color=TER);ws.cell(row=27,column=2,value='Todas as categorias, posição por posição, com SKU, frentes e capacidade')
+ws.cell(row=28,column=1,value='Custo por ponto').font=Font(bold=True,color=TER);ws.cell(row=28,column=2,value='Quantidade e custo de cada ponto por tamanho de loja, com fórmulas')
+ws.cell(row=29,column=1,value='Decisão por marca').font=Font(bold=True,color=TER);ws.cell(row=29,column=2,value='Em alta, lacunas e o que fazer, com as evidências na aba seguinte')
+
 pathlib.Path('kit').mkdir(exist_ok=True)
-out='kit/Divina-Terra-Kit-de-Execucao-do-Piloto-v1.xlsx';wb.save(out)
+out='kit/Divina-Terra-Kit-de-Execucao-do-Piloto-v2.xlsx';wb.save(out)
 print(out,pathlib.Path(out).stat().st_size//1024,'KB',wb.sheetnames)
 # confere travessão
 bad=0

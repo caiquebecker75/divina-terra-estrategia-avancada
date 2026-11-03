@@ -17,11 +17,11 @@ const res=await pg.evaluate(async()=>{
     const mede=()=>{const r0=c.getBoundingClientRect();let h=0,w=0;for(const e of c.querySelectorAll('*')){if(e.closest('svg')&&e.tagName!=='svg')continue;const s=getComputedStyle(e);if(s.display==='none'||s.visibility==='hidden')continue;if(e.offsetParent===null&&s.position!=='fixed')continue;const r=e.getBoundingClientRect();if(!r.width)continue;h=Math.max(h,r.bottom-r0.top);w=Math.max(w,r.right-r0.left);const sc=e.scrollWidth-e.clientWidth;}
       return {h,w};};
     const estados=(g&&!g.hasAttribute('data-sem-pdf'))?bts.map(x=>x.dataset.k):[null];
-    const poe=z=>{c.style.zoom=z;c.style.width=(1488/z)+'px';c.style.left=(56/z)+'px';c.style.top=(78/z)+'px';};const cabe=z=>{poe(z);let ok=true,hm=0;for(const k of estados){if(k)g.__abre(k);const m=mede();hm=Math.max(hm,m.h);if(m.h>lim||m.w>1488+2)ok=false;}return {ok,hm};};
-    let lo=.78,hi=1.38,best=.78;for(let n=0;n<7;n++){const mid=(lo+hi)/2;if(cabe(mid).ok){best=mid;lo=mid;}else hi=mid;}
+    const poe=z=>{c.style.zoom=z;c.style.width=(1280/z)+'px';c.style.left=(160/z)+'px';c.style.top=(78/z)+'px';};const cabe=z=>{poe(z);let ok=true,hm=0;for(const k of estados){if(k)g.__abre(k);const m=mede();hm=Math.max(hm,m.h);if(m.h>lim||m.w>1280+2)ok=false;}return {ok,hm};};
+    let lo=.66,hi=.87,best=.66;for(let n=0;n<7;n++){const mid=(lo+hi)/2;if(cabe(mid).ok){best=mid;lo=mid;}else hi=mid;}
     best=Math.floor(best*100)/100;const f=cabe(best);const sobra=Math.max(0,lim-f.hm);
     if(on&&g)g.__abre(on);poe(best);
-    out[i+1]=[best,Math.round(sobra*.42)];t.classList.remove('ativa');
+    out[i+1]=[best,Math.round(sobra/2)];t.classList.remove('ativa');
   }
   return out;});
 writeFileSync(new URL('zoom.json',import.meta.url),JSON.stringify(res));

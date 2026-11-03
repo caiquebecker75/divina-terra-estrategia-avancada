@@ -9,7 +9,7 @@
   const total=telas.length, dd=n=>String(n).padStart(2,'0');
   telas.forEach(t=>{const m=document.createElement('div');m.className='miolo';const semCorpo=t.classList.contains('s-cap')||t.classList.contains('s-capa');const c=document.createElement('div');c.className='corpo';
     [...t.childNodes].forEach(n=>{if(n.nodeType===1&&n.classList.contains('sangra'))return;if(semCorpo||(n.nodeType===1&&n.classList.contains('fonte')))m.appendChild(n);else c.appendChild(n);});
-    if(!semCorpo){m.insertBefore(c,m.firstChild);const z=+t.dataset.z||1,y=+t.dataset.y||0;c.style.zoom=z;c.style.width=(1488/z)+'px';c.style.left=(56/z)+'px';c.style.top=((78+y)/z)+'px';}t.appendChild(m);});
+    if(!semCorpo){m.insertBefore(c,m.firstChild);const z=+t.dataset.z||.86,y=+t.dataset.y||0;c.style.zoom=z;c.style.width=(1280/z)+'px';c.style.left=(160/z)+'px';c.style.top=((78+y)/z)+'px';}t.appendChild(m);});
   function escala(){stage.style.transform='scale('+Math.min(innerWidth/1600,innerHeight/900)+')';}
   addEventListener('resize',escala);escala();
   function contar(el){

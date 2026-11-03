@@ -231,7 +231,7 @@ def mapa_br():
         if n:o+=f'<text x="{x*s+s/2}" y="{y*s+s/2+15}" text-anchor="middle" font-size="19" font-weight="600" fill="#fff">{n}</text>'
         o+='</g>';k+=1
     return o+'</svg>'
-CURVAS={'far':('Farmácia',[4,5,3,2,2,1,1],C['lin']),'mer':('Supermercado premium',[3,4,5,1,2,4,3],C['oli']),'net':('Internet',[5,5,5,1,1,1,1],C['cap']),'hoje':('Divina Terra hoje',[2,3,3,5,5,2,3],C['pap']),'dest':('Divina Terra no destino',[3,3,3,5,5,4,5],C['cho'])}
+CURVAS={'far':('Farmácia',[4,5,3,2,2,1,1],C['lin']),'mer':('Supermercado premium',[3,4,5,1,2,4,3],C['oli']),'net':('Internet',[5,5,5,1,1,1,1],C['cap']),'hoje':('Divina Terra hoje',[2,3,3,5,5,2,3],C['pap']),'dest':('Divina Terra em 2028',[3,3,3,5,5,4,5],C['cho'])}
 EIX=['Preço baixo','Conveniência','Variedade','Explicação','Curadoria de saúde','Curadoria de prazer','Experiência na loja']
 def canvas(ativos,cor=True):
     W,H=1000,400;x0,y0=44,20;pw,ph=W-x0-30,H-y0-70;X=lambda i:x0+i*pw/6;Y=lambda v:y0+ph-(v-1)/4*ph
