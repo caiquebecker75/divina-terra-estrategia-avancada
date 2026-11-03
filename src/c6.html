@@ -1,0 +1,199 @@
+<style>
+.s-med .g{display:grid;grid-template-columns:600px 1fr;gap:36px;margin-top:16px}
+.s-med .des{background:var(--aveia);border-radius:16px;padding:18px;position:relative}
+.s-med .barras div{margin-bottom:11px}.s-med .barras span{font-size:16.5px;display:flex;justify-content:space-between}.s-med .barras i{display:block;height:20px;background:var(--choco);border-radius:5px;margin-top:3px}.s-med .barras i.b{background:var(--linho)}
+.s-reg .gr5{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}.s-reg .r{background:var(--terra);color:var(--iogurte);border-radius:12px;padding:11px 12px;font-size:15.5px;line-height:1.24}.s-reg .r b{font:400 26px var(--serif);color:var(--acafrao);display:block}
+.s-reg .oar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.s-reg .oar>div{border-radius:14px;padding:13px 15px;min-height:270px}.s-reg h3{font-size:27px}.s-reg .oar small{font-size:14.5px;display:block;margin-bottom:5px}.s-reg .oar li{list-style:none;font-size:15.5px;line-height:1.22;padding:4px 0;border-top:1px solid rgba(70,29,23,.14)}
+.s-sis [data-abas]{display:grid;grid-template-columns:600px 1fr;gap:30px;margin-top:12px}
+.grade{border-collapse:separate;border-spacing:5px;width:100%}.grade th{font-size:15.5px;font-weight:600;text-align:left;padding:2px 4px}.grade td button{width:100%;height:76px;border-radius:12px;background:var(--aveia);font:400 34px var(--serif)}.grade td button.on{background:var(--choco);color:#fff}
+.s-sis .parede{display:grid;gap:3px;background:var(--terra);padding:7px;border-radius:9px;margin-top:2px}.s-sis .parede i{display:block;height:62px;border-radius:3px}.s-sis .parede.tP{grid-template-columns:repeat(14,1fr)}.s-sis .parede.tM{grid-template-columns:repeat(14,1fr)}.s-sis .parede.tG{grid-template-columns:repeat(13,1fr)}.s-sis .parede.tGG{grid-template-columns:repeat(18,1fr)}.s-sis .parede.tGG i{height:50px}
+.s-sis .leg{list-style:none;display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:12px;font-size:16px}.s-sis .leg i{display:inline-block;width:15px;height:15px;border-radius:4px;margin-right:6px;vertical-align:-2px}
+.s-sis .infos{display:grid;grid-template-columns:130px 1fr;gap:16px;margin-top:14px;align-items:center}.s-sis .infos .num{font-size:66px;color:var(--choco);display:block}.s-sis .infos small{font-size:14.5px;color:var(--cinza)}
+.s-emo [data-abas]{display:grid;grid-template-columns:360px 1fr;gap:24px;margin-top:12px}.s-emo .abas{display:flex;flex-direction:column;gap:7px}.s-emo .aba{background:var(--aveia);border-radius:12px;padding:10px 14px;text-align:left}.s-emo .aba.on{background:var(--choco);color:#fff}.s-emo .aba b{font:400 25px var(--serif);display:block}.s-emo .aba span{font-size:14.5px;line-height:1.22;display:block}
+.mods{display:flex;gap:7px;justify-content:flex-start}.mod{height:470px;width:auto;flex:none}
+.s-apl [data-abas]{margin-top:8px}.s-apl .abas{display:flex;gap:6px}.s-apl .aba{background:var(--aveia);border-radius:99px;padding:8px 18px;font-weight:600}.s-apl .aba.on{background:var(--choco);color:#fff}
+.s-apl .painel.on{display:grid;grid-template-columns:1fr 340px;gap:20px;margin-top:10px}
+.s-apl .gond{background:var(--terra);border-radius:10px;padding:8px}.s-apl .niv{display:grid;grid-template-columns:128px repeat(5,1fr);gap:5px;margin-bottom:6px;padding-bottom:6px;border-bottom:4px solid var(--linho)}.s-apl .niv:last-child{margin:0;border:0;padding:0}.s-apl .niv span{background:var(--iogurte);border-radius:5px;padding:5px 6px;font-size:12.5px;line-height:1.12;min-height:74px;display:flex;flex-direction:column;justify-content:space-between}.s-apl .niv span b{font-size:13px;color:var(--choco)}.s-apl .niv .lb{background:none;color:var(--iogurte);font-weight:600;font-size:14px;justify-content:center;line-height:1.15}.s-apl .niv .lb small{font-weight:400;font-size:12px;opacity:.8}
+.s-apl .niv.olho span:not(.lb){background:#fff5dc}
+.s-fic .g{display:grid;grid-template-columns:760px 1fr;gap:26px;margin-top:14px}
+.s-fic .fic{background:#fff;border-radius:8px;box-shadow:0 10px 30px rgba(70,29,23,.1);padding:18px;position:relative;height:500px}
+.s-fic .fic .cab{display:flex;justify-content:space-between;background:var(--terra);color:var(--iogurte);border-radius:6px;padding:8px 12px;font-size:15px}.s-fic .fic svg.mod{height:372px;margin:10px 0 0 150px}
+.s-fic .n{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--paprica);color:#fff;font-size:14px;font-weight:600;display:grid;place-items:center}
+.s-fic .lst{display:grid;gap:7px;font-size:16px;line-height:1.24}.s-fic .lst div{display:grid;grid-template-columns:26px 1fr;gap:9px}.s-fic .lst b.c{width:26px;height:26px;border-radius:50%;background:var(--paprica);color:#fff;font-size:14px;display:grid;place-items:center;font-weight:600}
+.s-fic .prot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}.s-fic .prot div{background:var(--aveia);border-radius:11px;padding:10px;font-size:14.5px;line-height:1.22}.s-fic .prot b{display:block;font-size:15.5px}
+.s-pla [data-abas]{margin-top:8px}.s-pla .abas{display:flex;gap:6px;align-items:center}.s-pla .aba{background:var(--aveia);border-radius:99px;padding:8px 18px;font-weight:600}.s-pla .aba.on{background:var(--choco);color:#fff}
+.s-pla svg.plan{width:100%;margin-top:8px}.s-pla .nts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}.s-pla .nts div{background:var(--aveia);border-radius:11px;padding:9px 12px;font-size:15px;line-height:1.24}.s-pla .nts b{display:block;font-size:16px}
+.s-bib .g{display:grid;grid-template-columns:repeat(12,1fr);gap:11px;margin-top:14px}.s-bib .pc{background:var(--aveia);border-radius:13px;padding:11px;display:flex;flex-direction:column;justify-content:space-between;gap:7px;height:172px}.s-bib .pc small{font-size:13.5px;line-height:1.2;color:var(--cinza)}.s-bib .pc small b{color:var(--terra);display:block;font-size:15px}
+.tst{background:var(--terra);color:var(--iogurte);padding:9px 14px;border-radius:5px;font:400 28px var(--serif)}
+.fx{background:var(--choco);color:#fff;padding:6px 12px;border-radius:4px;font-size:18px;font-weight:600}.fx2{background:var(--aveia);box-shadow:inset 0 0 0 2px var(--linho);padding:5px 12px;border-radius:4px;font-size:15px;font-weight:600;background:#fff}
+.rgu{background:#fff;padding:6px 10px;border-radius:4px;font-size:13.5px;line-height:1.15;border-left:6px solid var(--oliva)}
+.stp{width:96px;height:96px;border-radius:50%;background:var(--acafrao);color:var(--terra);display:grid;place-items:center;text-align:center;font-weight:600;font-size:14.5px;line-height:1.05;align-self:center}
+.etq2{background:#fff;border-radius:4px;padding:6px 9px;width:152px;font-size:12px;line-height:1.12;box-shadow:0 3px 9px rgba(70,29,23,.18);align-self:center}.etq2 b{font:400 26px var(--serif);color:var(--choco);display:block}
+.ben{background:var(--matcha);border-radius:99px;padding:5px 13px;font-size:15px;font-weight:600;align-self:flex-start}.lan{background:var(--paprica);color:#fff;border-radius:4px;padding:5px 12px;font-weight:600;font-size:15px;align-self:flex-start}.des{background:var(--terra);color:var(--acafrao);border-radius:4px;padding:5px 12px;font:italic 400 18px var(--serif);align-self:flex-start}.crs{background:#fff;border-radius:6px;padding:6px 11px;font-size:14px;line-height:1.16;box-shadow:inset 0 0 0 2px var(--cap)}
+.s-bib .pode{grid-column:span 12;display:grid;grid-template-columns:1fr 1fr;gap:10px}.s-bib .pode div{border-radius:12px;padding:10px 15px;font-size:16px;line-height:1.26}
+.s-sim2 .g{display:grid;grid-template-columns:490px 1fr;gap:32px;margin-top:12px}
+.comparador{--p:20%;position:relative;width:490px;height:610px;border-radius:12px;overflow:hidden;touch-action:none;background:var(--aveia)}.comparador img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.comparador .dep{position:absolute;inset:0;clip-path:inset(0 0 0 var(--p))}.comparador .fio{position:absolute;top:0;bottom:0;left:var(--p);width:4px;margin-left:-2px;background:var(--iogurte)}.comparador .fio:after{content:"";position:absolute;left:50%;top:50%;width:36px;height:36px;margin:-18px;border-radius:50%;background:var(--iogurte);box-shadow:0 0 0 3px var(--terra)}
+.comparador .sig{position:absolute;left:0;right:0}.comparador .tgt{top:8px;background:var(--terra);color:var(--iogurte);font:400 32px var(--serif);text-align:center;padding:7px}.comparador .sb{background:var(--choco);color:#fff;font-size:15px;font-weight:600;padding:3px 10px;left:6%;right:6%;border-radius:3px;text-align:center}
+.comparador .rt{position:absolute;top:60px;font-size:13px;font-weight:600;background:var(--iogurte);border-radius:99px;padding:3px 10px}
+.s-sim2 .lst{display:grid;gap:9px}.s-sim2 .lst .bloco{padding:13px 16px}
+.s-calm .mes{display:grid;grid-template-columns:repeat(12,1fr);gap:5px;margin-top:14px}.s-calm .mes>div{border-radius:10px;min-height:370px;display:flex;flex-direction:column;gap:5px;background:var(--aveia);padding:7px}.s-calm .mes h5{font:400 19px var(--serif);text-align:center}.s-calm .it{border-radius:6px;padding:6px 6px;font-size:13px;line-height:1.14;font-weight:500}.s-calm .i1{background:var(--choco);color:#fff}.s-calm .i2{background:var(--oliva);color:#fff}.s-calm .i3{background:var(--acafrao);color:var(--terra)}.s-calm .i4{background:#fff}
+.s-calm .leg{display:flex;gap:16px;font-size:15px;margin-top:9px;flex-wrap:wrap}.s-calm .leg i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px}
+</style>
+<section id="c6" class="tela s-cap" data-titulo="Capítulo 6" data-cap="(6) Divina Logic e loja" data-capitulo="6">
+  <div class="lado"><img src="assets/logos/dt-icone-claro.svg" alt=""><span class="num">6</span></div>
+  <div class="dir"><h2>Divina Logic e loja</h2><p>O “sisteminha” que Francine pediu: a mesma lógica em qualquer loja, sem fazer um planograma para cada uma.</p><ul><li><b>A</b>A regra de medida e a matriz obrigatório, adaptável, recomendado</li><li><b>B</b>Os 12 quadros e os planogramas aplicados</li><li><b>C</b>O mapa de Pinheiros, a sinalização e o calendário</li></ul><trilha k="6"></trilha></div>
+</section>
+<section class="tela s-med" data-titulo="Conte módulos, não metros quadrados" data-cap="(6) Divina Logic e loja" data-fala="Lemos as dez plantas e descobrimos que metro quadrado engana. Perdizes tem mais parede que Blumenau com metade da área. O sistema mede em módulos, e as lojas já têm um módulo-base de 90 centímetros.">
+  <span class="eb">A régua do sistema</span><h2 style="font-size:44px">Metro quadrado engana. <em>O sistema conta módulos</em></h2>
+  <div class="g"><div class="des"><svg viewBox="0 0 560 480" width="100%"><g font-family="General Sans" fill="#461D17"><rect x="40" y="40" width="150" height="400" rx="4" fill="#7C381F"/><rect x="40" y="40" width="150" height="34" fill="#461D17"/><text x="115" y="63" text-anchor="middle" font-size="15" fill="#F7F5F1">Testeira</text>
+  <g fill="#BCAD99"><rect x="46" y="130" width="138" height="5"/><rect x="46" y="185" width="138" height="5"/><rect x="46" y="240" width="138" height="5"/><rect x="46" y="295" width="138" height="5"/><rect x="46" y="350" width="138" height="5"/><rect x="46" y="405" width="138" height="5"/></g>
+  <rect x="46" y="190" width="138" height="50" fill="#CA942A" opacity=".55"/><text x="115" y="220" text-anchor="middle" font-size="14" fill="#fff" font-weight="600">Nível dos olhos</text>
+  <text x="115" y="462" text-anchor="middle" font-size="16" font-weight="600">Módulo de parede</text><text x="115" y="30" text-anchor="middle" font-size="15">0,90 m</text>
+  <text x="14" y="245" font-size="15" transform="rotate(-90 14 245)" text-anchor="middle">2,30 a 2,50 m</text>
+  <rect x="270" y="255" width="260" height="185" rx="4" fill="#E5DDD1" stroke="#7C381F" stroke-width="4"/><g fill="#BCAD99"><rect x="275" y="300" width="250" height="5"/><rect x="275" y="345" width="250" height="5"/><rect x="275" y="390" width="250" height="5"/></g><line x1="356" x2="356" y1="255" y2="440" stroke="#BCAD99" stroke-width="3"/><line x1="443" x2="443" y1="255" y2="440" stroke="#BCAD99" stroke-width="3"/>
+  <text x="400" y="462" text-anchor="middle" font-size="16" font-weight="600">Gôndola central</text><text x="400" y="244" text-anchor="middle" font-size="15">1,80 × 0,80 ou 1,60 × 0,60 m, altura 1,33 m</text>
+  <text x="270" y="60" font-size="17" font-weight="600">Módulo-base que se repete</text><text x="270" y="88" font-size="15.5">6 níveis, 0,35 a 0,42 m de fundo</text><text x="270" y="112" font-size="15.5">Canela, Perdizes, Moinhos, Londrina,</text><text x="270" y="134" font-size="15.5">Campos, Blumenau, Vila Madalena</text><text x="270" y="166" font-size="15.5">Gôndola: 4 níveis por face, 3 vãos</text><text x="270" y="190" font-size="15.5">Vidro pesa: conferir flecha do MDF</text></g></svg></div>
+  <div class="barras"><p class="t" style="margin-bottom:9px">Parede alta em metros: área não prevê o conjunto</p>
+    <div><span><b>Perdizes · 58 m²</b><b>22,35 m</b></span><i style="width:79%"></i></div>
+    <div><span><b>Canela · 51 m²</b><b>7,01 m</b></span><i class="b" style="width:25%"></i></div>
+    <div><span><b>Blumenau · 114 m²</b><b>14,31 m</b></span><i class="b" style="width:51%"></i></div>
+    <div><span><b>Campos · 103 m²</b><b>28,21 m</b></span><i style="width:100%"></i></div>
+    <div class="bloco" style="margin-top:12px"><div class="t">O m² também diverge entre documentos</div><p class="p">Pinheiros: 118,6 na lista e 93,53 na planta. Volta Redonda: 110,48 e 62,01. Campos: 65,77 e 102,59. A trena do piloto define o método para a rede.</p></div>
+    <div class="bloco" style="margin-top:9px;background:var(--terra);color:var(--iogurte)"><div class="t">Decisão da rede</div><p style="font-size:16.5px;line-height:1.3;opacity:.9">Há duas famílias de gôndola: 1,80 × 0,80 e 1,60 × 0,60, esta nos projetos novos de 2026. Precisamos definir qual vira o padrão dos planogramas.</p></div>
+  </div></div>
+  <p class="fonte">Fonte: plantas executivas de Canela, Perdizes, Moinhos, Londrina, Campos, Blumenau, Vila Madalena, Palmas, Volta Redonda e Pinheiros (tabelas de mobiliário); M2 Lojas 2026. A parede de Volta Redonda foi estimada. Pinheiros, Palmas e Volta Redonda fogem do módulo-base.</p>
+</section>
+<section class="tela s-reg" data-titulo="Divina Logic: regras e liberdade" data-cap="(6) Divina Logic e loja" data-fala="Padrão sem engessamento. Cinco regras que qualquer pessoa decora, e o que é obrigatório, adaptável e recomendado.">
+  <span class="eb">Divina Logic</span><h2 style="font-size:44px">Cinco regras para decorar e <em>a liberdade por escrito</em></h2>
+  <div class="gr5"><div class="r"><b>1</b>Um setor por gôndola, uma subcategoria por prateleira</div><div class="r"><b>2</b>Primeiro o motivo de compra; a marca vem dentro dele</div><div class="r"><b>3</b>Nos olhos, o que mais gira; embaixo, o que pesa</div><div class="r"><b>4</b>Um produto, uma casa; ponto extra tem prazo</div><div class="r"><b>5</b>Faltou? Puxa o vizinho e registra; não deixa buraco</div></div>
+  <div class="oar">
+    <div style="background:var(--terra);color:var(--iogurte)"><h3>Obrigatório</h3><small>Define o padrão e não muda</small><ul><li>Árvore de setores e nomes de placa</li><li>Ordem de leitura de cada setor</li><li>Núcleo de SKUs do quadro da loja</li><li>Preço-teto da lista de referência</li><li>Testeira, régua e etiqueta padrão</li><li>Sem Glúten fisicamente separado</li><li>Linha Kids só em Kids</li><li>Sem frase de cura em nenhuma peça</li></ul></div>
+    <div style="background:var(--aveia)"><h3>Adaptável</h3><small>Varia conforme tamanho, estoque e região</small><ul><li>Número de módulos de cada setor</li><li>Até 20% de marcas locais</li><li>2 tubos livres no granel</li><li>Profundidade por marca dentro da subcategoria</li><li>Posição do Empório na planta da loja</li><li>Bloco “Do mundo”, a partir de 3 módulos</li><li>Datas regionais no calendário</li></ul></div>
+    <div style="background:var(--matcha)"><h3>Recomendado</h3><small>Melhora, mas depende da unidade</small><ul><li>Mesa de Empório no vão central</li><li>Potinho de prova no granel</li><li>Café servido do que está à venda</li><li>Degustação quinzenal</li><li>Lousa com a dica da semana</li><li>Cross de receita: massa, molho e azeite</li><li>Foto semanal no grupo do consultor</li></ul></div>
+  </div>
+  <p class="fonte">Fonte: Estratégia Completa Divina Navegação, seção 9; regras de domicílio de setores-categorias-dt.html. Marca em bloco dentro da subcategoria segue a regra de rede. Protocolos de ruptura, novidade e alteração de mix: tela da ficha de leitura.</p>
+</section>
+<section id="sistema" class="tela s-sis" data-titulo="O sisteminha: 12 quadros" data-cap="(6) Divina Logic e loja" data-fala="Este é o sisteminha. Tamanho nas linhas, perfil nas colunas. O número é quantas lojas estão em cada quadro hoje. Cliquem e vejam como a parede muda.">
+  <span class="eb">O “sisteminha”</span><h2 style="font-size:44px">12 quadros de tamanho e perfil, <em>nenhum planograma por loja</em></h2>
+  <p class="cta so-tela" style="margin-top:4px"><svg><use href="#i-mao"/></svg>Clique em um quadro para ver a parede</p>
+  <div data-abas data-sem-pdf>
+    <div>{{simgrade}}<p class="p" style="font-size:15px;margin-top:6px">Número de lojas hoje, em 59 lojas da base com m² informado e 8 meses ou mais de venda. <b>Suplemento forte:</b> 55% ou mais de suplemento e menos de 20% de granel. <b>Granel forte:</b> 30% ou mais de granel.</p></div>
+    <div>{{simpaineis}}<p class="p" style="font-size:15px;margin-top:10px">Cada quadradinho é um módulo de 0,90 m, com a gôndola convertida em módulos. Frio, café e caixa ficam fora da conta.</p></div>
+  </div>
+  <p class="fonte">Fonte: base de vendas e M2 Lojas 2026 para os quadros; plantas para o total de módulos por faixa (estimativa: 14, 28, 39 e 53). Lojas turísticas como Holambra e Canela podem ter ajuste próprio. O total final de cada loja sai da contagem de módulos.</p>
+</section>
+<section class="tela s-emo" data-titulo="Empório modular" data-cap="(6) Divina Logic e loja" data-fala="Essa é a regra do documento original, aplicada ao empório. De um módulo com o essencial até quatro módulos com adega. A lógica de leitura é a mesma.">
+  <span class="eb">Planograma modular · Empório</span><h2 style="font-size:44px">De 1 a 4 módulos, <em>a mesma leitura</em></h2>
+  <div data-abas>
+    <div class="abas"><p class="cta so-tela"><svg><use href="#i-mao"/></svg>Clique em cada tamanho</p>
+      <button class="aba on" data-k="1"><b>1 módulo</b><span>Até 50 m². 36 SKUs. O essencial de cada bloco, em 35 frentes</span></button>
+      <button class="aba" data-k="2"><b>2 módulos</b><span>50 a 80 m². 68 SKUs. Separa cozinhar de receber e presentear</span></button>
+      <button class="aba" data-k="3"><b>3 módulos</b><span>80 a 120 m². 96 SKUs. Abre “Do mundo”: árabe, asiático e importados</span></button>
+      <button class="aba" data-k="4"><b>4 ou mais</b><span>Acima de 120 m². 130 SKUs. Adega de 12 a 24 rótulos e mais presente</span></button>
+      <div class="bloco" style="padding:11px 13px"><p class="p" style="font-size:15px"><b>Por que o vinho fica embaixo:</b> garrafa pesa, e o MDF flecha. O olho vê azeite e chocolate, e o vinho sai pela indicação. Verificação estrutural entra na trena.</p></div>
+    </div>
+    <div><div class="painel on" data-k="1">{{emp1}}</div><div class="painel" data-k="2">{{emp2}}</div><div class="painel" data-k="3">{{emp3}}</div><div class="painel" data-k="4">{{emp4}}</div></div>
+  </div>
+  <p class="fonte">Fonte: módulo-base das plantas (0,90 m, 6 níveis). Frentes (fr.) e SKUs: estimativa da 75 LAB, a confirmar com a trena e com a cotação. Conceitual: o SKU de cada frente sai da lista do kit.</p>
+</section>
+<section class="tela s-apl" data-titulo="Planogramas aplicados" data-cap="(6) Divina Logic e loja" data-fala="Aqui já é planograma com produto de verdade, ordenado pela venda real da rede. Nos olhos o que mais gira. A marca fica em bloco, mas dentro da subcategoria: é o que a rede pediu.">
+  <span class="eb">Planograma aplicado</span><h2 style="font-size:42px">Categorias prioritárias já com <em>produto, ordem e venda real</em></h2>
+  <div data-abas>
+    <div class="abas"><button class="aba on" data-k="c">Creatina · R$ 5,0 mi</button><button class="aba" data-k="o">Ômegas · R$ 3,7 mi</button><button class="aba" data-k="p">Proteínas · R$ 11,6 mi</button><p class="cta so-tela" style="margin-left:10px"><svg><use href="#i-mao"/></svg>Clique em cada categoria</p></div>
+    <div class="painel on" data-k="c"><div class="gond">
+      <div class="niv"><span class="lb">Formatos práticos<small>nível alto</small></span><span>Guday Gummies Maçã Verde<b>R$ 211 mil</b></span><span>Guday Gummies Frutas Verm.<b>R$ 205 mil</b></span><span>Essential Gummy Maçã Verde<b>R$ 136 mil</b></span><span>Essential Gummy Jabuticaba<b>R$ 127 mil</b></span><span>Essential Gummy Laranja<b>R$ 119 mil</b></span></div>
+      <div class="niv olho"><span class="lb">Mais vendidas: Creapure<small>olhos</small></span><span>Essential Crealift 300 g<b>R$ 694 mil</b></span><span>Vitafor Creafort 300 g<b>R$ 687 mil</b></span><span>Nutrify Creapure 300 g<b>R$ 256 mil</b></span><span>Equaliv Creapure 300 g<b>R$ 117 mil</b></span><span>DUX Creatina 300 g<b>R$ 132 mil</b></span></div>
+      <div class="niv"><span class="lb">Monohidratada<small>mão</small></span><span>Vitafor Creatine 300 g<b>R$ 204 mil</b></span><span>DUX Mono 300 g<b>R$ 151 mil</b></span><span>Vivea Pura 350 g<b>R$ 150 mil</b></span><span>Nutrify 100% 300 g<b>R$ 134 mil</b></span><span>Nutrata Creatin Up 300 g<b>R$ 55 mil</b></span></div>
+      <div class="niv"><span class="lb">Demais marcas<small>baixo</small></span><span>Super Nutrition<b>R$ 183 mil, marca</b></span><span style="background:#f0ebe3;color:var(--cinza)">88 marcas na rede: 61% da venda em 12 SKUs</span><span style="background:#f0ebe3;color:var(--cinza)">Espaço regional</span><span style="background:#f0ebe3;color:var(--cinza)">Espaço regional</span><span style="background:#f0ebe3;color:var(--cinza)">Reposição</span></div>
+    </div><div><div class="bloco"><div class="t">Resolve</div><p class="p">Creatina em 3 pontos, teste de 20 segundos sem achar.</p></div><div class="bloco" style="margin-top:9px"><div class="t">Sinal</div><p class="p">Gummies crescem e a busca por creatina em goma subiu 100%. Merece prateleira própria.</p></div><div class="bloco" style="margin-top:9px;background:var(--terra);color:var(--iogurte)"><div class="t">Preço</div><p style="font-size:16px;opacity:.9">Crealift e Creafort estão na lista de referência.</p></div></div></div>
+    <div class="painel" data-k="o"><div class="gond">
+      <div class="niv"><span class="lb">Complementares<small>nível alto</small></span><span>True Liquid DHA 30 ml<b>R$ 77 mil</b></span><span>Vitafor Mega DHA 120<b>R$ 119 mil</b></span><span>Puravida (marca)<b>R$ 206 mil</b></span><span>Nutrify (marca)<b>R$ 189 mil</b></span><span>Equaliv (marca)<b>R$ 131 mil</b></span></div>
+      <div class="niv olho"><span class="lb">Ômega 3 e DHA<small>olhos</small></span><span>Essential Super Ômega 3 TG 180<b>R$ 625 mil</b></span><span>Vitafor Omegafor Plus 120<b>R$ 330 mil</b></span><span>Essential Ômega 3 90<b>R$ 190 mil</b></span><span>Essential Omega Core 60<b>R$ 187 mil</b></span><span>Vitafor Omegafor Plus 240<b>R$ 160 mil</b></span></div>
+      <div class="niv"><span class="lb">Doses menores<small>mão</small></span><span>Essential Super Ômega 60<b>R$ 103 mil</b></span><span>Essential Omega Golden 60<b>R$ 101 mil</b></span><span>Vitafor Omegafor 60<b>R$ 83 mil</b></span><span>Essential Comfort 90<b>R$ 81 mil</b></span><span>Vitafor EPA DHA 120<b>R$ 68 mil</b></span></div>
+      <div class="niv"><span class="lb">Vegetais<small>baixo</small></span><span style="background:#f0ebe3;color:var(--cinza)">Prateleira do padrão de rede: conferir mix com compras</span><span>True Ômega 3 Vit E 180<b>R$ 71 mil</b></span><span>Essential Gastro 90<b>R$ 66 mil</b></span><span style="background:#f0ebe3;color:var(--cinza)">Biobalance, Sanavita</span><span style="background:#f0ebe3;color:var(--cinza)">Reposição</span></div>
+    </div><div><div class="bloco"><div class="t">Resolve</div><p class="p">Francine: “ômega-3 pro coração, pro cérebro”. O cliente não sabe qual pegar.</p></div><div class="bloco" style="margin-top:9px"><div class="t">Régua “para que serve”</div><p class="p">Dose, formato e como tomar, sem prometer cura. É aqui que a mentora entra em cena.</p></div><div class="bloco" style="margin-top:9px;background:var(--terra);color:var(--iogurte)"><div class="t">Base</div><p style="font-size:16px;opacity:.9">Essential e Vitafor são 76% do setor. 38 marcas no total.</p></div></div></div>
+    <div class="painel" data-k="p"><div class="gond">
+      <div class="niv"><span class="lb">Veganas<small>nível alto</small></span><span>True Vegan (linha)<b>Marca forte</b></span><span>Puravida (linha)<b>R$ 328 mil, marca</b></span><span style="background:#f0ebe3;color:var(--cinza)">Selo vegano no setor, sem setor próprio</span><span style="background:#f0ebe3;color:var(--cinza)">Regional</span><span style="background:#f0ebe3;color:var(--cinza)">Regional</span></div>
+      <div class="niv olho"><span class="lb">Whey<small>olhos</small></span><span>Essential Cacao Whey 30<b>R$ 370 mil</b></span><span>Essential Cacao Whey 15<b>R$ 268 mil</b></span><span>Essential Vanilla Whey 30<b>R$ 230 mil</b></span><span>Puravida Whey Língua de Gato<b>R$ 193 mil</b></span><span>DUX Isolado Choc. Branco<b>R$ 161 mil</b></span></div>
+      <div class="niv"><span class="lb">Whey e Body<small>mão</small></span><span>Essential Vanilla Whey 15<b>R$ 218 mil</b></span><span>Equaliv Body Protein Cacau<b>R$ 203 mil</b></span><span>Equaliv Body Protein 450<b>R$ 189 mil</b></span><span>Adaptogen Tasty Whey<b>R$ 153 mil</b></span><span>DUX Concentrado<b>R$ 150 mil</b></span></div>
+      <div class="niv"><span class="lb">Beef e Colágeno<small>baixo</small></span><span>Essential Beef Cacao 15<b>R$ 166 mil</b></span><span>Equaliv Neutro Pouch 900<b>R$ 149 mil</b></span><span>Equaliv Body Strong Cacau<b>R$ 144 mil</b></span><span>True Coconut Ice Cream<b>R$ 143 mil</b></span><span style="background:#f0ebe3;color:var(--cinza)">Reposição</span></div>
+    </div><div><div class="bloco"><div class="t">Resolve</div><p class="p">O maior setor da rede: 1.476 SKUs e 153 marcas, em que os 12 maiores são só 21% da venda.</p></div><div class="bloco" style="margin-top:9px"><div class="t">Sinal</div><p class="p">Whey sofre com custo, e a busca esfriou 25%. É onde o preço de referência pesa mais.</p></div><div class="bloco" style="margin-top:9px;background:var(--terra);color:var(--iogurte)"><div class="t">Tarefa</div><p style="font-size:16px;opacity:.9">Cortar a cauda antes de abrir frentes novas.</p></div></div></div>
+  </div>
+  <p class="fonte">Fonte: base de vendas, 13 meses (valor por SKU). Prateleiras: padrão setores-categorias-dt.html. Regra de rede: marca em bloco dentro da subcategoria. Ordem por venda da rede; a versão com frentes por loja fecha depois da trena e da venda de Pinheiros por categoria. Google Trends, 16/10/2026.</p>
+</section>
+<section class="tela s-fic" data-titulo="Como ler um planograma" data-cap="(6) Divina Logic e loja" data-fala="O planograma é ferramenta de execução. Cada um tem código, versão e legenda. E os três protocolos que toda loja pergunta: faltou, chegou novo e mudou o mix.">
+  <span class="eb">Ficha de leitura</span><h2 style="font-size:44px">Um planograma que <em>qualquer colaborador</em> consegue ler</h2>
+  <div class="g"><div class="fic"><div class="cab"><span>DN-EMP-M2-v1.0</span><span>Empório · 2 módulos · quadros M</span><span>Válido desde 18/12/2026</span></div>
+    {{ficha}}
+    <span class="n" style="left:18px;top:14px;margin-top:0">1</span>
+    <span class="n" style="left:120px;top:100px">2</span><span class="n" style="left:120px;top:262px">3</span><span class="n" style="left:610px;top:118px">4</span><span class="n" style="left:610px;top:376px">5</span>
+    <div style="position:absolute;left:18px;right:18px;bottom:12px;font-size:14px;color:var(--cinza)"><b style="color:var(--terra)">Não fazer:</b> misturar suplemento em forma de doce, pôr vidro no alto, deixar buraco, tirar a testeira.</div></div>
+  <div><div class="lst">
+    <div><b class="c">1</b><span><b>Código e versão:</b> programa, setor, módulos e versão. Só vale a última publicada.</span></div>
+    <div><b class="c">2</b><span><b>Leitura:</b> de cima para baixo e da esquerda para a direita, sempre igual.</span></div>
+    <div><b class="c">3</b><span><b>Zona dos olhos:</b> onde fica o que mais gira ou a prioridade da data.</span></div>
+    <div><b class="c">4</b><span><b>Frentes:</b> quantos produtos ficam de frente. Pode variar 20% por estoque.</span></div>
+    <div><b class="c">5</b><span><b>Peso:</b> vidro e garrafa sempre nos níveis baixos.</span></div></div>
+    <div class="prot"><div><b>Ruptura</b>Puxa o vizinho do mesmo bloco, coloca etiqueta de “em reposição” e registra. Sem buraco por mais de 2 dias.</div><div><b>Novidade</b>Entra pela faixa de lançamentos por 60 dias. Se girar, ganha casa e tira alguém.</div><div><b>Alteração de mix</b>Só com nova versão publicada, comunicada pelo consultor. Nada de orientação paralela.</div></div>
+    <div class="bloco" style="margin-top:9px;padding:12px 15px;background:var(--matcha)"><p style="font-size:16px;line-height:1.28">O kit traz a biblioteca dos planogramas v1, com os códigos que serão publicados em dezembro.</p></div>
+  </div></div>
+  <p class="fonte">Fonte: Estratégia Completa Divina Navegação, seções 9 e 10 (código, versão, configuração, legenda, regras, adaptação e o que não fazer). Regra de 2 posições de exposição secundária: setores-categorias-dt.html.</p>
+</section>
+<section id="mapa" class="tela s-pla" data-titulo="O mapa de Pinheiros" data-cap="(6) Divina Logic e loja" data-fala="O diagnóstico não propunha mudança. Agora propõe. Sem obra: a parede vira setores, os três módulos de farinha viram Empório ao lado das mesas, e o vão central ganha uma mesa.">
+  <span class="eb">Primeira aplicação</span><h2 style="font-size:42px">Pinheiros, sem obra: <em>mesmos móveis, outra história</em></h2>
+  <div data-abas>
+    <div class="abas"><button class="aba" data-k="a">Hoje (AS IS)</button><button class="aba on" data-k="b">Proposta (TO BE)</button><p class="cta so-tela" style="margin-left:10px"><svg><use href="#i-mao"/></svg>Clique para comparar</p></div>
+    <div class="painel" data-k="a">{{planta_a}}</div>
+    <div class="painel on" data-k="b">{{planta_b}}</div>
+    <div class="nts"><div><b>Parede de suplementos</b>8 módulos e encapsulados: de marca para setor, com a creatina em uma casa só</div><div><b>Farinhas viram Empório</b>3 módulos de 0,95 m ao lado das mesas e da cozinha, onde a loja já convida a ficar</div><div><b>O vão vira Mesa do Empório</b>11 m² onde 5 pessoas pararam por 4 minutos: tema do mês, degustação e presentes</div><div><b>Do lado de fora</b>Vitrine com tema e placa de teto em cada setor. Granel avisado da porta</div></div>
+  </div>
+  <p class="fonte">Fonte: Planta R00 de 02/01/2026, folha 02/11, esquema simplificado, fora de escala exata; diagnóstico completo (vídeo V11, teste V03). Distribuição a validar com a trena e com a venda de Pinheiros por categoria. Alphaville: planta ainda não recebida.</p>
+</section>
+<section class="tela s-bib" data-titulo="Biblioteca de peças" data-cap="(6) Divina Logic e loja" data-fala="Poucas peças que resolvem muitas situações. Todas na identidade oficial: cor, fonte, etiqueta de 6,5 por 3,5 que já existe. E a regra do que a peça pode e não pode dizer.">
+  <span class="eb">Sistema visual</span><h2 style="font-size:44px">Dez peças modulares, <em>na identidade que a marca já tem</em></h2>
+  <div class="g">
+    <div class="pc" style="grid-column:span 3"><div class="tst">Empório</div><small><b>Testeira</b>Largura do módulo × 18 cm. Lê a 8 m</small></div>
+    <div class="pc" style="grid-column:span 3"><div class="fx">À mesa, na cozinha</div><small><b>Faixa de categoria</b>Parte alta do módulo. Lê a 4 m</small></div>
+    <div class="pc" style="grid-column:span 3"><div class="fx2">Azeites e vinagres</div><small><b>Faixa de subcategoria</b>Borda da prateleira. Lê a 2 m</small></div>
+    <div class="pc" style="grid-column:span 3"><div class="rgu"><b>Ômega 3</b> · Tome com a refeição. Fale com a nossa equipe.</div><small><b>Régua “para que serve”</b>Uso, dose e formato, em uma linha</small></div>
+    <div class="pc" style="grid-column:span 2"><div class="stp">Novo na curadoria</div><small><b>Stopper</b>Máximo 1 por módulo</small></div>
+    <div class="pc" style="grid-column:span 2"><div class="etq2">Azeite Batalha 250 ml<b>R$ 00,00</b></div><small><b>Etiqueta padrão</b>6,5 × 3,5 cm, já na marca</small></div>
+    <div class="pc" style="grid-column:span 2"><div class="ben">Orgânico · Vegano</div><small><b>Benefício</b>Selos do atributo do cadastro</small></div>
+    <div class="pc" style="grid-column:span 2"><div class="lan">Lançamento</div><small><b>Lançamento</b>Faixa de 60 dias</small></div>
+    <div class="pc" style="grid-column:span 2"><div class="des">Escolhido pela Divina</div><small><b>Destaque</b>Produto do mês ou curadoria</small></div>
+    <div class="pc" style="grid-column:span 2"><div class="crs">Combina com: azeite Batalha, molho Mutti</div><small><b>Cross-selling</b>Receita ou par</small></div>
+    <div class="pode"><div style="background:var(--matcha)"><b>Pode:</b> “Tome com a refeição”, “Fonte de proteína”, “Azeite de um único produtor”, “Fale com a nossa equipe”.</div><div style="background:var(--terra);color:var(--iogurte)"><b>Não pode:</b> citar gripe, insônia, ansiedade, promessa de emagrecer, “previne” ou “trata”. Vale também para revisar frases dos guias de 2026.</div></div>
+  </div>
+  <p class="fonte">Fonte: Estratégia Completa Divina Navegação, seção 11.4; Posicionamento de Marca, p. 42 a 64 (paleta, General Sans e Minion Pro, etiqueta de 6,5 × 3,5 cm). Conformidade: setores-categorias-dt.html; guia Outono-Inverno, p. 9 a 13. Medidas: proposta para testar. Preço e par ilustrativos.</p>
+</section>
+<section class="tela s-sim2" data-titulo="Aplicação simulada" data-cap="(6) Divina Logic e loja" data-fala="É a foto da parede de hoje em Pinheiros, com a placa e as faixas aplicadas. Arraste. Nenhum produto mudou de lugar nesta simulação: mudou só o que a loja conta ao cliente.">
+  <span class="eb">Aplicação simulada na loja</span><h2 style="font-size:44px">Arraste: a mesma parede, <em>agora explicando</em></h2>
+  <div class="g"><div class="comparador"><img src="assets/img/f64.jpg" alt="Parede de suplementos de Pinheiros"><div class="dep"><img src="assets/img/f64.jpg" alt=""><div class="sig tgt">Vitaminas de A a Z</div><div class="sig sb" style="top:27%">Multivitamínicos</div><div class="sig sb" style="top:52%">Vitaminas isoladas</div><div class="sig sb" style="top:75%">Minerais</div></div><span class="rt" style="left:10px">Hoje</span><span class="rt" style="right:10px">Com o sistema</span><div class="fio"></div></div>
+    <div class="lst">
+      <div class="bloco"><div class="t">De longe, a 8 metros: a testeira</div><p class="p">Responde “é aqui?”. Hoje são 20 segundos sem achar a creatina e nenhuma placa no teto.</p></div>
+      <div class="bloco"><div class="t">De perto, a 2 metros: a faixa</div><p class="p">Responde “qual prateleira?”. Uma subcategoria por prateleira, conforme o padrão.</p></div>
+      <div class="bloco"><div class="t">Na mão: a régua e a etiqueta</div><p class="p">Responde “qual é o meu?”. Vitaminas e ômegas somam quase 14% da venda da rede, sem nenhuma explicação.</p></div>
+      <div class="bloco" style="background:var(--terra);color:var(--iogurte)"><div class="t">Cuidado com o excesso</div><p style="font-size:17px;line-height:1.3;opacity:.9">A régua entra só onde há dúvida de uso. A marca segue aparecendo: a embalagem continua sendo a estrela da prateleira.</p></div>
+      <p class="cta so-tela"><svg><use href="#i-mao"/></svg>Arraste a linha sobre a foto</p>
+    </div></div>
+  <p class="fonte">Fonte: foto da visita a Pinheiros, 14/10/2026, com simulação gráfica da 75 LAB; diagnóstico completo (V03; vitaminas e ômegas, 13,9% da venda). Sem mudança de produto. Peças de produção e medidas finais saem depois da trena.</p>
+</section>
+<section class="tela s-calm" data-titulo="Calendário de trade 2027" data-cap="(6) Divina Logic e loja" data-fala="A rede já tem mais de 40 datas. O que muda é dar a cada mês um papel por motor, e o Empório aparecer nas ocasiões, a começar pelo Natal agora.">
+  <span class="eb">Promoção</span><h2 style="font-size:44px">Cada mês com um papel por motor, <em>e o empório nas ocasiões</em></h2>
+  <div class="mes">
+    <div><h5>Jan</h5><div class="it i1">Longevidade e rotina nova</div><div class="it i2">Granel: comece o ano</div><div class="it i4">Início do piloto</div></div>
+    <div><h5>Fev</h5><div class="it i1">Colágeno e beleza</div><div class="it i2">Snacks para o verão</div><div class="it i3">Espumantes e frutas secas</div></div>
+    <div><h5>Mar</h5><div class="it i1">Saúde da Mulher</div><div class="it i3">Páscoa: chocolate de origem (28/03)</div><div class="it i4">Leitura da semana 6</div></div>
+    <div><h5>Abr</h5><div class="it i1">Imunidade, sem alegação</div><div class="it i2">Chás e outono</div><div class="it i4">Leitura final do piloto</div></div>
+    <div><h5>Mai</h5><div class="it i3">Dia das Mães: cestas (09/05)</div><div class="it i1">Destaque do Mês</div><div class="it i4">Onda 2</div></div>
+    <div><h5>Jun</h5><div class="it i3">Namorados: vinho, chocolate e presente</div><div class="it i2">Festa Junina: granel</div></div>
+    <div><h5>Jul</h5><div class="it i3">Inverno: vinho tinto, sopas e massas</div><div class="it i1">Destaque: chocolate</div><div class="it i4">Onda 3</div></div>
+    <div><h5>Ago</h5><div class="it i1">Destaque: Ômega 3</div><div class="it i3">Dia dos Pais: gin, café</div></div>
+    <div><h5>Set</h5><div class="it i1">Semana do Cliente</div><div class="it i2">Primavera: granel com até 30%</div><div class="it i3">1 oferta de empório</div></div>
+    <div><h5>Out</h5><div class="it i3">Mês do azeite e da mesa italiana</div><div class="it i2">Kids e lanches</div></div>
+    <div><h5>Nov</h5><div class="it i1">Black Friday: lista de referência</div><div class="it i3">Natal: montar cestas</div></div>
+    <div><h5>Dez</h5><div class="it i3">Natal: ponta, mesa e cestas</div><div class="it i2">Castanhas</div><div class="it i4">Planograma v2</div></div>
+  </div>
+  <div class="leg"><span><i style="background:var(--choco)"></i>Cuidar</span><span><i style="background:var(--oliva)"></i>Abastecer</span><span><i style="background:var(--acafrao)"></i>Celebrar</span><span><i style="background:#fff"></i>Projeto</span><span><b>Ainda em 2026:</b> ponta de Natal em Pinheiros e Alphaville, de 30/11 a 24/12, com presentes, chocolates e castanhas já da rede. O Gourmet vendeu 64% mais em dezembro do que em novembro.</span></div>
+  <p class="fonte">Fonte: guias de execução de 2026; encartes; Institucional, p. 8 (+40 datas); base de vendas (Gourmet: R$ 53,9 mil em 11/2025 e R$ 88,2 mil em 12/2025). Calendário-proposta: a integrar ao calendário oficial de trade da rede. Sem guia de Natal, Páscoa e Pais no Drive.</p>
+</section>

@@ -1,0 +1,11 @@
+# Gera pdf-capa.html: a primeira página do PDF, que leva para a apresentação em HTML.
+import pathlib
+R=pathlib.Path(__file__).resolve().parent.parent
+L='https://projetos.75lab.com.br/divina-terra-estrategia-avancada/'
+(R/'pdf-capa.html').write_text(f'''<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Abrir em HTML</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/deck.css">
+<style>html,body{{width:1600px;height:900px;overflow:hidden;background:var(--iogurte)}}.a{{position:absolute;inset:0;padding:90px 110px}}.a .m{{display:flex;align-items:center;gap:16px}}.a .m img{{height:34px}}.a .m img.l{{height:22px}}.a h1{{font-size:96px;line-height:1.02;width:920px;margin-top:84px}}.a h1 em{{color:var(--choco)}}.a p{{font-size:25px;line-height:1.36;width:800px;margin:24px 0 34px;color:var(--cinza)}}.bt{{display:inline-flex;background:var(--choco);color:#fff;padding:20px 30px;border-radius:99px;font-weight:600;font-size:21px;text-decoration:none}}.u{{display:block;margin-top:18px;font-size:17px;color:var(--choco)}}.q{{position:absolute;right:110px;top:230px;width:350px;background:var(--aveia);border-radius:22px;padding:24px;text-align:center}}.q img{{width:100%;border-radius:8px;display:block}}.q b{{display:block;font:400 26px var(--serif);margin-top:12px}}</style></head><body><div class="a">
+<div class="m"><img src="assets/logos/dt-horizontal-terra.svg" alt=""><span>×</span><img class="l" src="assets/logos/75lab-logo-preto.svg" alt=""></div>
+<h1>Esta apresentação foi feita <em>em HTML.</em></h1><p>O PDF mostra cada tela parada, com uma página por botão. No link, ela tem simulador de mix, planograma interativo, checklist e auditoria que funcionam na hora.</p>
+<a class="bt" href="{L}">Clique aqui para acessar a apresentação completa</a><span class="u">projetos.75lab.com.br/divina-terra-estrategia-avancada</span>
+<div class="q"><img src="assets/qr-deck.png" alt=""><b>No celular, aponte a câmera</b></div></div></body></html>''')

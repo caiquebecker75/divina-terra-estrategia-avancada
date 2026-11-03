@@ -1,0 +1,84 @@
+<style>
+.s-press .ring{position:relative;height:620px;margin-top:-20px}
+.s-press .centro{position:absolute;left:50%;margin-left:-160px;top:170px;width:320px;height:320px;border-radius:50%;background:var(--choco);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px}
+.s-press .centro b{font:400 34px/1.1 var(--serif)}.s-press .centro span{font-size:17px;margin-top:8px;line-height:1.3}
+.s-press .f{position:absolute;width:30%;background:var(--aveia);border-radius:18px;padding:16px 20px}.s-press .f .num{font-size:50px;color:var(--choco)}.s-press .f .t{margin-top:2px}.s-press .f svg{position:absolute;width:44px;height:44px;color:var(--cap)}
+.s-mapa .g{display:grid;grid-template-columns:860px 1fr;gap:26px;margin-top:8px}
+.s-mapa .pl{position:relative;height:610px;background:var(--aveia);border-radius:18px}
+.s-mapa .pl:before{content:"";position:absolute;left:50%;top:18px;bottom:18px;width:2px;background:var(--linho)}.s-mapa .pl:after{content:"";position:absolute;top:50%;left:18px;right:18px;height:2px;background:var(--linho)}
+.s-mapa .pl span{position:absolute;padding:6px 13px;border-radius:99px;background:var(--iogurte);font-size:15.5px;font-weight:600;z-index:2;white-space:nowrap}
+.s-mapa .pl .ex{background:none;color:var(--cinza);font-weight:500;font-size:14.5px;padding:0}
+.s-mapa .pl .hoje{background:var(--paprica);color:#fff}.s-mapa .pl .am{background:var(--choco);color:#fff;font-size:18px;padding:9px 16px}
+.s-mapa .pl svg{position:absolute;inset:0;z-index:1}
+.s-cat [data-abas]{display:grid;grid-template-columns:270px 1fr;gap:24px;margin-top:16px}.s-cat .abas{display:flex;flex-direction:column;gap:6px}
+.s-cat .aba{padding:12px 16px;text-align:left;border-radius:12px;background:var(--aveia);font-size:18px;font-weight:600}.s-cat .aba.on{background:var(--choco);color:#fff}
+.s-cat .painel.on{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.s-cat .col{border-radius:16px;padding:18px;min-height:370px}.s-cat .col h4{font-size:15px;font-weight:600;margin-bottom:8px}.s-cat .col li{font-size:17.5px;line-height:1.3;margin-bottom:9px;list-style:none}.s-cat .col .num{font-size:50px;display:block;margin-bottom:6px}
+.s-cat .c1{background:var(--aveia)}.s-cat .c2{background:var(--iogurte);box-shadow:inset 0 0 0 2px var(--aveia)}.s-cat .c3{background:var(--terra);color:var(--iogurte)}
+.s-sabe .g{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:22px}.s-sabe .col{border-radius:18px;padding:22px;min-height:400px}.s-sabe .col h3{font-size:29px;margin-bottom:12px}.s-sabe .col li{list-style:none;font-size:17.5px;line-height:1.32;margin-bottom:11px;padding-left:18px;position:relative}.s-sabe .col li:before{content:"";position:absolute;left:0;top:8px;width:9px;height:9px;border-radius:50%;background:currentColor;opacity:.5}
+</style>
+<section id="c3" class="tela s-cap" data-titulo="Capítulo 3" data-cap="(3) O mercado" data-capitulo="3">
+  <div class="lado"><img src="assets/logos/dt-icone-claro.svg" alt=""><span class="num">3</span></div>
+  <div class="dir"><h2>O mercado</h2><p>O que a rede sente tem nome e fonte. E uma parte do que se diz no mercado não tem. Separamos as duas coisas.</p><ul><li><b>A</b>As quatro pressões sobre a loja</li><li><b>B</b>Com quem a Divina Terra disputa, e onde pode ganhar</li><li><b>C</b>O que sabemos e o que só o piloto responde</li></ul><trilha k="3"></trilha></div>
+</section>
+<section class="tela s-press" data-titulo="Quatro pressões sobre a loja" data-cap="(3) O mercado" data-fala="Quatro forças empurram a loja ao mesmo tempo. Nenhuma delas se resolve com planograma sozinho, e é por isso que o reposicionamento faz sentido.">
+  <span class="eb">Por que agora</span><h2>Quatro forças apertam a mesma loja, <em>ao mesmo tempo</em></h2>
+  <div class="ring">
+    <div class="centro"><b>Loja de 50 a 120 m²</b><span>com a venda apoiada em suplemento de marcas que vendem em todo lugar</span></div>
+    <div class="f" style="left:0;top:50px"><span class="num">48%</span><p class="t">Farmácia é o principal canal</p><p class="p">Consumidor declara comprar suplemento ali; só esportivos somaram R$ 723 mi em 12 meses.</p></div>
+    <div class="f" style="right:0;top:50px"><span class="num">+124%</span><p class="t">O supermercado entrou</p><p class="p">Whey no varejo alimentar. O Assaí elegeu suplementação como pilar de 2026.</p></div>
+    <div class="f" style="left:0;top:330px"><span class="num">24%</span><p class="t">As marcas foram para o digital</p><p class="p">Marketplace e e-commerce. Francine: elas cresceram com a rede e agora atuam no B2C.</p></div>
+    <div class="f" style="right:0;top:330px"><span class="num">+105%</span><p class="t">O whey encareceu</p><p class="p">Insumo em 12 meses na Europa. Fabricantes reajustaram até 40% e não veem queda antes do 2º semestre de 2027.</p></div>
+  </div>
+  <p class="fonte">Fonte: IFEPEC/Febrafar (Panorama Farmacêutico, 14/07/2026); Close-Up (FoodBiz, 12/04/2025); Scanntech (Agora RN); Giro News (Assaí); StoneX e fabricantes (Terra, 26/05/2026); reunião de 29/10/2026.</p>
+</section>
+<section class="tela s-mapa" data-titulo="Com quem disputamos" data-cap="(3) O mercado" data-fala="Não dá para ser Santa Luzia em 80 metros. Mas ninguém no mercado junta curadoria de empório com atendimento consultivo de saúde. Esse é o espaço vazio.">
+  <span class="eb">O mapa da disputa</span><h2>Ninguém junta <em>empório curado</em> com atendimento que entende de saúde</h2>
+  <div class="g"><div class="pl">
+    <span class="ex" style="left:20px;top:300px;background:var(--aveia);z-index:3;padding:2px 6px">Saudável funcional</span><span class="ex" style="right:20px;top:300px;background:var(--aveia);z-index:3;padding:2px 6px">Prazer e empório</span><span class="ex" style="left:50%;top:14px;transform:translateX(-50%);background:var(--aveia);z-index:3;padding:2px 6px">Atendimento consultivo</span><span class="ex" style="left:50%;bottom:14px;transform:translateX(-50%);background:var(--aveia);z-index:3;padding:2px 6px">Autosserviço</span>
+    <svg viewBox="0 0 860 610"><path d="M240 170 C 320 120,420 110,500 130" fill="none" stroke="#7C381F" stroke-width="4" stroke-dasharray="4 9" stroke-linecap="round"/><path d="M490 122l14 8-13 10" fill="none" stroke="#7C381F" stroke-width="4" stroke-linecap="round"/></svg>
+    <span class="hoje" style="left:110px;top:170px">Divina Terra hoje</span>
+    <span class="am" style="left:480px;top:92px">Divina Terra amanhã</span>
+    <span style="left:60px;top:250px">Mundo Verde</span>
+    <span style="left:170px;top:380px">Farmácias</span>
+    <span style="left:60px;top:450px">Marketplaces e marcas</span>
+    <span style="left:300px;top:490px">Supermercado comum</span>
+    <span style="left:640px;top:210px">Casa Santa Luzia</span>
+    <span style="left:600px;top:360px">St Marche</span>
+    <span style="left:480px;top:420px">Oba</span>
+    <span style="left:470px;top:350px">Hortisabor</span>
+    <span style="left:680px;top:450px">Zaffari</span>
+    <span style="left:690px;top:130px">Adegas</span>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:11px">
+    <div class="bloco"><div class="t">Não dá para comparar em tamanho</div><p class="p">Casa Santa Luzia: cerca de 2.200 m², mais de 30 mil itens, 1.214 rótulos de vinho. A mediana da rede é de 67 m².</p></div>
+    <div class="bloco"><div class="t">A referência certa é outra</div><p class="p">Hirota em Casa: 30 a 50 m², cerca de 700 SKUs, e bebidas, frios e laticínios fazem cerca de 50% da receita.</p></div>
+    <div class="bloco"><div class="t">O limite do outro lado</div><p class="p">Francine sobre o ômega-3: “pro coração, pro cérebro, para 5 milhões de coisas”. Mercado e farmácia não explicam isso. A loja explica.</p></div>
+    <div class="bloco" style="background:var(--terra);color:var(--iogurte)"><div class="t">O cuidado</div><p style="font-size:17px;line-height:1.34;opacity:.9">O St Marche fechou 2025 com prejuízo e foi vendido. A causa citada é expansão mal planejada, não a categoria. Curadoria não salva abertura sem conta.</p></div>
+  </div></div>
+  <p class="fonte">Fonte: posição no mapa é leitura qualitativa da 75 LAB e da visita da rede (reunião de 29/10). SA+, 20/05/2026; site Santa Luzia; Giro News, 24/03/2026; O Tempo, 24/06/2026; M2 Lojas 2026.</p>
+</section>
+<section class="tela s-cat" data-titulo="Categoria por categoria" data-cap="(3) O mercado" data-fala="Cada categoria tem um dado, uma leitura e uma decisão para a rede. Vinho, por exemplo: não dá para disputar a faixa de R$ 20 a R$ 30 com supermercado.">
+  <span class="eb">Categoria por categoria</span><h2 style="font-size:44px">O dado, a leitura e <em>o que fazer</em></h2>
+  <p class="cta so-tela" style="margin-top:6px"><svg><use href="#i-mao"/></svg>Clique em cada categoria</p>
+  <div data-abas>
+    <div class="abas"><button class="aba on" data-k="v">Vinho</button><button class="aba" data-k="q">Queijo</button><button class="aba" data-k="a">Azeite</button><button class="aba" data-k="c">Chocolate</button><button class="aba" data-k="m">Massas, molhos e conservas</button><button class="aba" data-k="f">Café especial</button></div>
+    <div>
+    <div class="painel on" data-k="v"><div class="col c1"><h4>O dado</h4><span class="num">R$ 21,1 bi</span><ul><li>Mercado em 2025, +9%.</li><li>Entrada −3% e premium +10% em preço.</li><li>Supermercado com mais de 70% das vendas e faixa dominante de R$ 20 a R$ 30.</li></ul></div><div class="col c2"><h4>A leitura</h4><ul><li>Abastecimento acima do consumo no 1º trimestre: há estoque na cadeia e promoção à vista.</li><li>Não encontramos fonte para “quem vende vinho foi menos impactado”. Tratamos como hipótese.</li></ul></div><div class="col c3"><h4>O que fazer</h4><ul><li>Sair da briga de preço: de R$ 50 para cima.</li><li>Curadoria curta: orgânico, natural, nacional de origem, zero álcool.</li><li>12 a 24 rótulos, nunca uma adega.</li><li>A marca fala em consumir menos e melhor.</li></ul></div></div>
+    <div class="painel" data-k="q"><div class="col c1"><h4>O dado</h4><span class="num">7,3 kg</span><ul><li>Consumo por pessoa, contra 5,66 kg em 2017.</li><li>Grandes grupos estão comprando marcas de queijo fino.</li><li>Não há dado nacional confiável de artesanal e meia cura.</li></ul></div><div class="col c2"><h4>A leitura</h4><ul><li>Francine tem razão: é o mais delicado, por validade e equipamento.</li><li>A norma prevê até 25 °C só para o grupo do parmesão. Para o resto, vale o rótulo e a vigilância local.</li></ul></div><div class="col c3"><h4>O que fazer</h4><ul><li>Começar pela geladeira que a loja já tem: a porta 4.</li><li>Sem balcão, sem corte, sem fracionar.</li><li>Só com inspeção oficial e temperatura do rótulo.</li><li>Entra na semana 7 do piloto, não antes.</li></ul></div></div>
+    <div class="painel" data-k="a"><div class="col c1"><h4>O dado</h4><span class="num">−17%</span><ul><li>Preço em 12 meses até 07/2026, depois de −25% em 2025.</li><li>Consumo de cerca de 100 milhões de litros, com nacional abaixo de 1%.</li><li>14 ocorrências de fiscalização em 2025.</li></ul></div><div class="col c2"><h4>A leitura</h4><ul><li>O preço voltou a caber, e a desconfiança aumentou.</li><li>Procedência virou motivo de compra, e é o terreno da marca: curadoria confiável.</li></ul></div><div class="col c3"><h4>O que fazer</h4><ul><li>Primeiro bloco a entrar: não pede equipamento.</li><li>Nacional do Sul (Prosperato, Batalha, Verde Louro) ao lado de importado.</li><li>Selo “Escolhido pela Divina” com laudo do fornecedor.</li></ul></div></div>
+    <div class="painel" data-k="c"><div class="col c1"><h4>O dado</h4><span class="num">US$ 227 mi</span><ul><li>Importação de chocolate em 2025.</li><li>Cacau na Bahia caiu de R$ 1.100 para cerca de R$ 330 a arroba.</li><li>Na rede, Vila Madalena já prova o bean-to-bar.</li></ul></div><div class="col c2"><h4>A leitura</h4><ul><li>É a ponte natural: já é o maior bloco do empório da rede, com R$ 519 mil.</li><li>Holambra mostra a demanda por Biscoff e Milka no interior, onde há pouco acesso.</li></ul></div><div class="col c3"><h4>O que fazer</h4><ul><li>Três prateleiras: origem (Warabu, Haoma), importado (Lindt, Ritter) e mimo (Biscoff).</li><li>Junto do caixa e no Natal e na Páscoa.</li><li>Sem misturar com suplemento em forma de doce.</li></ul></div></div>
+    <div class="painel" data-k="m"><div class="col c1"><h4>O dado</h4><span class="num">Sem dado</span><ul><li>Não achamos número nacional confiável de massas e molhos premium, conservas, árabes ou asiáticos.</li><li>Na rede: massas R$ 179 mil, molhos R$ 150 mil, conservas R$ 40 mil.</li></ul></div><div class="col c2"><h4>A leitura</h4><ul><li>É o coração da frase de Francine: “eu como macarrão gostoso”.</li><li>Hoje a massa da rede é konjac e a conserva é uma tirinha. Falta a versão de prazer.</li><li>Só o piloto dá o número.</li></ul></div><div class="col c3"><h4>O que fazer</h4><ul><li>Vender a receita, não o item: massa, molho e azeite juntos.</li><li>Começar pelos parados no cadastro: La Pastina, De Cecco, Mutti.</li><li>Árabe e asiático só em loja de 3 módulos ou mais.</li></ul></div></div>
+    <div class="painel" data-k="f"><div class="col c1"><h4>O dado</h4><span class="num">−2,3%</span><ul><li>Consumo total de café no Brasil em 2025.</li><li>A fatia de especiais diverge: abaixo de 1% para a ABIC e quase 10% para a BSCA.</li></ul></div><div class="col c2"><h4>A leitura</h4><ul><li>Não dá para usar número de mercado com segurança.</li><li>Na rede, Don Orovela e Legado já somam quase R$ 70 mil, e o café puxa visita.</li></ul></div><div class="col c3"><h4>O que fazer</h4><ul><li>Bloco pequeno e fixo: 5 a 8 itens em grão e moído.</li><li>Na loja com máquina de café, servir o que está à venda.</li><li>Par com chocolate de origem.</li></ul></div></div>
+    </div>
+  </div>
+  <p class="fonte">Fonte: Bloomberg Línea, 12/03/2026; Ideal.BI (Repórter Ceará, 22/07/2026); Agas (A Vindima, 09/05/2025); Abiq e MilkPoint, 28/07/2026; Portarias 352 e 353/1997; Apas/Fipe (InfoPrice, 19/08/2026); IstoÉ Dinheiro, 17/02/2026; Forbes Agro, 30/10/2026; Agência Brasil, 07/2026; ABIC; BSCA; base de vendas.</p>
+</section>
+<section class="tela s-sabe" data-titulo="O que sabemos e o que só o piloto responde" data-cap="(3) O mercado" data-fala="Quero ser honesto: não achamos nenhuma rede de saudáveis que tenha feito esse movimento e publicado o resultado. Isso não é motivo para não fazer; é o motivo de ter piloto com controle.">
+  <span class="eb">Com os pés no chão</span><h2>Ninguém publicou este caminho. <em>Por isso o piloto tem controle</em></h2>
+  <div class="g">
+    <div class="col" style="background:var(--matcha)"><h3>O que sabemos</h3><ul><li>Suplemento cresce, e o canal especializado é o menor.</li><li>Empório real pesa 1,9% da venda da rede.</li><li>Na loja com curadoria, chega a 6,8%.</li><li>O público da marca: mulheres de 34 a 45 anos, tíquete de R$ 250 a R$ 350.</li><li>A marca já fala em “empório de iguarias saudáveis”.</li></ul></div>
+    <div class="col" style="background:var(--aveia)"><h3>O que é hipótese</h3><ul><li>Que vinho e queijo sejam os mais resistentes: não achamos fonte.</li><li>Que o cliente atual compre empório na mesma visita.</li><li>Que o empório traga margem melhor: blogs do setor citam faixas altas, mas não servem como base.</li><li>Referências: Mundo Verde diz que lojas com retrofit subiram cerca de 20%, sem isolar o efeito do mix.</li></ul></div>
+    <div class="col" style="background:var(--terra);color:var(--iogurte)"><h3>O que só o piloto responde</h3><ul><li>Quanto do empório é venda nova, e quanto vem de outra categoria?</li><li>O módulo paga o espaço que ocupa?</li><li>Navegação e empório somam, ou um basta?</li><li>A franqueada consegue manter sem ajuda?</li><li>Qual o giro e a perda real de cada bloco?</li></ul></div>
+  </div>
+  <p class="fonte">Fonte: pesquisa de mercado da 75 LAB, 03/11/2026, sem caso publicado de rede de saudáveis ou suplementos que adicionou empório; Business Moment, 11/09/2026 (Mundo Verde); Posicionamento de Marca, p. 18 e 23; base de vendas.</p>
+</section>
