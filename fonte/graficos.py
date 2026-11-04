@@ -107,7 +107,15 @@ def simulador():
         for p,(pn,fs,extra) in PER.items():
             k=t+p;gr=dt['gr']+extra;em=dt['em'];ch=dt['ch'];res=dt['tot']-gr-em-ch;su=round(res*fs);de=res-su
             cells=[('Cuidar',su,C['cho'],'#fff'),('Abastecer',de,C['oli'],'#fff'),('Granel',gr,C['cap'],'#fff'),('Chás',ch,C['mat'],C['ter']),('Celebrar',em,C['aca'],C['ter'])]
-            w=''.join(''.join(f'<i style="background:{c}"></i>' for _ in range(n)) for _,n,c,_ in cells)
+            import novas as _N
+            _d=_N.dados12()[f'{t}|{pn}']['modulos'];_o=[x for x in _N.ORD if _d.get(x,0)>0]
+            _ab={'Proteínas':'Prot','Creatina':'Crea','Colágeno':'Colág','Performance':'Perf','Bem-Estar':'Bem','Longevidade':'Long','Vitaminas':'Vit','Ômegas':'Ôm','Intestino':'Int','Imunidade':'Imu','Kids e Peso':'Kids','Barras e snacks':'Barra','Cafés funcionais':'Café','Despensa':'Desp','Chás':'Chá','Granel':'Gran','Empório':'Emp'}
+            w='';_ac=0
+            for x in _o:
+                _f=_d[x];_c=_N.COR[_N.MOT[x]];_c=C['mat'] if x=='Chás' else _c;_tx=C['ter'] if x in('Chás','Empório') else '#fff'
+                _k=int(_f+.999)
+                for j in range(_k):
+                    _ac+=1;w+=f'<i style="background:{_c};color:{_tx}" title="Módulo {_ac}: {x}"><b>{_ac}</b>{_ab[x]}{"½" if (j==_k-1 and _f%1) else ""}</i>'
             leg=''.join(f'<li><i style="background:{c}"></i><b>{n}</b> {nm}</li>' for nm,n,c,_ in cells)
             pns+=f'<div class="painel{" on" if first else ""}" data-k="{k}"><div class="parede t{t}">{w}</div><ul class="leg">{leg}</ul><div class="infos"><div><span class="num">{CONT[(t,p)]}</span><small>lojas neste quadro hoje</small></div><p class="p"><b>{pn}, {dt["n"]}.</b> Exemplos: {EX[(t,p)]}. Empório com {em} módulo{"s" if em>1 else ""} e {br(sum(1 for _ in range(0)))if False else ""}{ {1:"36",2:"68",3:"96",4:"130"}[em]} produtos.</p></div></div>'
             first=False

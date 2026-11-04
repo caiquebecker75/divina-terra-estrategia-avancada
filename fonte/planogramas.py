@@ -250,3 +250,54 @@ if __name__=='__main__':
     for T,cat in (('P','Proteínas'),('M','Creatina')):
         c=r[T]['cats'][cat]
         for n in c['niveis']: print(T,cat,n['n'],n['rot'],n['livre'],[[ (e['mc'],e['nome'],e['f']) for e in m] for m in n['mods']])
+
+# ---- 12 tipos de loja: tamanho x perfil ----
+TAM12={'P':('Até 50 m²',14,3,1,1),'M':('50 a 80 m²',28,5,1,2),'G':('80 a 120 m²',39,6,2,3),'GG':('Acima de 120 m²',53,8,2,4)}
+PER12={'Suplemento forte':(.65,0),'Equilibrado':(.55,0),'Granel forte':(.50,1)}
+def modulos12(d,L,T,per):
+    n,tot,gr,ch,em=TAM12[T];fs,ex=PER12[per];gr2=gr+ex;res=tot-gr2-ch-em;su=round(res*fs);de=res-su
+    lojas=L[(L.tam==T)&(L.perfil==per)].index;x=d[d.loja.isin(lojas)];v=x[x.g.notna()].groupby('g').valor.sum()
+    sem=x[x.setorf=='Suplementos sem setor'].valor.sum();cu=[s for s,_,m,_c in RC.SET if m=='Cuidar'];vc=v.reindex(cu).fillna(0);r={}
+    for mot,av in (('Cuidar',su),('Abastecer',de)):
+        ss=[(s,p) for s,p,m,_c in RC.SET if m==mot and s!='Chás']
+        pp={s:(v.get(s,0)+(sem*vc[s]/max(1,vc.sum()) if mot=='Cuidar' else 0))*RC.PESO[p] for s,p in ss};tt=sum(pp.values())
+        ideal={s:av*q/tt for s,q in pp.items()};f={s:(max(.5,math.floor(i*2)/2) if i>=.25 else 0) for s,i in ideal.items()}
+        while sum(f.values())>av:
+            s=max((k for k in f if f[k]>.5),key=lambda k:f[k]-ideal[k]);f[s]-=.5
+        for s in sorted(ideal,key=lambda k:ideal[k]-f[k],reverse=True):
+            if sum(f.values())>=av:break
+            f[s]+=.5
+        r.update(f)
+    r['Granel']=gr2;r['Chás']=ch;r['Empório']=em
+    return r,len(lojas)
+def tudo12():
+    global T_ATUAL
+    L=pd.read_pickle(R/'analise/lojas_cluster.pkl');d=RC.dados();d=d.assign(mes3=d.p.isin(RC.MES[-3:]))
+    ALVO.update({'GG':{'Empório':130}});res={}
+    nomes=lambda cat:[k for k,v in RC.G.items() if v==cat]
+    for T in TAM12:
+        T_ATUAL='G' if T=='GG' else T
+        lj=L[L.tam==T].index;xT=d[d.loja.isin(lj)]
+        for per in PER12:
+            ALVO.setdefault(T_ATUAL,{})['Empório']={'P':36,'M':68,'G':96,'GG':130}[T]
+            M,n=modulos12(d,L,T,per);cats={}
+            for cat,f in M.items():
+                if f<=0: continue
+                if cat=='Granel':
+                    nt={'P':20,'M':32,'G':40,'GG':48}[T]+(6 if per=='Granel forte' else 0)
+                    g=xT[xT.setorf=='Granel'].groupby(['sku','desc']).valor.sum().reset_index().sort_values('valor',ascending=False)
+                    g=g[~g.desc.str.contains(EXC)].head(nt);it=[]
+                    for r in g.itertuples():
+                        fam=next(nm for nm,p in GRANEL if re.search(p,r.desc));lo,hi=preco(int(r.sku));it.append(dict(sku=int(r.sku),desc=r.desc,nome=re.sub(r'\s*A GRANEL','',r.desc).title(),fam=fam,pmin=lo,pmax=hi))
+                    cats[cat]=dict(f=f,tubos=it);continue
+                if cat=='Empório': y=xT[xT.setorf.astype(str).str.startswith('Empório')&~xT.setorf.astype(str).str.contains('Vinhos|Queijos')]
+                else:
+                    y=xT[xT.setorf.isin(nomes(cat))]
+                    if cat=='Bem-Estar':
+                        ex=[k for k,v in RC.G.items() if v in('Intestino','Imunidade','Kids e Peso','Longevidade') and M.get(v,0)==0]
+                        if ex: y=pd.concat([y,xT[xT.setorf.isin(ex)]])
+                if y.empty: continue
+                cc=escolher(y,cat,f);cats[cat]=dict(f=f,niveis=cc['niveis'],skus=cc['skus'],frentes=cc['frentes'])
+            res[f'{T}|{per}']=dict(n=n,modulos=M,cats=cats)
+            print(T,per,n,sum(M.values()),sum(c.get('skus',len(c.get('tubos',[]))) for c in cats.values()))
+    (R/'analise/planogramas12.json').write_text(json.dumps(res,ensure_ascii=False));return res

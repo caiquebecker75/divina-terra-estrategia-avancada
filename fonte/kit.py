@@ -256,10 +256,23 @@ for T_ in 'PMG':
         else:
             for i_,tb in enumerate(cc['tubos'],1): lin.append([c_,'Granel',(i_-1)//7+1,None,'Tubo',i_,tb['fam'],tb['sku'],tb['desc'],'A granel',1,None,None,'Núcleo' if i_<=20 else 'Lista',tb.get('pmin'),tb.get('pmax'),None])
     aba(f'Planograma {T_}',f'Planograma da loja {T_}: {N_.TAMN[T_]}, {int(sum(_r[T_]["modulos"].values()))} módulos','Relatório de posições de toda a loja, por categoria. Níveis de 1 (alto) a 6 (baixo). Capacidade: frentes × 6, a confirmar. Largura em cm, estimada pelo peso e formato: a trena fecha. Faixa de preço: do preço pago por loja e mês, de 25% a 90%, a calibrar com custo e pesquisa.',['Categoria','Motor','Módulo','Nível','Altura','Posição','Subcategoria','SKU','Produto','Marca','Frentes','Capacidade','Largura cm','Classe','Preço mín. R$','Preço máx. R$','Médio pago R$'],lin,[18,11,8,7,8,8,22,9,52,20,8,10,9,9,10,10,10],fmt={15:'#,##0.00',16:'#,##0.00',17:'#,##0.00'})
+_R12=N_.dados12();lin=[]
+for _k,_d in _R12.items():
+    _T,_per=_k.split('|')
+    for c_ in N_.ORD:
+        cc=_d['cats'].get(c_)
+        if not cc: continue
+        if 'tubos' in cc:
+            for i_,tb in enumerate(cc['tubos'],1): lin.append([_T,_per,c_,(i_-1)//7+1,None,'Tubo',tb['fam'],tb['sku'],tb['desc'],'A granel',1,tb.get('pmin'),tb.get('pmax')])
+            continue
+        for n_ in cc['niveis']:
+            for mi,m in enumerate(n_['mods'],1):
+                for e in m: lin.append([_T,_per,c_,mi,n_['n'],PH_.NIV[n_['n']],n_['rot'],e['sku'],e['desc'],e['mc'],e['f'],e.get('pmin'),e.get('pmax')])
+aba('12 tipos, módulo a módulo','Os 12 tipos de loja: produto por módulo e altura','Filtre por tamanho e perfil. Módulo é contado dentro da categoria. Nível 1 é o mais alto, nível 6 o mais baixo.',['Tamanho','Perfil','Categoria','Módulo','Nível','Altura','Subcategoria','SKU','Produto','Marca','Frentes','Preço mín. R$','Preço máx. R$'],lin,[8,17,18,8,7,8,22,9,52,20,8,10,10],fmt={12:'#,##0.00',13:'#,##0.00'})
 _q={T_:N_.quant(_r,T_) for T_ in 'PMG'};lin=[]
 for nm,ds,a_,b_,fq,ic_,ver in N_.PONTOS:
-    lin.append([nm,ds,a_,b_,ver]+[fq(_q[T_]) for T_ in 'PMG'])
-ws=aba('Custo por ponto','Custo por ponto da loja','Estimativa de referência da 75 LAB, antes de cotação, baixa tiragem, sem frete, instalação e móveis. Troque os custos pelas cotações. Quantidades vêm dos planogramas.',['Ponto','O que é','Custo mínimo R$','Custo máximo R$','Verba de marca?','Qtd. P','Qtd. M','Qtd. G','P mín','P máx','M mín','M máx','G mín','G máx'],lin,[26,44,11,11,14,7,7,7,10,10,10,10,10,10],fmt={3:'#,##0.00',4:'#,##0.00'})
+    lin.append([nm,ds,a_,b_,ver]+[fq(_q[T_]) for T_ in 'PMG']+[None]*6+list(N_.TEMPO[nm]))
+ws=aba('Custo por ponto','Custo e tempo por ponto da loja','Estimativa de referência da 75 LAB, antes de cotação, baixa tiragem, sem frete, instalação e móveis. Troque os custos pelas cotações. Quantidades vêm dos planogramas.',['Ponto','O que é','Custo mínimo R$','Custo máximo R$','Verba de marca?','Qtd. P','Qtd. M','Qtd. G','P mín','P máx','M mín','M máx','G mín','G máx','Produção, dias úteis','Instalar, min por unidade','Quanto dura'],lin,[26,44,11,11,14,7,7,7,10,10,10,10,10,10,14,12,28],fmt={3:'#,##0.00',4:'#,##0.00'})
 for i_ in range(5,5+len(lin)):
     for k_,(cq,col) in enumerate((('F','I'),('F','J'),('G','K'),('G','L'),('H','M'),('H','N'))):
         lim='C' if k_%2==0 else 'D';ws[f'{col}{i_}']=f'={cq}{i_}*{lim}{i_}';ws[f'{col}{i_}'].number_format='#,##0'
@@ -270,6 +283,7 @@ aba('Decisão por marca','Marcas: em alta, lacunas e decisão','18 linhas em ord
 aba('Evidências de mercado','Evidências de mercado, com fonte','Cada linha tem a página de origem. Números de empresa costumam vir da própria empresa: veja o tipo de evidência.',['Categoria','Marca ou movimento','Evidência','Tipo','Data','Veículo','Link'],[[x.get('categoria'),x.get('marcaOuMovimento'),x.get('evidencia'),x.get('tipoEvidencia'),(x.get('fonte') or {}).get('data'),(x.get('fonte') or {}).get('veiculo'),(x.get('fonte') or {}).get('url')] for x in _m['emAltaMercado']['evidencias']],[20,26,60,22,11,24,50])
 ws=wb['Leia-me'];ws.cell(row=27,column=1,value='Planograma P, M e G').font=Font(bold=True,color=TER);ws.cell(row=27,column=2,value='Todas as categorias, posição por posição, com SKU, frentes e capacidade')
 ws.cell(row=28,column=1,value='Custo por ponto').font=Font(bold=True,color=TER);ws.cell(row=28,column=2,value='Quantidade e custo de cada ponto por tamanho de loja, com fórmulas')
+ws.cell(row=30,column=1,value='12 tipos, módulo a módulo').font=Font(bold=True,color=TER);ws.cell(row=30,column=2,value='Cada tipo de loja, com o que vai em cada módulo e altura')
 ws.cell(row=29,column=1,value='Decisão por marca').font=Font(bold=True,color=TER);ws.cell(row=29,column=2,value='Em alta, lacunas e o que fazer, com as evidências na aba seguinte')
 
 pathlib.Path('kit').mkdir(exist_ok=True)
