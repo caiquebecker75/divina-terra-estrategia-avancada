@@ -250,12 +250,14 @@ for T_ in 'PMG':
         cc=_r[T_]['cats'].get(c_)
         if not cc: continue
         if 'niveis' in cc:
-            nuc=PH_.nucleo(_r,c_)
+            nuc=PH_.classes(_r,T_,c_)
             for x in PH_.relatorio(cc,{},nuc):
                 lin.append([c_,N_.MOT[c_],x['mod'],x['niv'],PH_.NIV[x['niv']],x['pos'],x['sub'],x['sku'],x['nome'],x['marca'],x['fr'],x['cap'],x['larg'],x['cl'],x['pmin'],x['pmax'],x['pm']])
         else:
             for i_,tb in enumerate(cc['tubos'],1): lin.append([c_,'Granel',(i_-1)//7+1,None,'Tubo',i_,tb['fam'],tb['sku'],tb['desc'],'A granel',1,None,None,'Núcleo' if i_<=20 else 'Lista',tb.get('pmin'),tb.get('pmax'),None])
     aba(f'Planograma {T_}',f'Planograma da loja {T_}: {N_.TAMN[T_]}, {int(sum(_r[T_]["modulos"].values()))} módulos','Relatório de posições de toda a loja, por categoria. Níveis de 1 (alto) a 6 (baixo). Capacidade: frentes × 6, a confirmar. Largura em cm, estimada pelo peso e formato: a trena fecha. Faixa de preço: do preço pago por loja e mês, de 25% a 90%, a calibrar com custo e pesquisa.',['Categoria','Motor','Módulo','Nível','Altura','Posição','Subcategoria','SKU','Produto','Marca','Frentes','Capacidade','Largura cm','Classe','Preço mín. R$','Preço máx. R$','Médio pago R$'],lin,[18,11,8,7,8,8,22,9,52,20,8,10,9,9,10,10,10],fmt={15:'#,##0.00',16:'#,##0.00',17:'#,##0.00'})
+import calendario as CAL_
+aba('Calendário 2027','Calendário de trade 2027','Participação: % real da venda do mês, de 11/2025 a 10/2026, um único ano de base. Peso do trade: proposta, em % de ponta, mesa e encarte. Datas a integrar ao calendário oficial da rede. Abastecer sem granel na coluna de participação.',['Mês','Datas','Foco','Cuidar','Abastecer','Celebrar','Ponta','Mesa do mês','Encarte','% Cuidar','% Abastecer','% Granel','% Celebrar','Trade Cuidar','Trade Abastecer','Trade Celebrar','Venda por loja, R$','Categorias que pesam mais','Plano fechado','Material na loja','Desmontar','Projeto'],CAL_.kit(),[11,34,22,38,38,38,20,20,28,8,9,8,9,8,9,9,11,34,9,9,9,18])
 _R12=N_.dados12();lin=[]
 for _k,_d in _R12.items():
     _T,_per=_k.split('|')
@@ -267,7 +269,7 @@ for _k,_d in _R12.items():
             continue
         for n_ in cc['niveis']:
             for mi,m in enumerate(n_['mods'],1):
-                for e in m: lin.append([_T,_per,c_,mi,n_['n'],PH_.NIV[n_['n']],n_['rot'],e['sku'],e['desc'],e['mc'],e['f'],e.get('pmin'),e.get('pmax')])
+                for e in m: lin.append([_T,_per,c_,mi,n_['n'],PH_.NIV[n_['n']],n_['rots'][mi-1],e['sku'],e['desc'],e['mc'],e['f'],e.get('pmin'),e.get('pmax')])
 aba('12 tipos, módulo a módulo','Os 12 tipos de loja: produto por módulo e altura','Filtre por tamanho e perfil. Módulo é contado dentro da categoria. Nível 1 é o mais alto, nível 6 o mais baixo.',['Tamanho','Perfil','Categoria','Módulo','Nível','Altura','Subcategoria','SKU','Produto','Marca','Frentes','Preço mín. R$','Preço máx. R$'],lin,[8,17,18,8,7,8,22,9,52,20,8,10,10],fmt={12:'#,##0.00',13:'#,##0.00'})
 _q={T_:N_.quant(_r,T_) for T_ in 'PMG'};lin=[]
 for nm,ds,a_,b_,fq,ic_,ver in N_.PONTOS:
@@ -283,7 +285,7 @@ aba('Decisão por marca','Marcas: em alta, lacunas e decisão','18 linhas em ord
 aba('Evidências de mercado','Evidências de mercado, com fonte','Cada linha tem a página de origem. Números de empresa costumam vir da própria empresa: veja o tipo de evidência.',['Categoria','Marca ou movimento','Evidência','Tipo','Data','Veículo','Link'],[[x.get('categoria'),x.get('marcaOuMovimento'),x.get('evidencia'),x.get('tipoEvidencia'),(x.get('fonte') or {}).get('data'),(x.get('fonte') or {}).get('veiculo'),(x.get('fonte') or {}).get('url')] for x in _m['emAltaMercado']['evidencias']],[20,26,60,22,11,24,50])
 ws=wb['Leia-me'];ws.cell(row=27,column=1,value='Planograma P, M e G').font=Font(bold=True,color=TER);ws.cell(row=27,column=2,value='Todas as categorias, posição por posição, com SKU, frentes e capacidade')
 ws.cell(row=28,column=1,value='Custo por ponto').font=Font(bold=True,color=TER);ws.cell(row=28,column=2,value='Quantidade e custo de cada ponto por tamanho de loja, com fórmulas')
-ws.cell(row=30,column=1,value='12 tipos, módulo a módulo').font=Font(bold=True,color=TER);ws.cell(row=30,column=2,value='Cada tipo de loja, com o que vai em cada módulo e altura')
+ws.cell(row=31,column=1,value='Calendário 2027').font=Font(bold=True,color=TER);ws.cell(row=31,column=2,value='Datas, papel e participação de cada motor, e prazos, mês a mês');ws.cell(row=30,column=1,value='12 tipos, módulo a módulo').font=Font(bold=True,color=TER);ws.cell(row=30,column=2,value='Cada tipo de loja, com o que vai em cada módulo e altura')
 ws.cell(row=29,column=1,value='Decisão por marca').font=Font(bold=True,color=TER);ws.cell(row=29,column=2,value='Em alta, lacunas e o que fazer, com as evidências na aba seguinte')
 
 pathlib.Path('kit').mkdir(exist_ok=True)

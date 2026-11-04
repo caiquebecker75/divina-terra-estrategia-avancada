@@ -75,11 +75,11 @@ def treemap():
     return o+'</div>'
 # planograma do Empório: módulo de parede 0,90 m, 6 níveis
 B={'Presentes':(C['lin'],C['ter']),'Chocolates':(C['ter'],'#fff'),'Azeites':(C['oli'],'#fff'),'Massas':(C['aca'],C['ter']),'Molhos':(C['pap'],'#fff'),'Conservas':(C['mat'],C['ter']),'Vinhos':(C['cho'],'#fff'),'Cafés':('#8a5a3c','#fff'),'Temperos':(C['cap'],'#fff'),'Biscoitos finos':('#d9c7ad',C['ter']),'Geleias e mel':('#e1b866',C['ter']),'Árabe':('#7f9266','#fff'),'Asiático':('#a65a44','#fff'),'Importados saudáveis':(C['ave'],C['ter']),'Vinagres':('#71845c','#fff'),'Adega':(C['cho'],'#fff'),'Espumantes':('#96502f','#fff')}
-M1=[[('Presentes',5)],[('Chocolates',7)],[('Azeites',4),('Vinagres',2)],[('Massas',4),('Molhos',3)],[('Conservas',6)],[('Vinhos',5)]]
-M2=[[[('Temperos',7)],[('Azeites',4),('Vinagres',3)],[('Massas',5)],[('Molhos',5)],[('Conservas',6)],[('Conservas',3),('Geleias e mel',3)]],[[('Presentes',5)],[('Biscoitos finos',6)],[('Chocolates',8)],[('Cafés',5),('Geleias e mel',2)],[('Espumantes',5)],[('Vinhos',5)]]]
-M3=M2+[[[('Importados saudáveis',7)],[('Importados saudáveis',7)],[('Árabe',7)],[('Asiático',7)],[('Asiático',3),('Árabe',3)],[('Adega',5)]]]
+M1=[[('Temperos',3),('Cafés',3)],[('Chocolates',7)],[('Azeites',4),('Vinagres',2)],[('Massas',4),('Molhos',3)],[('Geleias e mel',3),('Conservas',3)],[('Vinhos',5)]]
+M2=[[[('Temperos',7)],[('Massas',5)],[('Azeites',4),('Vinagres',3)],[('Molhos',5)],[('Conservas',6)],[('Conservas',3),('Geleias e mel',3)]],[[('Cafés',5)],[('Biscoitos finos',3),('Chocolates',3)],[('Chocolates',8)],[('Geleias e mel',6)],[('Chocolates',6)],[('Vinhos',5)]]]
+M3=M2+[[[('Importados saudáveis',7)],[('Importados saudáveis',7)],[('Árabe',7)],[('Asiático',7)],[('Asiático',3),('Árabe',3)],[('Vinhos',5)]]]
 GG=[[('Presentes',8)],[('Chocolates',4),('Biscoitos finos',4)],[('Azeites',3),('Conservas',4)],[('Adega',7)]]
-M4=M3+[[[('Presentes',6)],[('Temperos',7)],[('Cafés',6)],[('Geleias e mel',6)],[('Adega',5)],[('Adega',5)]]]
+M4=M3+[[[('Temperos',7)],[('Cafés',6)],[('Chocolates',7)],[('Geleias e mel',6)],[('Adega',5)],[('Adega',5)]]]
 def modulo(niv,w=206,h=440,nome=''):
     lv=len(niv);top=30;gh=(h-top-12)/lv;s=f'<svg viewBox="0 0 {w} {h}" class="mod"><rect x="0" y="0" width="{w}" height="{h}" rx="6" fill="{C["ter"]}"/><rect x="6" y="6" width="{w-12}" height="20" rx="3" fill="{C["iog"]}"/><text x="{w/2}" y="21" text-anchor="middle" font-size="12" font-weight="600" fill="{C["ter"]}">{nome}</text>'
     for i,row in enumerate(niv):

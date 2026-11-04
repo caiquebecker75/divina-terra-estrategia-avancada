@@ -6,10 +6,14 @@ TXT={'#7C381F':'#fff','#596D49':'#fff','#CA942A':'#2b1209','#AC834C':'#fff','#46
 FAM={'Castanhas e nozes':'#7C381F','Sementes':'#596D49','Frutas secas':'#AC834C','Snacks e chocolates':'#CA942A','Mix, cacau e farinhas':'#BCAD99'}
 NIV={1:'Alto',2:'Alto',3:'Olhos',4:'Olhos',5:'Mão',6:'Baixo'}
 def dados(): return json.loads((R/'analise/planogramas.json').read_text())
-def nucleo(r,cat):
-    c=r['P']['cats'].get(cat)
-    if not c or 'niveis' not in c: return set()
-    return {e['sku'] for n in c['niveis'] for m in n['mods'] for e in m}
+def classes(r,T,cat):
+    "Por tamanho de loja: os 60% de produtos que mais vendem são núcleo, os 20% seguintes são lista e os últimos 20% a loja pode trocar por local."
+    c=r[T]['cats'].get(cat)
+    if not c: return {}
+    it=c.get('tubos') or [e for n in c['niveis'] for m in n['mods'] for e in m]
+    o=sorted(it,key=lambda e:-e.get('v',0));n=max(1,len(o))
+    return {e['sku']:('Núcleo' if i<round(n*.6) else 'Lista' if i<round(n*.8) else 'Local') for i,e in enumerate(o)}
+def nucleo(r,cat,T='P'): return classes(r,T,cat)
 def cores(c):
     v={}
     for n in c['niveis']:
@@ -21,7 +25,7 @@ def br(x): return str(x).replace('.',',').replace(',0','') if isinstance(x,float
 def legenda(c,cor,ord_):
     it=''.join(f'<span><i style="background:{cor[m]}"></i>{html.escape(m)}</span>' for m in ord_[:6])
     if len(ord_)>6: it+=f'<span><i style="background:#E5DDD1"></i>Outras {len(ord_)-6} marcas</span>'
-    return f'<div class="leg pg-leg"><b>Marca</b>{it}<b>Marcação</b><span><u></u>Núcleo: está em todas as lojas</span><span><u class="ls"></u>Lista: entra por tamanho</span><span><i class="hach"></i>Espaço local</span><span><em>2×</em>Frentes</span></div>'
+    return f'<div class="leg pg-leg"><b>Marca</b>{it}<b>Marcação</b><span><u></u>Núcleo: igual em toda loja do mesmo tamanho</span><span><u class="ls"></u>Lista: entra por tamanho</span><span><i class="hach"></i>Espaço local</span><span><em>2×</em>Frentes</span></div>'
 def paginas(r,T,cat,porp=4):
     c=r[T]['cats'][cat]
     if 'tubos' in c: return 1
@@ -55,7 +59,7 @@ def item(e,px,alt,cor,fm,nuc):
     fotos_=''.join(face(e,px,alt-rail,cor,t,fm) for _ in range(e['f']))
     lo,hi=e.get('pmin'),e.get('pmax')
     rg=f'<span class="pgr"><b>{_r(lo)}</b><b>{_r(hi)}</b></span>' if lo else '<span class="pgr"></span>'
-    dat=' '.join(f'data-{k}="{html.escape(str(v),quote=True)}"' for k,v in dict(n=e['desc'],s=e['sku'],m=e['mc'],f=e['f'],c=e['f']*6,a=f'R$ {_r(lo)}' if lo else '',b=f'R$ {_r(hi)}' if hi else '',p=f'R$ {_r(e["pm"])}' if e.get('pm') else '',cl='Núcleo' if e['sku'] in nuc else 'Lista').items())
+    dat=' '.join(f'data-{k}="{html.escape(str(v),quote=True)}"' for k,v in dict(n=e['desc'],s=e['sku'],m=e['mc'],sb=e.get('s',''),tm=e.get('band',''),f=e['f'],c=e['f']*6,a=f'R$ {_r(lo)}' if lo else '',b=f'R$ {_r(hi)}' if hi else '',p=f'R$ {_r(e["pm"])}' if e.get('pm') else '',cl=nuc.get(e['sku'],'Lista')).items())
     return f'<div class="pgi" {dat} style="width:{e["w"]*e["f"]*px:.1f}px" tabindex="0"><div class="pgfs">{fotos_}</div>{rg}</div>'
 def relatorio(c,fm,nuc):
     lin=[]
@@ -63,10 +67,10 @@ def relatorio(c,fm,nuc):
         pos=0
         for mi,m in enumerate(n['mods']):
             for e in m:
-                pos+=1;lin.append(dict(mod=mi+1,niv=n['n'],pos=pos,sub=n['rot'],sku=e['sku'],nome=e['desc'],marca=e['mc'],fr=e['f'],cap=e['f']*6,larg=e['w']*e['f'],cl='Núcleo' if e['sku'] in nuc else 'Lista',pmin=e.get('pmin'),pmax=e.get('pmax'),pm=e.get('pm')))
+                pos+=1;lin.append(dict(mod=mi+1,niv=n['n'],pos=pos,sub=n['rots'][mi],sku=e['sku'],nome=e['desc'],marca=e['mc'],fr=e['f'],cap=e['f']*6,larg=e['w']*e['f'],cl=nuc.get(e['sku'],'Lista'),pmin=e.get('pmin'),pmax=e.get('pmax'),pm=e.get('pm')))
     return lin
 def plano(r,T,cat,maxm=None,px=None,ini=0):
-    c=r[T]['cats'][cat];nuc=nucleo(r,cat);fm=fotos()
+    c=r[T]['cats'][cat];nuc=classes(r,T,cat);fm=fotos()
     if 'tubos' in c: return granel(c,T)
     cor,ord_=cores(c);f=c['f'];inteiros=max(1,int(f+.999))
     mostra=min(inteiros,ini+maxm) if maxm else inteiros
@@ -87,7 +91,9 @@ def plano(r,T,cat,maxm=None,px=None,ini=0):
             for e in itens:
                 cx+=item(e,px,alt,cor[e['mc']],fm,nuc)
             sob=larg-soma
-            h+=f'<div class="pg-sh{" olho" if n["n"] in(3,4) else ""}" style="height:{alt:.1f}px">{cx}</div>'
+            rot=n['rots'][m] if m<len(n.get('rots',[])) else ''
+            if sob>=14: cx+=f'<span class="pg-vz" style="width:{sob*px:.1f}px;height:{alt-8:.1f}px"><i>{"Local" if itens else html.escape(rot)}</i></span>'
+            h+=f'<div class="pg-sh{" olho" if n["n"] in(3,4) else ""}" style="height:{alt:.1f}px"><em class="pg-rot">{html.escape(rot) if itens else ""}</em>{cx}</div>'
         h+='</div>'
     h+='</div></div>'
     rel=''
@@ -99,14 +105,15 @@ def plano(r,T,cat,maxm=None,px=None,ini=0):
     h=f'<div class="pg-duo">{h}{rel}</div>'
     com=sum(1 for n in c['niveis'] for m in n['mods'] for e in m if str(e['sku']) in fm);tot=sum(1 for n in c['niveis'] for m in n['mods'] for e in m)
     resumo=f'<div class="pg-res"><span><b>{br(float(f))}</b> {"módulo" if f<=1 else "módulos"}</span><span><b>{c["skus"]}</b> produtos</span><span><b>{c["frentes"]}</b> frentes</span><span><b>{round(c["cob"]*100)}%</b> da venda da categoria nesta faixa</span>{f"<span class=mais>Módulos {ini+1} a {mostra} de {inteiros}</span>" if (maxm and inteiros>maxm) else ""}</div>'
-    leg='<div class="leg pg-leg"><span><b>Cada foto é uma frente</b></span><span><i class="ol"></i>Faixa dos olhos: níveis 3 e 4</span><span>Nível 1: a loja pode trocar até 20% por regional</span><span><em class="ex">9,90 12,90</em>Régua de preço: mínimo e máximo sugeridos, em reais</span><span><i style="background:#E5DDD1;border:1px solid #BCAD99"></i>Embalagem desenhada: foto ainda não localizada</span><span>Passe o mouse no produto para ver o nome na base, o SKU e as frentes.</span></div>'
+    leg='<div class="leg pg-leg"><span><b>Cada foto é uma frente</b></span><span><i class="ol"></i>Faixa dos olhos: níveis 3 e 4</span><span>Cada prateleira: uma subcategoria e um tamanho. Acima de 500 g só nos níveis 5 e 6</span><span><i class="hach"></i>Espaço local: a loja pode trocar até 20%, a começar do nível 1</span><span><em class="ex">9,90 12,90</em>Régua de preço: mínimo e máximo sugeridos, em reais</span><span><i style="background:#E5DDD1;border:1px solid #BCAD99"></i>Embalagem desenhada: foto ainda não localizada</span><span>Passe o mouse no produto para ver o nome na base, o SKU e as frentes.</span></div>'
     return resumo+h+leg
 def granel(c,T):
     it=''.join(f'<div class="pgi pg-tb" data-n="{html.escape(t["desc"],quote=True)}" data-s="{t["sku"]}" data-m="A granel" data-f="1" data-a="R$ {_r(t.get("pmin"))}/kg" data-b="R$ {_r(t.get("pmax"))}/kg" tabindex="0"><div class="pg-tubo" style="background:{FAM[t["fam"]]};color:{"#2b1209" if FAM[t["fam"]] in("#CA942A","#BCAD99") else "#fff"}"><span>{html.escape(t["nome"])}</span></div><span class="pgr"><b>{_r(t.get("pmin"))}</b><b>{_r(t.get("pmax"))}</b></span></div>' for t in c['tubos'])
+    it+=''.join(f'<div class="pgi pg-tb" data-n="Tubo livre para item regional" data-m="Local" tabindex="0"><div class="pg-tubo" style="background:repeating-linear-gradient(135deg,#efe9df 0 5px,#fff 5px 10px);color:var(--terra);border:1px dashed var(--linho)"><span>Livre, regional</span></div><span class="pgr"></span></div>' for _ in range(c.get('livres',2)))
     leg=''.join(f'<span><i style="background:{v}"></i>{k} · {sum(1 for t in c["tubos"] if t["fam"]==k)} tubos</span>' for k,v in FAM.items())
-    return f'<div class="pg-res"><span><b>{c["f"]}</b> módulos</span><span><b>{c["skus"]}</b> tubos</span><span><b>{round(c["cob"]*100)}%</b> da venda do granel nesta faixa</span></div><div class="pg-tubos" style="--n:{min(10,max(8,len(c["tubos"])//2+1 if len(c["tubos"])<=20 else 10))}">{it}</div><div class="leg pg-leg"><b>Família</b>{leg}</div>'
+    return f'<div class="pg-res"><span><b>{c["f"]}</b> módulos</span><span><b>{c["skus"]+c.get("livres",2)}</b> tubos, 2 livres</span><span><b>{round(c["cob"]*100)}%</b> da venda do granel nesta faixa</span></div><div class="pg-tubos" style="--n:{min(10,max(8,len(c["tubos"])//2+1 if len(c["tubos"])<=20 else 10))}">{it}</div><div class="leg pg-leg"><b>Família</b>{leg}</div>'
 DICA='''<script>(function(){var d=document.createElement('div');d.className='pg-dica';var z=function(){var s=document.getElementById('stage');return s||document.body};z().appendChild(d);
-function mostra(e){var a=e.target.closest&&e.target.closest('.pgi');if(!a){d.style.display='none';return}var v=a.dataset,l=[['SKU',v.s],['Marca',v.m],['Frentes',v.f],['Capacidade',v.c?v.c+' unidades':''],['Preço mínimo',v.a],['Preço máximo',v.b],['Preço médio pago',v.p],['Classe',v.cl]];d.innerHTML='<b>'+v.n+'</b><table>'+l.filter(function(x){return x[1]}).map(function(x){return '<tr><td>'+x[0]+'</td><td>'+x[1]+'</td></tr>'}).join('')+'</table>';d.style.display='block';var r=a.getBoundingClientRect(),w=d.offsetWidth,h=d.offsetHeight,x=Math.min(innerWidth-w-10,Math.max(10,r.left+r.width/2-w/2)),y=r.top-h-8;if(y<8)y=r.bottom+8;var host=d.parentNode;if(host.id==='stage'){var hr=host.getBoundingClientRect(),k=hr.width/1600;d.style.position='absolute';d.style.left=(x-hr.left)/k+'px';d.style.top=(y-hr.top)/k+'px'}else{d.style.left=x+'px';d.style.top=y+'px'}}
+function mostra(e){var a=e.target.closest&&e.target.closest('.pgi');if(!a){d.style.display='none';return}var v=a.dataset,l=[['SKU',v.s],['Marca',v.m],['Subcategoria',v.sb],['Tamanho',v.tm],['Frentes',v.f],['Capacidade',v.c?v.c+' unidades':''],['Preço mínimo',v.a],['Preço máximo',v.b],['Preço médio pago',v.p],['Classe',v.cl]];d.innerHTML='<b>'+v.n+'</b><table>'+l.filter(function(x){return x[1]}).map(function(x){return '<tr><td>'+x[0]+'</td><td>'+x[1]+'</td></tr>'}).join('')+'</table>';d.style.display='block';var r=a.getBoundingClientRect(),w=d.offsetWidth,h=d.offsetHeight,x=Math.min(innerWidth-w-10,Math.max(10,r.left+r.width/2-w/2)),y=r.top-h-8;if(y<8)y=r.bottom+8;var host=d.parentNode;if(host.id==='stage'){var hr=host.getBoundingClientRect(),k=hr.width/1600;d.style.position='absolute';d.style.left=(x-hr.left)/k+'px';d.style.top=(y-hr.top)/k+'px'}else{d.style.left=x+'px';d.style.top=y+'px'}}
 document.addEventListener('mouseover',mostra);document.addEventListener('focusin',mostra);document.addEventListener('mouseleave',function(){d.style.display='none'})})();</script>'''
 CSS='''
 .leg{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:14px;line-height:1.2;color:var(--cinza)}.leg b{color:var(--terra);font-weight:600}.leg span{display:inline-flex;align-items:center;gap:6px}.leg i{display:inline-block;width:13px;height:13px;border-radius:3px;flex:none}
@@ -120,6 +127,7 @@ CSS='''
 .pg-sh.olho{background:rgba(202,148,42,.07)}
 .pgi{display:flex;flex-direction:column;justify-content:flex-end;flex:none;position:relative;height:100%;cursor:default}.pgi:hover,.pgi:focus{outline:2px solid var(--paprica);outline-offset:-1px;z-index:3}.pgfs{display:flex;align-items:flex-end;flex:1;min-height:0}
 .pgr{display:flex;justify-content:space-between;gap:1px;height:20px;background:#f4efe6;border-top:1px solid #2c2622;padding:1px 2px;font:600 8.3px/9px var(--sans);color:var(--terra);flex-direction:column;overflow:hidden;text-align:center}.pgr b{display:block;font-weight:600}.pgr b:first-child{color:var(--oliva)}.pgr b:last-child{color:var(--choco)}
+.pg-rot{position:absolute;left:3px;top:1px;font:500 9px/1 var(--sans);font-style:normal;color:var(--cinza);background:rgba(255,255,255,.82);padding:1px 3px;border-radius:2px;z-index:2;max-width:96%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pgf{display:block;flex:none;mix-blend-mode:multiply}
 .pg-tb{height:auto}.pg-tb .pgr{height:22px;font-size:10px;flex-direction:row;align-items:center;justify-content:center;gap:8px;border:0;border-radius:0 0 6px 6px}
 .pg-dica{position:fixed;z-index:999;max-width:320px;background:var(--terra);color:var(--iogurte);border-radius:10px;padding:10px 13px;font:400 13px/1.3 var(--sans);pointer-events:none;box-shadow:0 12px 30px rgba(44,20,12,.4);display:none}.pg-dica b{display:block;font-weight:600;font-size:13.5px;margin-bottom:4px}.pg-dica table{border-collapse:collapse;width:100%}.pg-dica td{padding:1px 0;font-size:12px}.pg-dica td:first-child{opacity:.72;padding-right:10px}

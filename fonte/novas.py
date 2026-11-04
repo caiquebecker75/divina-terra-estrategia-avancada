@@ -67,7 +67,7 @@ def loja_tabs(r):
         pns+=f'<div class="painel{" on" if i==0 else ""}" data-k="l{T}"><div class="lj-g"><div>{planta_svg(T)}</div><div>{par}<p class="lj-ob"><b>{skus} produtos</b> em {int(tot)} módulos de 0,90 m, mais o caixa. {fora(r,T)} Frio e café da loja ficam fora da conta.</p></div></div></div>'
     return f'<div data-abas><div class="abas">{bts}</div>{pns}</div>'
 PAPEL={'Proteínas':'Destino','Creatina':'Destino','Colágeno':'Destino','Performance':'Destino','Bem-Estar':'Destino','Longevidade':'Destino','Vitaminas':'Rotina','Ômegas':'Rotina','Intestino':'Rotina','Imunidade':'Ocasião','Kids e Peso':'Rotina','Barras e snacks':'Rotina','Cafés funcionais':'Rotina','Despensa':'Rotina','Chás':'Rotina','Granel':'Rotina','Empório':'Ocasião','Caixa':'Conveniência'}
-IND={'Proteínas':'Cortar a cauda. Whey, isolada, beef e vegana em prateleiras separadas.','Creatina':'Núcleo enxuto. Creapure nos olhos, goma à parte.','Colágeno':'Separar pele de articular e reduzir sobreposição.','Performance':'Agrupar por uso: pré-treino, aminoácidos, energia.','Bem-Estar':'Nomes de benefício permitidos e conversa treinada.','Longevidade':'Dar casa própria: coenzima, NAC, cúrcuma.','Vitaminas':'Organizar por nutriente, de A a Z, com régua de uso.','Ômegas':'Rotina consultiva: uma régua “para que serve”.','Intestino':'Dar casa própria, com probióticos e fibras.','Imunidade':'Crescer no inverno e reduzir no resto do ano.','Kids e Peso':'Só ganha módulo em loja maior; senão, junto com bem-estar.','Barras e snacks':'Reduzir a cauda. Ponta e caixa para os que giram.','Cafés funcionais':'Reduzir a dependência de uma só marca.','Despensa':'Recortar por uso. Selo vira atributo, não setor.','Chás':'Parede própria, com caixas e folhas.','Granel':'Parede de 20 a 40 tubos, sem ruptura, com prova.','Empório':'Entrar com curadoria: 36, 68 e 96 produtos.','Caixa':'Pequeno formato, posição secundária.'}
+IND={'Proteínas':'Cortar a cauda. Whey, isolada, beef e vegana em prateleiras separadas, e um tamanho por prateleira.','Creatina':'Núcleo enxuto. Creapure nos olhos, goma à parte.','Colágeno':'Separar pele de articular e reduzir sobreposição.','Performance':'Agrupar por uso: pré-treino, aminoácidos, energia.','Bem-Estar':'Nomes de benefício permitidos e conversa treinada.','Longevidade':'Dar casa própria: coenzima, NAC, cúrcuma.','Vitaminas':'Organizar por nutriente, de A a Z, com régua de uso.','Ômegas':'Rotina consultiva: uma régua “para que serve”.','Intestino':'Dar casa própria, com probióticos e fibras.','Imunidade':'Crescer no inverno e reduzir no resto do ano.','Kids e Peso':'Só ganha módulo em loja maior; senão, junto com bem-estar.','Barras e snacks':'Reduzir a cauda. Ponta e caixa para os que giram.','Cafés funcionais':'Reduzir a dependência de uma só marca.','Despensa':'Recortar por uso. Selo vira atributo, não setor.','Chás':'Parede própria, com caixas e folhas.','Granel':'Parede de 20 a 40 tubos, sem ruptura, com prova.','Empório':'Entrar com curadoria: 36, 68 e 96 produtos.','Caixa':'Pequeno formato, posição secundária.'}
 BASEMAP={'Proteínas':['Proteínas'],'Creatina':['Creatina'],'Colágeno':['Colágeno e Beleza'],'Performance':['Performance'],'Bem-Estar':['Equilíbrio e Bem-Estar'],'Longevidade':['Longevidade'],'Vitaminas':['Vitaminas de A a Z'],'Ômegas':['Ômegas'],'Intestino':['Saúde Intestinal'],'Imunidade':['Imunidade'],'Kids e Peso':['Kids','Peso e Composição'],'Barras e snacks':['Barras e snacks'],'Cafés funcionais':['Café e cápsulas'],'Despensa':['Despensa sem setor','Farinhas e despensa'],'Chás':['Chás'],'Granel':['Granel']}
 def cat_base(): return json.loads((R/'analise/cat_base.json').read_text())
 def pct(cb,c):
@@ -109,9 +109,10 @@ def quant(r,T):
     for k,v in c.items():
         if 'niveis' in v:
             for ni in v['niveis']:
-                if ni['mods']:
-                    sub.add((k,ni['rot']))
-                    if MOT.get(k)=='Cuidar': reg.add((k,ni['rot']))
+                for rr in ni.get('rots',[]):
+                    if rr=='Espaço local': continue
+                    sub.add((k,rr.split(' · ')[0]))
+                    if MOT.get(k)=='Cuidar': reg.add((k,rr.split(' · ')[0]))
     return dict(mod=int(sum(M.values())),sus={'P':3,'M':5,'G':6}[T],cat=sum(1 for x,v in M.items() if v>0),sub=len(sub),reg=len(reg),sku=sum(v['skus'] for v in c.values()),pon={'P':1,'M':2,'G':3}[T],mes={'P':0,'M':1,'G':1}[T],cx={'P':1,'M':1,'G':2}[T])
 def custo(r):
     d={T:quant(r,T) for T in 'PMG'};lin='';tot={T:[0,0] for T in 'PMG'};cor=['#461D17','#7C381F','#9a5b3f','#AC834C','#CA942A','#596D49','#A9C094','#BCAD99']
@@ -200,7 +201,7 @@ if __name__=='__main__':
 
 # ---- Manual de cada categoria ----
 GUIA={
-'Proteínas':dict(sort='Cortar a cauda e manter, por linha, até 2 sabores na P, 3 na M e 4 na G. Whey, isolada, beef e vegana em prateleiras separadas.',lugar='Parede do fundo, no melhor trecho. É o principal motivo da visita e conduz a cliente pela loja.',preco='Referência no whey mais comparado. Margem nos isolados e veganos. Conferir semanalmente os preços do mercado alimentar.',com='Testeira “Proteínas”. Faixa por tipo. Selo vegano e sem lactose. Régua: dose por refeição.',promo='Encarte só no calendário. Degustação de lançamento paga pela marca. Sem desconto fixo.',repo='Pote de 900 g ou mais fica nos níveis 5 e 6. Conferir ruptura dos líderes todo dia.',pode='Bloco por marca dentro do tipo. Sachê de teste junto ao pote.',nao='Misturar whey e vegana na mesma prateleira. Prometer emagrecimento ou ganho de massa.',erro='Blocar só por marca: a cliente não acha o tipo que veio buscar.',meta='Participação na venda, ruptura nos líderes, venda por módulo'),
+'Proteínas':dict(sort='Cortar a cauda e manter, por linha, até 2 sabores na P, 3 na M e 4 na G. Whey, isolada, beef e vegana em prateleiras separadas, e um tamanho por prateleira.',lugar='Parede do fundo, no melhor trecho. É o principal motivo da visita e conduz a cliente pela loja.',preco='Referência no whey mais comparado. Margem nos isolados e veganos. Conferir semanalmente os preços do mercado alimentar.',com='Testeira “Proteínas”. Faixa por tipo. Selo vegano e sem lactose. Régua: dose por refeição.',promo='Encarte só no calendário. Degustação de lançamento paga pela marca. Sem desconto fixo.',repo='Acima de 500 g fica nos níveis 5 e 6, sem dividir prateleira com pote pequeno. Conferir ruptura dos líderes todo dia.',pode='Bloco por marca dentro do tipo. Sachê de teste na prateleira de doses, no alto.',nao='Misturar whey e vegana na mesma prateleira. Prometer emagrecimento ou ganho de massa.',erro='Blocar só por marca: a cliente não acha o tipo que veio buscar.',meta='Participação na venda, ruptura nos líderes, venda por módulo'),
 'Creatina':dict(sort='Núcleo enxuto: poucos produtos fazem quase toda a venda. Creapure, monohidratada e goma à parte.',lugar='Uma casa só, no fundo, ao lado de proteínas. Creapure nos olhos, comum logo abaixo, goma no alto.',preco='Crealift e Creafort na lista de referência. Comparar com farmácia e mercado.',com='Faixa “Creapure” e “Monohidratada”. Régua: como tomar. Goma com faixa própria.',promo='Combo com barra ou coqueteleira no início do ano e no verão.',repo='Reposição semanal do líder. Faltou: etiqueta e 2 dias para repor.',pode='Duas posições secundárias com prazo, como ponta em janeiro.',nao='Espalhar creatina por vários setores. Prometer desempenho além do permitido.',erro='Manter muitas marcas iguais: a venda já está concentrada em poucas.',meta='Tempo para achar, ruptura, participação de marca própria'),
 'Colágeno':dict(sort='Separar pele e beleza de articular. Reduzir produtos muito parecidos.',lugar='Fundo, ao lado de proteínas, em lugar visível.',preco='Valor: a cliente paga pela orientação. Pesquisar só os líderes.',com='Faixa “Pele e beleza” e “Articular”. Régua “para que serve”.',promo='Destaque do Mês e Dia das Mães.',repo='Reposição semanal. Sem pote pesado no alto.',pode='Combinar com vitamina C na conversa, sem alegação.',nao='Prometer rejuvenescimento ou tratamento.',erro='Deixar o colágeno disperso em beleza e proteína.',meta='Itens por cupom, venda por módulo'),
 'Performance':dict(sort='Agrupar por uso: pré-treino, aminoácidos, energia e hidratação. Lista curta na loja P.',lugar='Fundo, ao lado de proteínas. Sachê e gel perto do caixa.',preco='Valor, com referência no líder de cada uso.',com='Faixas por uso. Régua: quando tomar.',promo='Verão e eventos locais.',repo='Calor aumenta a saída de hidratação: revisar no verão.',pode='Teste de marcas locais de esporte, dentro dos 20%.',nao='Prometer resultado de desempenho.',erro='Deixar a categoria inflada na loja pequena.',meta='Giro, venda por módulo'),
@@ -216,7 +217,7 @@ GUIA={
 'Despensa':dict(sort='Recortar por uso: farinhas, pastas, adoçantes, leites, massas, cereais, biscoitos. Selo é atributo, não setor.',lugar='Parede lateral de rotina.',preco='Valor nos selos. Referência em poucos itens básicos.',com='Selos do cadastro: sem glúten, zero açúcar, vegano. Sem departamento próprio.',promo='Encarte pontual.',repo='Muitos itens: revisar cauda a cada trimestre.',pode='Regional dentro dos 20%.',nao='Criar uma prateleira por restrição alimentar.',erro='Oito departamentos diferentes para a mesma lógica.',meta='Frequência, venda por módulo, itens sem venda'),
 'Chás':dict(sort='Caixas e sachês de um lado, folhas e misturas do outro.',lugar='Parede própria ou lateral, com leitura horizontal.',preco='Valor.',com='Faixa por tipo e benefício permitido.',promo='Outono-Inverno.',repo='Muitos itens: cuidar da validade.',pode='Parede horizontal, por sabor.',nao='Alegação terapêutica.',erro='Espalhar chá por vários departamentos.',meta='Venda por módulo, itens sem venda'),
 'Granel':dict(sort='Parede de 20 a 40 tubos. Castanhas, sementes e frutas primeiro. 2 tubos livres para o local.',lugar='Da porta se vê. Parede ou ilha no meio da loja.',preco='Oportunidade no encarte: 1 oferta por edição. Preço por quilo sempre claro.',com='Placa “Granel”, família e etiqueta de tubo. Potinho de prova.',promo='Ponta de castanhas no fim de ano.',repo='Chegou a um terço, repõe no mesmo dia. Tubo limpo.',pode='Compra começa pequena e vira hábito.',nao='Deixar tubo vazio ou sujo.',erro='Esconder a parede nos fundos.',meta='Granel na venda, ruptura de tubo, frequência'),
-'Empório':dict(sort='Entrar com curadoria: 36, 68 ou 96 produtos. Passa pelo filtro de 4 perguntas.',lugar='Mesa no vão central e módulos próprios. Azeite nos olhos, garrafa embaixo, chocolate no alto.',preco='Valor: a partir de R$ 50 nos especiais. Procedência vira motivo de compra.',com='Faixa de ocasião: “À mesa”, “Receber”, “Presentear”.',promo='Páscoa, Mães, Namorados, Inverno, Pais, Natal. 1 oferta por encarte.',repo='Regra de validade por lote. Perda acima de 5% acende o alerta.',pode='Mesa do mês com um jantar inteiro.',nao='Vinho sem CNAE e contrato verificados. Marca que o mercado vende mais barato.',erro='Empório disperso, sem ocasião clara.',meta='Empório na venda, cupons com empório, perda por validade'),
+'Empório':dict(sort='Entrar com curadoria: 36, 68 ou 96 produtos. Passa pelo filtro de 4 perguntas.',lugar='Mesa no vão central e módulos próprios. Azeite nos olhos, garrafa grande embaixo, chocolate acima do azeite.',preco='Valor: a partir de R$ 50 nos especiais. Procedência vira motivo de compra.',com='Faixa de ocasião: “À mesa”, “Receber”, “Presentear”.',promo='Páscoa, Mães, Namorados, Inverno, Pais, Natal. 1 oferta por encarte.',repo='Regra de validade por lote. Perda acima de 5% acende o alerta.',pode='Mesa do mês com um jantar inteiro.',nao='Vinho sem CNAE e contrato verificados. Marca que o mercado vende mais barato.',erro='Empório disperso, sem ocasião clara.',meta='Empório na venda, cupons com empório, perda por validade'),
 'Caixa':dict(sort='Pequeno formato: até 60 g. Barra, sachê e chocolate pequeno.',lugar='Balcão e passagem. Posição secundária, nunca a única.',preco='Baixo desembolso.',com='Display da biblioteca, sem cartaz de papel.',promo='Combos simples.',repo='Reposição diária.',pode='Trocar conforme a data.',nao='Poluir o balcão.',erro='Usar o caixa para escoar o que não vende.',meta='Itens por cupom, giro do display'),
 }
 def _n80(c):
@@ -240,7 +241,7 @@ def _prat(r,c,fm):
         it=sorted([e for e in (n['mods'][0] if n['mods'] else [])],key=lambda e:-e['v'])[:3]
         fotos=''.join(_foto(e,fm) for e in it)
         nomes=', '.join(html.escape(e['mc']+' '+e['nome'])[:40] for e in it[:2])
-        out+=f'<div class="cmp-n{" ol" if n["n"] in(3,4) else ""}"><i>{n["n"]}</i><em>{NI[n["n"]]}</em><div class="tx"><b>{html.escape(n["rot"])}</b><span>{nomes}</span></div><div class="fs">{fotos}</div></div>'
+        out+=f'<div class="cmp-n{" ol" if n["n"] in(3,4) else ""}"><i>{n["n"]}</i><em>{NI[n["n"]]}</em><div class="tx"><b>{html.escape(n["rots"][0])}</b><span>{nomes}</span></div><div class="fs">{fotos}</div></div>'
     return out
 def manual_cat(r,c,fm):
     g=GUIA[c];cb=cat_base();cor=COR[MOT[c]];tx=TOK.get(cor,'#fff');p=pct(cb,c)
@@ -266,8 +267,8 @@ def _grp(nv,ids):
     sub={}
     for n in nv:
         if n['n'] not in ids: continue
-        for m in n['mods']:
-            for e in m: sub.setdefault(n['rot'],[]).append(e)
+        for mi,m in enumerate(n['mods']):
+            for e in m: sub.setdefault(n['rots'][mi],[]).append(e)
     out=[]
     for s,it in sub.items():
         it=sorted(it,key=lambda e:-e['v'])[:2]
@@ -312,18 +313,30 @@ def nucleo_tabs(r):
             if 'tubos' in cc: return [dict(sku=t['sku'],desc=t['desc'],nome=t['nome'],mc='Granel',v=t['v']) for t in cc['tubos']]
             return [e for n_ in cc['niveis'] for m in n_['mods'] for e in m]
         P_,M_,G_=[lista(x) for x in cats]
-        nucs={e['sku'] for e in P_};base=P_ or M_ or G_
-        if not P_: nucs={e['sku'] for e in M_}
-        nu=sorted([e for e in base],key=lambda e:-e['v'])
-        ls=sorted({e['sku']:e for e in M_+G_ if e['sku'] not in nucs}.values(),key=lambda e:-e['v'])
+        Tb='M' if M_ else 'G';base=M_ or G_;cl=PH.classes(r,Tb,c)
+        nu=sorted([e for e in base if cl.get(e['sku'])=='Núcleo'],key=lambda e:-e['v'])
+        ls=sorted([e for e in base if cl.get(e['sku'])=='Lista'],key=lambda e:-e['v'])
+        cont=lambda T_,k:sum(1 for v_ in PH.classes(r,T_,c).values() if v_==k)
         lo=[x for x in L.get(c,[]) if not x[0].lower().startswith(('sem marca','marcas diversas','stanley'))]
         bts+=f'<button class="aba pa{" on" if i==0 else ""}" data-k="nl{i}"><i style="background:{COR[MOT[c]]}"></i>{html.escape(c)}</button>'
         loc=''.join(f'<li><b>{html.escape(a)}</b> {b} lojas</li>' for a,b in lo[:7]) or '<li>Sem marca regional relevante hoje. A loja pode propor.</li>'
-        pns+=f'<div class="painel{" on" if i==0 else ""}" data-k="nl{i}"><div class="nl-g"><div class="nl-c n1"><h4>Núcleo <small>{len(nu)} produtos na P. Vão em todas as lojas do tamanho</small></h4><div class="nl-ps">{"".join(caixa(e) for e in nu[:12])}</div></div><div class="nl-c n2"><h4>Lista aprovada <small>{len(ls)} produtos a mais nas lojas M e G</small></h4><div class="nl-ps">{"".join(caixa(e) for e in ls[:9])}</div></div><div class="nl-c n3"><h4>Local <small>Até 20%, a começar do nível 1</small></h4><p>Marcas que já vendem em poucas lojas, nesta categoria:</p><ul>{loc}</ul><p class="r">Passa pelo filtro de 4 perguntas e fica registrado no comitê.</p></div></div></div>'
+        pns+=f'<div class="painel{" on" if i==0 else ""}" data-k="nl{i}"><div class="nl-g"><div class="nl-c n1"><h4>Núcleo <small>{len(nu)} produtos na loja {Tb}; {cont("P","Núcleo")} na P e {cont("G","Núcleo")} na G. Iguais em toda loja do tamanho</small></h4><div class="nl-ps">{"".join(caixa(e) for e in nu[:12])}</div></div><div class="nl-c n2"><h4>Lista aprovada <small>{len(ls)} produtos na loja {Tb}; {cont("P","Lista")} na P e {cont("G","Lista")} na G. A loja escolhe</small></h4><div class="nl-ps">{"".join(caixa(e) for e in ls[:9])}</div></div><div class="nl-c n3"><h4>Local <small>Até 20%: troca os menos vendidos, a começar do nível 1</small></h4><p>Marcas que já vendem em poucas lojas, nesta categoria:</p><ul>{loc}</ul><p class="r">Passa pelo filtro de 4 perguntas e fica registrado no comitê.</p></div></div></div>'
         i+=1
     return f'<div data-abas class="pa-abas"><div class="abas">{bts}</div>{pns}</div>'
+def tam_exemplo(r):
+    fm=PH.fotos();c=r['M']['cats']['Proteínas'];out=''
+    its=[(n_['n'],e) for n_ in c['niveis'] for m in n_['mods'] for e in m]
+    for b,tit,niv in (('dose','Dose e sachê, até 100 g','Níveis 1 e 2'),('peq','Até 500 g','Níveis 2 a 4: aqui estão os olhos'),('gde','Acima de 500 g','Níveis 5 e 6')):
+        sel=sorted([e for nv,e in its if e['b']==b and str(e['sku']) in fm],key=lambda e:-e['v'])[:6]
+        fts=''.join(f'<img src="assets/produtos/{e["sku"]}.webp" alt="" title="{html.escape(e["desc"])}" style="height:{dict(dose=46,peq=62,gde=82)[b]}px;width:auto;max-width:74px;object-fit:contain;mix-blend-mode:multiply">' for e in sel)
+        out+=f'<div class="tz-n"><div class="tx"><b>{tit}</b><span>{niv}</span></div><div class="fs">{fts}</div></div>'
+    return out
 _ap_prev=aplicar
 def aplicar(t):
+    if '{{tam_exemplo}}' in t: t=t.replace('{{tam_exemplo}}',tam_exemplo(PH.dados()))
+    if '{{cal_ano}}' in t or '{{cal_meses}}' in t:
+        import calendario as CAL
+        t=t.replace('{{cal_ano}}',CAL.ano()).replace('{{cal_meses}}',CAL.meses()).replace('{{cal_css}}',CAL.CSS)
     if '{{cat_manual}}' in t or '{{ficha12}}' in t or '{{nucleo_tabs}}' in t:
         r=PH.dados()
         t=t.replace('{{cat_manual}}',cat_manual_tabs(r)).replace('{{ficha12}}',ficha12_tabs()).replace('{{nucleo_tabs}}',nucleo_tabs(r))
@@ -341,6 +354,6 @@ def ficha12_manual():
                     fil+=''.join(f'<tr><td>{(i//7)+1}</td><td>{html.escape(c)}</td><td>Tubo {i+1}</td><td>{html.escape(t_["fam"])}</td><td>{t_["sku"]}</td><td>{html.escape(t_["desc"].title())}</td><td>1</td><td>{PH._r(t_.get("pmin"))} a {PH._r(t_.get("pmax"))}</td></tr>' for i,t_ in enumerate(cc['tubos']));continue
                 for n_ in cc['niveis']:
                     for mi,m in enumerate(n_['mods']):
-                        for e in m: fil+=f'<tr><td>{mi+1}</td><td>{html.escape(c)}</td><td>{n_["n"]} {PH.NIV[n_["n"]]}</td><td>{html.escape(n_["rot"])}</td><td>{e["sku"]}</td><td>{html.escape(e["desc"].title())}</td><td>{e["f"]}</td><td>{PH._r(e.get("pmin"))} a {PH._r(e.get("pmax"))}</td></tr>'
+                        for e in m: fil+=f'<tr><td>{mi+1}</td><td>{html.escape(c)}</td><td>{n_["n"]} {PH.NIV[n_["n"]]}</td><td>{html.escape(n_["rots"][mi])}</td><td>{e["sku"]}</td><td>{html.escape(e["desc"].title())}</td><td>{e["f"]}</td><td>{PH._r(e.get("pmin"))} a {PH._r(e.get("pmax"))}</td></tr>'
             h+=f'<details class="re noprint"><summary>{tn}, {per.lower()}: {int(sum(d["modulos"].values()))} módulos, {d["n"]} lojas</summary><table class="tb"><thead><tr><th>Módulo da categoria</th><th>Categoria</th><th>Nível</th><th>Subcategoria</th><th>SKU</th><th>Produto</th><th>Frentes</th><th>Faixa de preço, R$</th></tr></thead><tbody>{fil}</tbody></table></details>'
     return h
