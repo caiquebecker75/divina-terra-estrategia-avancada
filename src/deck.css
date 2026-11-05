@@ -194,3 +194,6 @@ h2{font-size:58px;line-height:1.05}.eb{font-size:18px}
 
 .s-cu .ctb td small{display:none}.s-cu .ctb td{font-size:13.2px;padding:2.2px 5px}.s-cu .ctb th{font-size:12px;padding:2px 5px}.s-cu .ctb tr.sub th{padding:0 5px 2px}
 .bloco.tmp{padding:9px 12px}.tmp table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:3px}.tmp th{font-size:12.5px;text-align:left}.tmp td{padding:1.5px 0;border-bottom:1px solid rgba(70,29,23,.12)}.tmp tr.s td{font-weight:600}.tmp p{font-size:12.5px;margin-top:4px;line-height:1.2}
+
+.chp{display:inline-block;text-decoration:none;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;vertical-align:1px}.chp.hip{background:var(--acafrao);color:var(--terra)}.chp.met{background:var(--oliva);color:#fff}.chp.real{background:var(--choco);color:#fff}
+.s-sim3 .l .chp{flex:none;align-self:center;height:auto;line-height:1.5;margin:0 auto 0 8px;font-weight:600}

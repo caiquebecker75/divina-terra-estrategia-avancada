@@ -9,8 +9,10 @@ import { fileURLToPath } from 'node:url';
 
 const BASE = (process.argv[2] || 'http://localhost:4911/').replace(/#.*$/, '');
 const SAIDA = process.argv[3] || fileURLToPath(new URL('../divina-terra-estrategia-avancada.pdf', import.meta.url));
-const LINK = 'https://projetos.75lab.com.br/divina-terra-estrategia-avancada/';
-const TITULO = 'Divina Terra x 75 LAB - Estrategia avancada de trade marketing';
+const LINK = process.env.LINK || 'https://projetos.75lab.com.br/divina-terra-estrategia-avancada/';
+const PAGINA = process.env.PAGINA || '';   // arquivo do deck, a partir de BASE (book.html ou index.html)
+const CAPA = process.env.CAPA || 'pdf-capa.html';
+const TITULO = process.env.TITULO || 'Divina Terra x 75 LAB';
 const PASTA = process.env.PASTA_PAGINAS || '';   // se definida, guarda os JPG de cada página para revisar
 const QUALIDADE = 80;
 // MONTAR=1 só monta o PDF com os JPG já fotografados em PASTA_PAGINAS (a página 1 é a capa com link)
@@ -46,11 +48,11 @@ async function foto(rotulo, link) {
 }
 
 // capa do PDF
-await pg.goto(BASE + 'pdf-capa.html', { waitUntil: 'networkidle' });
+await pg.goto(BASE + CAPA, { waitUntil: 'networkidle' });
 await pg.evaluate(() => document.fonts.ready);
 await foto('capa do PDF', LINK);
 
-await pg.goto(BASE + '?pdf=1#1', { waitUntil: 'networkidle' });
+await pg.goto(BASE + PAGINA + '?pdf=1#1', { waitUntil: 'networkidle' });
 await pg.evaluate(() => document.fonts.ready);
 const total = await pg.evaluate(() => document.querySelectorAll('.tela').length);
 for (let n = 1; n <= total; n++) {

@@ -195,7 +195,7 @@ def rogers():
     W,H=1000,330;pts=[]
     f=lambda x:math.exp(-((x-500)/170)**2/2)
     for x in range(0,1001,10): pts.append((x,H-60-f(x)*230))
-    seg=[(0,160,C['aca'],'2 lojas','Piloto: Pinheiros e Alphaville'),(160,330,C['oli'],'8 lojas','Uma de cada tipo, com quem tem vontade'),(330,1000,C['cho'],'70 lojas','A rede, em lotes de 10 a 15 por mês')]
+    seg=[(0,160,C['aca'],'1 loja','Piloto: Pinheiros'),(160,330,C['oli'],'9 lojas','Uma de cada tipo, com quem tem vontade'),(330,1000,C['cho'],'70 lojas','A rede, em lotes de 10 a 15 por mês')]
     s=f'<svg viewBox="0 0 {W} {H}" class="grafico" font-family="General Sans">'
     for a,b,c,_,_2 in seg:
         po=[p for p in pts if a<=p[0]<=b]

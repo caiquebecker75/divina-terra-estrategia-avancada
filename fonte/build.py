@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Monta index.html e assets/deck.* a partir de src/. Rodar da raiz: python3 fonte/build.py
+# Monta book.html e assets/deck.* a partir de src/. Rodar da raiz: python3 fonte/build.py
 import re,pathlib,time,json,sys
 R=pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0,str(R/'fonte'))
@@ -38,6 +38,6 @@ if zj.exists():
         return m.group(0) if not a else f'<section data-z="{a[0]}" data-y="{a[1]}" '+m.group(1)
     telas=re.sub(r'<section ((?:id="[^"]*" )?class="tela )',poe,telas)
 s=(R/'src/shell.html').read_text().replace('</svg>',(R/'fonte/icones.svg').read_text()+'</svg>',1).replace('__TELAS__',telas).replace('__VERSAO__',v)
-s=s.replace('</body>',plano_html.DICA+'</body>');(R/'index.html').write_text(s);(R/'assets/deck.css').write_text(css+calendario.CSS);(R/'assets/deck.js').write_text((R/'src/deck.js').read_text());(R/'versao.txt').write_text(v)
+s=s.replace('</body>',plano_html.DICA+'</body>');(R/'book.html').write_text(s);(R/'assets/deck.css').write_text(css+calendario.CSS);(R/'assets/deck.js').write_text((R/'src/deck.js').read_text());(R/'versao.txt').write_text(v)
 bad=[x for x in ('—','–') if x in s+css]
 print('telas',s.count('class="tela '),'capitulos',n,'tamanho',len(s)//1024,'KB','TRAVESSAO!' if bad else 'sem travessao')
