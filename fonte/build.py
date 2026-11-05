@@ -15,6 +15,8 @@ telas=graficos.aplicar(telas)
 import novas,plano_html,aulas
 telas=aulas.aplicar(telas);css+=aulas.CSS
 telas=novas.aplicar(telas);css+=plano_html.CSS
+import book_cortes
+telas=book_cortes.aplicar(telas)
 KW=[('preço|teto|desconto|oferta','tag'),('venda|receita|resultado|número|meta','grafico'),('conversa|atend|fal[ao]|frase','conversa'),('treino|manual|guia|estudo|aprend','livro'),('quem|time|equipe|franque|comitê|pessoa|cliente','pessoas'),('calend|data|mês|prazo|quando|semana|trimestre','calendario'),('lugar|espaço|módulo|onde','local'),('regra|padrão|obrig|critério','regras'),('marca|fornecedor|indústria|negoci|parceir','handshake'),('risco|cuidado|não copiar|não pode|fora','aviso'),('granel|semente|castanha','trigo'),('empório|presente|ocasião|celebrar','presente'),('produto|sortimento|núcleo|lista','pacote'),('teste|piloto|hipótese|experimento','teste'),('objetivo|ganhar|o que queremos|direção','alvo'),('peça|placa|comunic|sinal','placa'),('resolve|sucesso|ganho|decisão','check')]
 def _ic(tx):
     s=re.sub(r'<[^>]+>','',tx).lower()
