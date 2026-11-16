@@ -35,4 +35,4 @@ Uma versão congelada não se altera. Os arquivos repetidos entre versões não 
 
 ## Visão estratégica para a diretoria (16/11/2026)
 
-`diretoria.html` e `divina-terra-diretoria.pdf`: 20 slides para a diretoria, a partir do deck que o time da rede montou com telas do book. Slides próprios em `fonte/diretoria/novas.html` e `fonte/diretoria/dir.css` (ponto em que estamos, curva de valor, cinco razões, experiência na loja, mini trade book, calendário promocional); os demais vêm de `fonte/exec/telas.html`. Gerar com `python3 fonte/diretoria_build.py`, depois de `exec_build.py`.
+`diretoria.html` e `divina-terra-diretoria.pdf`: 23 slides interativos para a diretoria (fio da história no topo, abas, filtros, simulador; `fonte/diretoria/dir.js`), a partir do deck que o time da rede montou com telas do book. Slides próprios em `fonte/diretoria/novas.html` e `fonte/diretoria/dir.css` (ponto em que estamos, curva de valor, cinco razões, experiência na loja, mini trade book, calendário promocional); os demais vêm de `fonte/exec/telas.html`. Gerar com `python3 fonte/diretoria_build.py`, depois de `exec_build.py`.
