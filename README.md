@@ -23,3 +23,12 @@ Ao entregar uma versão nova:
 3. Atualizar `fonte/versoes.json` (data, pasta e o que mudou) e rodar `python3 fonte/versoes.py`.
 
 Uma versão congelada não se altera. Os arquivos repetidos entre versões não aumentam o repositório, porque o git guarda uma cópia só.
+
+## v2 (16/11/2026): ordem para gerar a partir da devolutiva
+
+1. `python3 fonte/classificar.py`: setor e prateleira de cada SKU pela árvore de 16 setores da rede (`drive/setores-categorias-dt.html`), com `analise/ajustes_manuais.csv` (revisão item a item) por cima.
+2. `python3 fonte/base_v2.py`: grava `analise/vendas5.pkl`, a base que todos os geradores leem.
+3. `python3 fonte/cat_base.py` e `python3 fonte/abrangencia.py`: base por setor e papel de cada produto (essencial, complementar, regional, cauda).
+4. `python3 fonte/planogramas.py` e, em Python, `planogramas.tudo12()`: planogramas P, M, G e os 12 tipos.
+5. `python3 fonte/build.py`, `python3 fonte/exec_build.py`, `python3 fonte/manual.py` e os PDFs.
+6. Planilhas para a rede, fora do Git (têm venda): `fonte/planilha_classificacao.py` e `fonte/execucao.py`, em `kit/`.

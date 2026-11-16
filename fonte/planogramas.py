@@ -8,28 +8,15 @@ FATOR_SUP=.55 # perfil Equilibrado: 55% do que sobra vai para suplemento
 UTIL=86 # cm úteis por nível em um módulo de 90 cm
 OLHOS=[3,4,2,5,1,6] # ordem de ocupação: olhos, mãos, alto, baixo
 LOCAL=0 # o desenho sai cheio; a loja pode trocar até 20% por regional, a começar do nível 1
-ALVO={'P':{'Empório':36},'M':{'Empório':68},'G':{'Empório':96}}
+ALVO={}
 T_ATUAL=None
-SUB={
- 'Proteínas':[('Vegana',r'VEG|PLANT|ERVILHA|ARROZ'),('Isolada e hidrolisada',r'ISOLAD|HIDROLIS|ISO '),('Beef',r'BEEF|CARNE'),('Whey',r'WHEY'),('Outras proteínas',r'.')],
- 'Creatina':[('Em goma',r'GUMM|GOMA|\d+\s?UN\b'),('Creapure',r'CREAPURE|CREALIFT|CREAFORT'),('Monohidratada',r'.')],
- 'Ômegas':[('Vegano e algas',r'ALGA|VEG|LINHA'),('Krill',r'KRILL'),('Ômega 3',r'.')],
- 'Vitaminas':[('Magnésio',r'MAGNES|\bMG\b'),('Vitaminas D e K',r'\bD3\b|\bK2\b|VITAMINA D|VIT D|VITAMINAD'),('Complexos',r'MULTI|COMPLEX|POLIVIT|\bA-Z\b|\bAZ\b'),('Vitamina C e B',r'VITAMINA C|VIT C|\bB12\b|COMPLEXO B|METIL'),('Minerais',r'ZINCO|SELEN|FERRO|CALCIO|POTASS|IODO'),('Outras',r'.')],
- 'Colágeno':[('Articular',r'TIPO II|UC.?II|ARTIC|MOVE'),('Pele e beleza',r'.')],
- 'Barras e snacks':[('Barras proteicas',r'BOLD|PROTEIN|PROTEICA|YOPRO|WHEY'),('Barras naturais',r'BARRA|BARRINHA'),('Chips e salgados',r'CHIPS|SALGAD|SNACK|PIPOCA'),('Outros snacks',r'.')],
- 'Despensa':[('Farinhas e flocos',r'FARINHA|POLVILHO|AVEIA|FLOCO'),('Pastas e manteigas',r'PASTA|MANTEIGA|TAHINE|CREME DE'),('Adoçantes',r'XILITOL|STEVIA|ERITRITOL|ADOCANTE|ACUCAR|SWEET'),('Leites e bebidas',r'LEITE|BEBIDA|KOMBUCHA|SUCO|AGUA'),('Massas e molhos',r'MASSA|MACARRAO|ESPAGUETE|PENNE|MOLHO'),('Cereais e granolas',r'GRANOLA|CEREAL|MUESLI'),('Biscoitos e pães',r'BISCOITO|COOKIE|BOLACHA|PAO|TORRADA'),('Outros da despensa',r'.')],
- 'Cafés funcionais':[('Supercoffee',r'SUPERCOFFEE'),('Cápsulas',r'CAPSULA|CAPS|NESPRESSO'),('Cafés',r'.')],
- 'Chás':[('Sachês e caixas',r'SACH|\bCX\b|CAIXA|\d+\s?UN|\d+\s?SAQ'),('Folhas e misturas',r'.')],
- 'Performance':[('Pré-treino',r'PRE.?TREINO|NITRO|PRE WORK'),('Aminoácidos',r'BCAA|GLUTAM|BETA|ALANIN|AMINO|EAA'),('Energia e hidratação',r'CAFEINA|ISOTON|\bGEL\b|HIDRAT|HYDRO|ELETRO'),('Outros',r'.')],
- 'Longevidade':[('Coenzima Q10',r'COQ|Q10|Q 10|UBIQUI'),('NAC, glicina e taurina',r'NAC|GLYCIN|GLICIN|TAURIN'),('Cúrcuma e antioxidantes',r'CURCUM|RESVER|ASTAX'),('Outros',r'.')],
- 'Intestino':[('Probióticos',r'PROBIO|LACTO|BIFIDO|SIMBIO'),('Fibras e glutamina',r'FIBRA|PSYLLIUM|INULINA|GLUTAMINA|PREBIO'),('Outros',r'.')],
- 'Imunidade':[('Própolis',r'PROPOLIS'),('Vitamina C e zinco',r'VITAMINA C|VIT C|ZINCO'),('Ervas e cogumelos',r'COGUM|EQUIN|ALHO|GENGIBRE|MELALEUCA'),('Outros',r'.')],
- 'Kids e Peso':[('Kids',r'KIDS|INFANT|CRIANC|JUNIOR|BABY'),('Peso e composição',r'.')],
- 'Bem-Estar':[('Intestino',r'^Saúde Int'),('Imunidade',r'^Imun'),('Kids e peso',r'^(Kids|Peso)'),('Longevidade',r'^Longev'),('Bem-estar',r'.')],
- 'Caixa':[('Chocolate pequeno',r'^Empório'),('Barras',r'BARRA|PROTEIN|BOLD|CHIPS|SNACK'),('Sachê',r'.')],
- 'Empório':[('Vinhos e espumantes',r'^Empório: Vinh'),('Biscoitos finos',r'^Empório: Choc.*(BISCOITO|COOKIE|WAFER|BISCOFF|ALFAJOR)'),('Chocolates',r'^Empório: Choc'),('Massas',r'^Empório: Mass'),('Azeites e vinagres',r'^Empório: Azei'),('Geleias e mel',r'^Empório: Gele'),('Molhos',r'^Empório: Molh'),('Conservas',r'^Empório: Cons'),('Temperos',r'^Empório: Temp'),('Cafés',r'^Empório: Caf')],
-}
-GRANEL=[('Mix, cacau e farinhas',r'FARINHA'),('Castanhas e nozes',r'CASTANH|NOZ|AMENDO|AMÊNDO|CAJU|PECAN|MACADAM|PISTACH'),('Sementes',r'SEMENTE|CHIA|LINHACA|GIRASSOL|ABOBORA|QUINOA'),('Frutas secas',r'DAMASCO|AMEIXA|UVA|TAMARA|CRANBERRY|BANANA|FIGO|MANGA|ABACAXI|DESIDRAT'),('Snacks e chocolates',r'CHIPS|CHOCOLATE|DRAGE|MILHO|MUSTARD|SNACK|BISCOITO'),('Mix, cacau e farinhas',r'.')]
+# v2: a prateleira de cada produto vem da classificação (fonte/classificar.py), com os nomes da árvore da rede.
+# Ordem de atratividade dentro do setor: a prateleira com mais compra por impulso fica nos olhos, mesmo vendendo menos.
+PRIOR={'Gourmet':{'Doces e chocolates':1.6,'Azeites, molhos e antepastos':1.2,'Cafés, vinhos e presenteáveis':1.1,'Massas e prontos':1.0,'Biscoitos e snacks':1.0,'Bebidas vegetais e básicos':.7},
+ 'Creatina':{'Formatos práticos':1.3}}
+ABR={int(k):v for k,v in json.loads((R/'analise/abrangencia.json').read_text()).items()} if (R/'analise/abrangencia.json').exists() else {}
+REGIONAL={k for k,v in ABR.items() if v['papel']=='Regional'} # devolutiva 5.2: produto regional não entra no desenho nacional
+MARCA_PROPRIA='VIVEA' # devolutiva 2.7: marca própria na altura dos olhos, com duas frentes, em todo tamanho de loja
 EXC=r'OZ.MPIC|GLP.?1|CORDILHEIRA|KIT|DEGUST|EXPOSITOR|BRINDE|AMOSTRA|DISPLAY|SACOLA|VALE |GARRAFA TERM|GROWLER|COQUETELEIRA|CANECA|DIVERSOS|\bCASCO\b|CAFE DT|\bPACCO\b|STANLEY|SHAKER|SQUEEZE'
 BANDAS=('dose','peq','gde') # um tamanho por prateleira, do menor (em cima) para o maior (embaixo)
 NOME_B={'dose':'dose e sachê, até 100 g','peq':'até 500 g','gde':'acima de 500 g'}
@@ -42,34 +29,11 @@ def banda(d):
         if m: p=float(m.group(1).replace(',','.'))*(1000 if m.group(2)=='L' else 1)
     if not p: return 'peq'
     return 'dose' if p<=100 else 'peq' if p<=500 else 'gde'
-FORA_PROT=('Despensa sem setor','Farinhas e despensa','Barras e snacks','Café e cápsulas','Equilíbrio e Bem-Estar','Longevidade')
-def casa(d,setor):
-    "Um produto, uma casa: corrige o que o cadastro pôs na categoria errada por causa do sabor."
-    if 'SUPERCOFFEE' in d and setor!='Café e cápsulas': return 'Café e cápsulas'
-    if 'COENZIMA' in d and setor!='Longevidade': return 'Longevidade'
-    if setor in ('Equilíbrio e Bem-Estar',) and re.search(r'GOMA XANTANA|FARINHA|POLVILHO',d): return 'Farinhas e despensa'
-    if setor in ('Despensa sem setor','Farinhas e despensa') and re.search(r'\d+\s?(CAPS|CPS)\b',d): return 'Equilíbrio e Bem-Estar'
-    if setor in FORA_PROT and setor!='Longevidade':
-        if re.search(r'CREATIN',d): return 'Creatina'
-        if re.search(r'\bOMEGA\b',d): return 'Ômegas'
-    if setor in FORA_PROT or setor=='Proteínas':
-        if 'COLAGENTEK' in d: return 'Colágeno e Beleza'
-    if setor=='Proteínas' and peso_g(d)<200:
-        if 'GRANOLA' in d: return 'Farinhas e despensa'
-        if re.search(r'BARRA|\bBAR\b|CRISP|COOKIE|WAFER|ZAYTAS|CHIPS|BISCOITO|BROWNIE|CROC|\bPAO\b',d): return 'Barras e snacks'
-    if setor in FORA_PROT:
-        if re.search(r'POWER WHEY|WHEY COFFEE|WHEYFER',d): return setor
-        if re.search(r'WHEY|CREAMASS|PROTEIN CRUSH|TRUE VEGAN|PROTEINA VEGETAL',d) and (peso_g(d)>=200 or not re.search(r'COOKIE|BISCOITO|BARRA|\bBAR\b|WAFER|BROWNIE|CRISP|CHIPS|\bPAO\b',d)): return 'Proteínas'
-        if 'LIVESTRONG' in d: return 'Longevidade'
-    return setor
 _DC=None
 def dados_casa():
+    "v2: a classificação já põe cada produto no seu setor; não há mais correção por palavra."
     global _DC
-    if _DC is None:
-        d=RC.dados();pares=d[['desc','setorf']].astype(str).drop_duplicates();pares['novo']=[casa(a,b) for a,b in zip(pares.desc,pares.setorf)]
-        mapa={(a,b):c for a,b,c in zip(pares.desc,pares.setorf,pares.novo)}
-        setor=[mapa[k] for k in zip(d.desc.astype(str),d.setorf.astype(str))]
-        _DC=d.assign(setorf=setor);_DC=_DC.assign(g=_DC.setorf.map(RC.G))
+    if _DC is None: _DC=RC.dados()
     return _DC
 def peso_g(d):
     m=re.search(r'(\d+[.,]?\d*)\s?KG',d)
@@ -107,28 +71,33 @@ def bases():
     t=L.tam.replace({'GG':'G'})
     return d.assign(tam=d.loja.map(t),mes3=d.p.isin(RC.MES[-3:])),t
 def _rot(m,dep): return m
+def _divide(v,sem,av_c,av_d,em,SETs):
+    cu=[s for s,_,m,_c in SETs if m=='Cuidar'];vc=v.reindex(cu).fillna(0);res_={}
+    for mot,av in (('Cuidar',av_c),('Abastecer',av_d)):
+        ss=[(s,p) for s,p,m,_c in SETs if (m==mot or (mot=='Abastecer' and m=='Celebrar'))]
+        pp={s:(v.get(s,0)+(sem*vc[s]/max(1,vc.sum()) if mot=='Cuidar' else 0))*RC.PESO[p] for s,p in ss}
+        tt=sum(pp.values());ideal={s:av*q/tt for s,q in pp.items()}
+        if 'Gourmet' in ideal and ideal['Gourmet']<em:
+            resto=av-em;outros={k:q for k,q in pp.items() if k!='Gourmet'};to=sum(outros.values())
+            ideal={k:resto*q/to for k,q in outros.items()};ideal['Gourmet']=em
+        f={s:(math.floor(i*2)/2 if i>=.25 else 0) for s,i in ideal.items()}
+        f={s:(max(.5,q) if ideal[s]>=.25 else 0) for s,q in f.items()}
+        if 'Gourmet' in f: f['Gourmet']=max(f['Gourmet'],em)
+        while sum(f.values())>av:
+            s=max((k for k in f if f[k]>.5 and not (k=='Gourmet' and f[k]<=em)),key=lambda k:f[k]-ideal[k]);f[s]-=.5
+        for s in sorted(ideal,key=lambda k:ideal[k]-f[k],reverse=True):
+            if sum(f.values())>=av:break
+            f[s]+=.5
+        res_.update(f)
+    return res_
 def modulos():
-    "Módulos por categoria em cada tamanho: venda x papel, com meio módulo como menor unidade."
+    "Módulos por setor em cada tamanho: venda x papel (da rede), com meio módulo como menor unidade."
     d,_=bases();out={}
-    SETs=[(s,p,m,c) for s,p,m,c in RC.SET]
     for T,(n,tot,gr,ch,em) in TAM.items():
-        x=d[d.tam==T];res=tot-gr-ch-em;su=round(res*FATOR_SUP);de=res-su;v=x[x.g.notna()].groupby('g').valor.sum()
+        x=d[d.tam==T];res=tot-gr-ch;su=round((res-em)*FATOR_SUP);de=res-su;v=x[x.g.notna()].groupby('g').valor.sum()
         sem=x[x.setorf=='Suplementos sem setor'].valor.sum()
-        cu=[s for s,_,m,_c in SETs if m=='Cuidar'];vc=v.reindex(cu).fillna(0)
-        res_={}
-        for mot,av in (('Cuidar',su),('Abastecer',de)):
-            ss=[(s,p) for s,p,m,_c in SETs if m==mot and s!='Chás']
-            pp={s:(v.get(s,0)+(sem*vc[s]/vc.sum() if mot=='Cuidar' else 0))*RC.PESO[p] for s,p in ss}
-            tt=sum(pp.values());ideal={s:av*q/tt for s,q in pp.items()}
-            f={s:(math.floor(i*2)/2 if i>=.25 else 0) for s,i in ideal.items()}
-            f={s:(max(.5,q) if ideal[s]>=.25 else 0) for s,q in f.items()}
-            while sum(f.values())>av:
-                s=max((k for k in f if f[k]>.5),key=lambda k:f[k]-ideal[k]);f[s]-=.5
-            for s in sorted(ideal,key=lambda k:ideal[k]-f[k],reverse=True):
-                if sum(f.values())>=av:break
-                f[s]+=.5
-            res_.update(f)
-        res_['Granel']=gr;res_['Empório']=em;res_['Chás']=ch
+        res_=_divide(v,sem,su,de,em,RC.SET)
+        res_['Granel']=gr;res_['Chás']=ch
         out[T]=res_
     return out
 def _end90(v,cima=False):
@@ -152,32 +121,18 @@ def preco(sku):
     lo=_end90(a);hi=_end90(b,True)
     if hi<=lo: hi=lo+1
     return (round(lo,2),round(hi,2))
-# Empório e creatina têm mapa fixo por nível, igual ao da tela do manual. Módulo inteiro: níveis 1 a 6.
-MAPA={'Creatina':[['Em goma','Em goma','Creapure','Creapure','Monohidratada','Monohidratada']],
- 'Empório':{1:[['Temperos|Cafés','Chocolates|Biscoitos finos','Azeites e vinagres','Massas|Molhos','Geleias e mel|Conservas','Vinhos e espumantes']],
-  2:[['Temperos','Massas','Azeites e vinagres','Molhos','Conservas','Conservas|Geleias e mel'],['Cafés','Biscoitos finos|Chocolates','Chocolates','Geleias e mel','Chocolates','Vinhos e espumantes']]}}
-MAPA['Empório'][3]=MAPA['Empório'][2]+[['Do mundo','Do mundo','Do mundo','Do mundo','Do mundo','Vinhos e espumantes']]
-MAPA['Empório'][4]=MAPA['Empório'][3]+[['Temperos','Cafés','Chocolates','Geleias e mel','Vinhos e espumantes','Vinhos e espumantes']]
+MAPA={}
 MUNDO=r'KIKKOMAN|SAKURA|SHOYU|MISSO|WASABI|TAYBE|SESAMO|TAHINE|HOMUS|HARISSA|ZAATAR|CURRY|NORI'
 RESERVA={'Vinhos e espumantes':'Vinhos: só com licença'}
 LIMITE={'P':2,'M':3,'G':4}
-def _sub(cat,e,x):
-    regras=SUB.get(cat,[('Geral',r'.')])
-    alvo=e['desc'] if cat not in('Empório','Bem-Estar','Caixa') else str(x[x.sku==e['sku']].setorf.iloc[0])
-    if cat=='Empório':
-        if re.search(MUNDO,e['desc']): return 'Do mundo'
-        alvo=alvo+' '+e['desc']
-    if cat=='Caixa' and not alvo.startswith('Empório'): alvo=e['desc']
-    for nome,pad in regras:
-        if re.search(pad,alvo): return nome
-    return 'Geral'
+def _sub(cat,e,x): return e['prat']
 def _frente(r,n):
     return int(min(3,max(1,math.ceil((r.q/n/47.7/7*21+1)/6))))
 def _encaixa(itens,tabuas):
     "Distribui em tábuas: marca junta, sem passar da largura. Devolve o que coube e o que sobrou."
     por={}
     for e in sorted(itens,key=lambda e:-e['v']): por.setdefault(e['mc'],[]).append(e)
-    fila=[e for m in sorted(por,key=lambda m:-max(i['v'] for i in por[m])) for e in por[m]]
+    fila=[e for m in sorted(por,key=lambda m:(m!=nome_marca(MARCA_PROPRIA),-max(i['v'] for i in por[m]))) for e in por[m]]
     res=[[] for _ in tabuas];usado=[0]*len(tabuas)
     for i,w in enumerate(tabuas):
         for e in list(fila):
@@ -187,6 +142,8 @@ def _encaixa(itens,tabuas):
 def _centro(it):
     "Marca em bloco, com a maior no meio da prateleira e o líder no meio do bloco."
     por=pd.DataFrame(it).groupby('mc').v.sum().sort_values(ascending=False).index.tolist() if it else []
+    mp=nome_marca(MARCA_PROPRIA)
+    if mp in por: por.remove(mp);por.insert(0,mp) # marca própria no centro
     cen=[]
     for j,m in enumerate(por):
         bl=sorted([e for e in it if e['mc']==m],key=lambda e:-e['v']);b2=[]
@@ -196,14 +153,16 @@ def _centro(it):
 def escolher(x,cat,f,nuc=None):
     "Escolhe e posiciona. Cada tábua (módulo x nível) tem uma subcategoria e uma faixa de tamanho."
     nuc=nuc or set();n=max(1,x.loja.nunique())
-    g=x.groupby(['sku','desc','marca']).agg(v=('valor','sum'),q=('qtd','sum'),l=('loja','nunique'),r=('mes3','max')).reset_index()
-    g=g[(~g.desc.str.contains(EXC))&(g.v>0)&(g.marca!='A GRANEL')]
+    g=x.groupby(['sku','desc','marca','prat']).agg(v=('valor','sum'),q=('qtd','sum'),l=('loja','nunique'),r=('mes3','max')).reset_index()
+    g=g[(~g.desc.str.contains(EXC))&(g.v>0)&(g.marca!='A GRANEL')&~g.sku.astype(int).isin(REGIONAL)]
+    nuc=set(nuc)|set(g.loc[g.marca==MARCA_PROPRIA,'sku'])
     g=g[g.r|g.sku.isin(nuc)];g=g.assign(fz=~g.sku.isin(nuc)).sort_values(['fz','v'],ascending=[True,False])
     inteiros=int(f+.999);larg=[UTIL if m+1<=f else UTIL/2 for m in range(inteiros)]
     LIM=LIMITE.get(T_ATUAL,4);teto=ALVO.get(T_ATUAL,{}).get(cat)
     cand=[];conta={}
     for r in g.itertuples():
-        e=dict(sku=int(r.sku),desc=r.desc,marca=r.marca,nome=curto(r.desc,r.marca),mc=nome_marca(r.marca),w=largura(r.desc),f=1,fb=_frente(r,n),v=float(r.v),q=float(r.q),pm=float(r.v/max(r.q,1)),nc=int(r.sku) in nuc)
+        e=dict(sku=int(r.sku),desc=r.desc,marca=r.marca,prat=r.prat,nome=curto(r.desc,r.marca),mc=nome_marca(r.marca),w=largura(r.desc),f=1,fb=_frente(r,n),v=float(r.v),q=float(r.q),pm=float(r.v/max(r.q,1)),nc=int(r.sku) in nuc,mp=r.marca==MARCA_PROPRIA)
+        if e['mp']: e['fb']=max(2,e['fb'])
         e['b']=banda(r.desc);e['s']=_sub(cat,e,x);cand.append(e)
     grupos={}
     for e in cand: grupos.setdefault((e['s'],e['b']),[]).append(e)
@@ -233,7 +192,8 @@ def escolher(x,cat,f,nuc=None):
             fatia=ordem[ini:ini+qb[b]];ini+=qb[b]
             if not fatia: continue
             fatia=sorted(fatia,key=lambda p:(OLHOS.index(p[0]),p[1]))
-            ks=sorted([k for k in grupos if k[1]==b],key=lambda k:(k[0] in('Kids','Kids e peso'),-venda[k]))[:len(fatia)]
+            pri=lambda k:venda[k]*PRIOR.get(cat,{}).get(k[0],1)*(1.5 if any(e['mp'] for e in grupos[k]) else 1)
+            ks=sorted([k for k in grupos if k[1]==b],key=lambda k:-pri(k))[:len(fatia)]
             qt={k:1 for k in ks};livres=len(fatia)-len(ks);tv2=sum(venda[k] for k in ks) or 1
             while livres>0:
                 pode=[k for k in ks if qt[k]<dem[k]]
@@ -323,47 +283,42 @@ def escolher(x,cat,f,nuc=None):
         out.append(dict(n=k,rot=max(set(tem),key=tem.count) if tem else 'Espaço local',rots=rots,mods=mods,livre=[round(larg[mi]-sum(e['w']*e['f'] for e in mods[mi])) for mi in range(inteiros)]))
     for e in esc: e['pmin'],e['pmax']=preco(e['sku']);e['band']=NOME_B[e['b']]
     for e in esc:
-        for c_ in ('fb','nc'): e.pop(c_,None)
+        for c_ in ('fb','nc','prat'): e.pop(c_,None)
     return dict(cat=cat,f=f,niveis=out,skus=len(esc),frentes=sum(e['f'] for e in esc),vTop=sum(e['v'] for e in esc),vCat=float(x.valor.sum()),cob=sum(e['v'] for e in esc)/max(1,float(g.v.sum())))
-FAM_ORD=['Castanhas e nozes','Sementes','Frutas secas','Snacks e chocolates','Mix, cacau e farinhas']
+FAM_ORD=['Castanhas e frutas secas','Grãos, cereais e farinhas','Sementes e temperos','Chás e snacks'] # blocos de bins do padrão da rede
 def granel(x,T,nuc=None):
     n={'P':20,'M':32,'G':40}[T]-2;nuc=nuc or set()
-    g=x.groupby(['sku','desc','marca']).agg(v=('valor','sum'),r=('mes3','max')).reset_index()
-    g=g[(g.r|g.sku.isin(nuc))&~g.desc.str.contains(EXC)];g=g.assign(fz=~g.sku.isin(nuc)).sort_values(['fz','v'],ascending=[True,False]).head(n)
+    g=x.groupby(['sku','desc','marca','prat']).agg(v=('valor','sum'),r=('mes3','max')).reset_index()
+    g=g[(g.r|g.sku.isin(nuc))&~g.desc.str.contains(EXC)&~g.sku.astype(int).isin(REGIONAL)];g=g.assign(fz=~g.sku.isin(nuc)).sort_values(['fz','v'],ascending=[True,False]).head(n)
     it=[]
     for r in g.itertuples():
-        fam=next(nm for nm,p in GRANEL if re.search(p,r.desc));nome=re.sub(r'\s*A GRANEL','',r.desc).title()
+        fam=r.prat;nome=re.sub(r'\s*A GRANEL','',r.desc).title()
         lo,hi=preco(int(r.sku));it.append(dict(sku=int(r.sku),desc=r.desc,nome=nome[:28],fam=fam,v=float(r.v),pmin=lo,pmax=hi))
     it.sort(key=lambda t:(FAM_ORD.index(t['fam']),-t['v']))
     return dict(cat='Granel',tubos=it,skus=len(it),f=TAM[T][2],livres=2,cob=sum(i['v'] for i in it)/max(1,float(x.valor.sum())))
+CATS=['Proteínas','Creatina','Ômegas','Vitaminas','Colágeno','Bem-Estar','Performance','Cafés funcionais','Longevidade','Intestino','Imunidade','Kids','Peso','Barras e snacks','Sem Glúten','Gourmet','Chás','Granel']
+PEQUENOS=('Intestino','Imunidade','Kids','Peso','Longevidade') # setor sem módulo próprio divide a gôndola de Equilíbrio & Bem-Estar
+def _linhas(x,cat,M):
+    if cat=='Gourmet': return x[x.setorf.astype(str).str.startswith('Gourmet')]
+    y=x[x.g==cat]
+    if cat=='Bem-Estar':
+        ex=[c for c in PEQUENOS if M.get(c,0)==0]
+        if ex: y=pd.concat([y,x[x.g.isin(ex)]])
+    return y
 def tudo():
     d,_=bases();M=modulos();res={};NUC={}
     def guarda(cat,c):
         NUC.setdefault(cat,set()).update(t['sku'] for t in c['tubos']) if 'tubos' in c else NUC.setdefault(cat,set()).update(e['sku'] for n in c['niveis'] for m in n['mods'] for e in m)
         return c
-    G2={'Vitaminas':'Vitaminas','Barras e snacks':None}
     global T_ATUAL
     for T in TAM:
         T_ATUAL=T
-        x=d[d.tam==T];res[T]={'modulos':M[T],'cats':{}};nucs=NUC
-        for cat in ['Proteínas','Creatina','Ômegas','Vitaminas','Colágeno','Bem-Estar','Performance','Longevidade','Intestino','Imunidade','Kids e Peso','Barras e snacks','Cafés funcionais','Despensa','Chás','Empório','Granel']:
+        x=d[d.tam==T];res[T]={'modulos':M[T],'cats':{}}
+        for cat in CATS:
             if cat=='Granel': res[T]['cats'][cat]=guarda(cat,granel(x[x.setorf=='Granel'],T,NUC.get(cat)));continue
-            if cat=='Empório': y=x[x.setorf.astype(str).str.startswith('Empório')&~x.setorf.astype(str).str.contains('Queijos')];f=M[T]['Empório']
-            else:
-                chave=cat
-                mapa={k:v for k,v in RC.G.items()};nomes=[k for k,v in mapa.items() if v==chave or (cat=='Barras e snacks' and v in('Barras','Barras e snacks'))  or (cat=='Intestino' and v in('Intestino','Saúde Intestinal'))]
-                y=x[x.setorf.isin(nomes)]
-                f=next((M[T][s] for s in M[T] if s in {mapa[k] for k in nomes}),None)
-            if cat=='Bem-Estar':
-                extra=[k for k,v in RC.G.items() if v in('Intestino','Imunidade','Kids e Peso','Longevidade') and M[T].get(v,0)==0]
-                if extra: y=pd.concat([y,x[x.setorf.isin(extra)]])
-            if f is None or y.empty or f==0: continue
+            y=_linhas(x,cat,M[T]);f=M[T].get(cat,0)
+            if f==0 or y.empty: continue
             res[T]['cats'][cat]=guarda(cat,escolher(y,cat,f,NUC.get(cat)))
-        # caixa: fora da conta de módulos, como o frio e o café da loja. Posição secundária de quem é pequeno
-        cx=x[x.setorf.isin(['Barras e snacks','Cafés funcionais','Café e cápsulas','Empório: Chocolates e doces finos'])]
-        cx=cx[cx.desc.map(lambda s:0<peso_g(s)<=60)]
-        ALVO.setdefault(T,{})['Caixa']={'P':24,'M':30,'G':42}[T]
-        res[T]['cats']['Caixa']=guarda('Caixa',escolher(cx,'Caixa',{'P':.5,'M':.5,'G':1}[T],NUC.get('Caixa')))
     return res
 if __name__=='__main__':
     r=tudo()
@@ -380,53 +335,36 @@ if __name__=='__main__':
 TAM12={'P':('Até 50 m²',14,3,1,1),'M':('50 a 80 m²',28,5,1,2),'G':('80 a 120 m²',39,6,2,3),'GG':('Acima de 120 m²',53,8,2,4)}
 PER12={'Suplemento forte':(.65,0),'Equilibrado':(.55,0),'Granel forte':(.50,1)}
 def modulos12(d,L,T,per):
-    n,tot,gr,ch,em=TAM12[T];fs,ex=PER12[per];gr2=gr+ex;res=tot-gr2-ch-em;su=round(res*fs);de=res-su
+    n,tot,gr,ch,em=TAM12[T];fs,ex=PER12[per];gr2=gr+ex;res=tot-gr2-ch;su=round((res-em)*fs);de=res-su
     lojas=L[(L.tam==T)&(L.perfil==per)].index;x=d[d.loja.isin(lojas)];v=x[x.g.notna()].groupby('g').valor.sum()
-    sem=x[x.setorf=='Suplementos sem setor'].valor.sum();cu=[s for s,_,m,_c in RC.SET if m=='Cuidar'];vc=v.reindex(cu).fillna(0);r={}
-    for mot,av in (('Cuidar',su),('Abastecer',de)):
-        ss=[(s,p) for s,p,m,_c in RC.SET if m==mot and s!='Chás']
-        pp={s:(v.get(s,0)+(sem*vc[s]/max(1,vc.sum()) if mot=='Cuidar' else 0))*RC.PESO[p] for s,p in ss};tt=sum(pp.values())
-        ideal={s:av*q/tt for s,q in pp.items()};f={s:(max(.5,math.floor(i*2)/2) if i>=.25 else 0) for s,i in ideal.items()}
-        while sum(f.values())>av:
-            s=max((k for k in f if f[k]>.5),key=lambda k:f[k]-ideal[k]);f[s]-=.5
-        for s in sorted(ideal,key=lambda k:ideal[k]-f[k],reverse=True):
-            if sum(f.values())>=av:break
-            f[s]+=.5
-        r.update(f)
-    r['Granel']=gr2;r['Chás']=ch;r['Empório']=em
+    sem=x[x.setorf=='Suplementos sem setor'].valor.sum()
+    r=_divide(v,sem,su,de,em,RC.SET);r['Granel']=gr2;r['Chás']=ch
     return r,len(lojas)
 def tudo12():
     global T_ATUAL
     L=pd.read_pickle(R/'analise/lojas_cluster.pkl');d=dados_casa();d=d.assign(mes3=d.p.isin(RC.MES[-3:]))
-    ALVO.update({'GG':{'Empório':130}});res={}
-    base=json.loads((R/'analise/planogramas.json').read_text());NUC={}
+    res={};base=json.loads((R/'analise/planogramas.json').read_text());NUC={}
     for c_,v_ in base['P']['cats'].items():
         NUC[c_]={e['sku'] for n in v_.get('niveis',[]) for m in n['mods'] for e in m}|{t['sku'] for t in v_.get('tubos',[])}
     for c_,v_ in base['M']['cats'].items():
         if c_ not in NUC: NUC[c_]={e['sku'] for n in v_.get('niveis',[]) for m in n['mods'] for e in m}
-    nomes=lambda cat:[k for k,v in RC.G.items() if v==cat]
     for T in TAM12:
         T_ATUAL='G' if T=='GG' else T
         lj=L[L.tam==T].index;xT=d[d.loja.isin(lj)]
         for per in PER12:
-            ALVO.setdefault(T_ATUAL,{})['Empório']={'P':36,'M':68,'G':96,'GG':130}[T]
             M,n=modulos12(d,L,T,per);cats={}
-            for cat,f in M.items():
+            for cat in CATS:
+                f=M.get(cat,0)
                 if f<=0: continue
                 if cat=='Granel':
                     nt={'P':20,'M':32,'G':40,'GG':48}[T]+(6 if per=='Granel forte' else 0)
-                    g=xT[xT.setorf=='Granel'].groupby(['sku','desc']).valor.sum().reset_index().sort_values('valor',ascending=False)
-                    g=g[~g.desc.str.contains(EXC)].head(nt-2);it=[]
+                    g=xT[xT.setorf=='Granel'].groupby(['sku','desc','prat']).valor.sum().reset_index().sort_values('valor',ascending=False)
+                    g=g[~g.desc.str.contains(EXC)&~g.sku.astype(int).isin(REGIONAL)].head(nt-2);it=[]
                     for r in g.itertuples():
-                        fam=next(nm for nm,p in GRANEL if re.search(p,r.desc));lo,hi=preco(int(r.sku));it.append(dict(sku=int(r.sku),desc=r.desc,nome=re.sub(r'\s*A GRANEL','',r.desc).title(),fam=fam,pmin=lo,pmax=hi))
+                        lo,hi=preco(int(r.sku));it.append(dict(sku=int(r.sku),desc=r.desc,nome=re.sub(r'\s*A GRANEL','',r.desc).title(),fam=r.prat,pmin=lo,pmax=hi))
                     it.sort(key=lambda t:FAM_ORD.index(t['fam']))
                     cats[cat]=dict(f=f,tubos=it);continue
-                if cat=='Empório': y=xT[xT.setorf.astype(str).str.startswith('Empório')&~xT.setorf.astype(str).str.contains('Queijos')]
-                else:
-                    y=xT[xT.setorf.isin(nomes(cat))]
-                    if cat=='Bem-Estar':
-                        ex=[k for k,v in RC.G.items() if v in('Intestino','Imunidade','Kids e Peso','Longevidade') and M.get(v,0)==0]
-                        if ex: y=pd.concat([y,xT[xT.setorf.isin(ex)]])
+                y=_linhas(xT,cat,M)
                 if y.empty: continue
                 cc=escolher(y,cat,f,NUC.get(cat));cats[cat]=dict(f=f,niveis=cc['niveis'],skus=cc['skus'],frentes=cc['frentes'])
             res[f'{T}|{per}']=dict(n=n,modulos=M,cats=cats)

@@ -162,3 +162,6 @@ body.tem-mouse #cursor,body.tem-mouse #anel{opacity:1}
 .t-fim{padding-top:120px}.t-fim h2{font-size:64px}.t-fim .tr{margin-top:62px}.t-fim .gd{font-size:48px;line-height:1.12}.t-fim ul li{font-size:27px;padding:16px 0}.t-fim ol li{font-size:26px;padding:12px 0}
 
 .tela>.fonte{font-size:12px!important;line-height:1.35!important;margin:0!important;color:var(--cinza)!important;max-width:none}.tema-escuro>.fonte{color:var(--linho)!important}.tela.t-motivos>.fonte{bottom:72px}
+
+/* v2: frase de posicionamento mais longa */
+.t-posicao .gigante{font-size:150px}

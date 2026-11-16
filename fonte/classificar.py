@@ -133,13 +133,11 @@ r('Colágeno & Beleza', 'Beleza', r'COLAGENO|COLLAGEN|VERISOL|PEPTAN|BODYBALANCE
 r('Colágeno & Beleza', 'Ativos e fórmulas', r'BIOTINA|SILICIO|HIALURON|\bHAIR\b|\bSKIN\b|\bNAILS?\b|UNHAS|CABELO|\bBEAUTY|BELEZA|PELE\b|EXIMIA|IMECAP|INNEOV', 'Ativo ou fórmula de beleza mora em Colágeno & Beleza (padrão da rede)', sup)
 
 # 8. Proteínas em pó
-r('Proteínas', 'Veganas', r'.', 'Cadastro da rede marca como proteína vegana; veganas ficam no mesmo setor das demais proteínas, em prateleira própria (padrão da rede)', lambda x: x['cat'] == '13 - PROTEÍNAS VEGANAS')
-r('Proteínas', 'Veganas', r'(PROTEIN|PROTEINA|\bPROT\b).*(VEGAN|VEGETAL|PLANT|ERVILHA|\bPEA\b|ARROZ|SOJA|GRAO DE BICO|ABOBORA)|(VEGAN|VEGETAL|PLANT|ERVILHA|\bPEA\b).*(PROTEIN|PROTEINA|\bPROT\b)|VEGAN PROT|PROTEINA VEG', 'Proteína vegetal: fica no setor Proteínas, ao lado das demais, para o cliente comparar alternativas (padrão da rede e devolutiva 2.3)')
+r('Proteínas', 'Veganas', r'(PROTEIN|PROTEINA|\bPROT\b).*(VEGAN|VEGETAL|PLANT|ERVILHA|\bPEA\b|ARROZ|SOJA|GRAO DE BICO|ABOBORA)|(VEGAN|VEGETAL|PLANT|ERVILHA|\bPEA\b).*(PROTEIN|PROTEINA|\bPROT\b)|VEGAN PROT|PROTEINA VEG', 'Proteína vegetal: fica no setor Proteínas, ao lado das demais, para o cliente comparar alternativas (padrão da rede e devolutiva 2.3)', lambda x: not re.search(r'GRANOLA|CEREAL|BISCOIT|COOKIE|\bPAO\b|MASSA|SNACK|CHIPS|BARRA|WAFER|PANQUECA|BOLO|CROC|PASTA', x['d']))
 r('Proteínas', 'Beef protein', r'\bBEEF\b|CARNE BOVINA|HYDROBEEF|CARNIVOR', 'Beef protein mora em Proteínas (padrão da rede)', lambda x: not re.search(r'JERKY|CHARQUE|SNACK', x['d']))
 r('Proteínas', 'Albumina', r'ALBUMINA|CLARA DE OVO|EGG PROTEIN|PROTEINA DO OVO', 'Albumina mora em Proteínas (padrão da rede)')
 r('Performance', 'Depois do treino', r'HIPERCALOR|MASS\b|GAINER|HIPER CALOR', 'Hipercalórico é produto de treino; não está na lista de Proteínas da rede', lambda x: x['dep'] == 'SUPLEMENTO')
 r('Proteínas', 'Whey', r'\bWHEY|\bW100\b|ISOLAD[AO]|HIDROLISAD[AO]|CONCENTRAD[AO]|\b3W\b|BODY PROTEIN|PROTEIN (BLEND|POWDER|\d+ ?G)|\bPROTEIN\b|PROTEINA (EM PO|ISOLADA|CONCENTRADA)|NUTRI WHEY|ISO ?WHEY', 'Whey e proteínas em pó moram em Proteínas (padrão da rede)', lambda x: x['dep'] in SUPL_DEP or x['dep'] == 'IMPORTACAO' or x['cat'] in ('4 - WHEY PROTEIN', '2 - PROTEINA') or re.search(r'\b([2-9]\d\d|\d{4}) ?G\b|\bKG\b', x['d']) and not re.search(r'BARRA|\bBAR\b|WAFER|COOKIE|BISCOIT|PAO\b|GRANOLA|CEREAL|SNACK|CHIPS|PANQUECA|PASTA', x['d']))
-r('Proteínas', 'Whey', r'.', 'Cadastro da rede marca como whey ou proteína', lambda x: x['cat'] in ('4 - WHEY PROTEIN', '2 - PROTEINA'))
 
 # 9. Ômegas (inclui coenzima Q10 e fitosteróis, pelo padrão da rede)
 r('Ômegas', 'Complementares', r'COENZIMA|COQ ?10|\bQ10\b|UBIQUINOL|FITOSTEROL', 'Coenzima Q10 e fitosteróis moram em Ômegas (padrão da rede)')
@@ -219,7 +217,8 @@ def classificar(sku):
             '24 - ENERGY GEL': ('Performance', 'Durante o treino'), '11 - AMINOÁCIDO': ('Performance', 'Depois do treino'),
             '6 - HIPERCALÓRICO': ('Performance', 'Depois do treino'), '27 - CREATINA': ('Creatina', 'Creatina em pó'),
             '19 - TERMOGENICO': ('Peso & Composição Corporal', 'Metabolismo'), '2 - ANTIOXIDANTE': ('Longevidade Saudável', 'Antioxidantes'),
-            '5 - IMUNIDADE': ('Imunidade', 'Fitoterápicos')}
+            '5 - IMUNIDADE': ('Imunidade', 'Fitoterápicos'), '13 - PROTEÍNAS VEGANAS': ('Proteínas', 'Veganas'),
+            '4 - WHEY PROTEIN': ('Proteínas', 'Whey'), '2 - PROTEINA': ('Proteínas', 'Whey')}
     if x['cat'] in CATS:
         return CATS[x['cat']] + ('Categoria do cadastro da rede (' + x['cat'] + ') levada ao setor correspondente',)
     if x['dep'] in SUPL_DEP:

@@ -1,15 +1,19 @@
 # Passo 5 da receita: divide o espaço pela venda e confere pelo que cabe. Usado no deck e no kit.
 import pandas as pd,numpy as np,math,pathlib
 R=pathlib.Path(__file__).resolve().parent.parent
-SET=[('Proteínas','Destino','Cuidar',30),('Creatina','Destino','Cuidar',42),('Vitaminas','Rotina','Cuidar',66),('Ômegas','Rotina','Cuidar',60),('Colágeno','Destino','Cuidar',42),('Bem-Estar','Destino','Cuidar',60),('Performance','Destino','Cuidar',42),('Longevidade','Destino','Cuidar',60),('Intestino','Rotina','Cuidar',60),('Imunidade','Ocasião','Cuidar',66),('Kids e Peso','Rotina','Cuidar',48),('Barras e snacks','Rotina','Abastecer',90),('Cafés funcionais','Rotina','Abastecer',48),('Chás','Rotina','Abastecer',60),('Despensa','Rotina','Abastecer',54)]
-PESO={'Destino':1.2,'Rotina':1.0,'Ocasião':0.8,'Conveniência':0.7}
-G={'Proteínas':'Proteínas','Creatina':'Creatina','Vitaminas de A a Z':'Vitaminas','Ômegas':'Ômegas','Colágeno e Beleza':'Colágeno','Equilíbrio e Bem-Estar':'Bem-Estar','Performance':'Performance','Longevidade':'Longevidade','Saúde Intestinal':'Intestino','Imunidade':'Imunidade','Kids':'Kids e Peso','Peso e Composição':'Kids e Peso','Barras e snacks':'Barras e snacks','Café e cápsulas':'Cafés funcionais','Chás':'Chás','Farinhas e despensa':'Despensa','Despensa sem setor':'Despensa'}
+SET=[('Proteínas','Destino','Cuidar',30),('Creatina','Destino','Cuidar',42),('Vitaminas','Rotina','Cuidar',66),('Ômegas','Rotina','Cuidar',60),('Colágeno','Destino','Cuidar',42),('Bem-Estar','Destino','Cuidar',60),('Performance','Destino','Cuidar',42),('Cafés funcionais','Rotina','Cuidar',48),('Longevidade','Destino','Cuidar',60),('Intestino','Rotina','Cuidar',60),('Imunidade','Sazonal','Cuidar',66),('Kids','Rotina','Cuidar',54),('Peso','Destino','Cuidar',48),('Barras e snacks','Rotina','Abastecer',90),('Sem Glúten','Destino','Abastecer',54),('Gourmet','Destino','Celebrar',54)]
+# Papel de cada setor como está no material Setores e Categorias da rede (Gourmet, Sem Glúten e Peso: destino; Imunidade: sazonal e conveniência)
+PESO={'Destino':1.2,'Rotina':1.0,'Sazonal':0.8,'Ocasião':0.8,'Conveniência':0.7}
+G={'Proteínas':'Proteínas','Creatina':'Creatina','Vitaminas de A a Z':'Vitaminas','Ômegas':'Ômegas','Colágeno e Beleza':'Colágeno','Equilíbrio e Bem-Estar':'Bem-Estar','Performance':'Performance','Longevidade':'Longevidade','Saúde Intestinal':'Intestino','Imunidade':'Imunidade','Kids':'Kids','Peso e Composição':'Peso','Barras e snacks':'Barras e snacks','Café e cápsulas':'Cafés funcionais','Chás':'Chás','Sem Glúten':'Sem Glúten'}
+# Gourmet entra pelas prateleiras (setorf 'Gourmet: ...')
+NOME={'Colágeno':'Colágeno & Beleza','Bem-Estar':'Equilíbrio & Bem-Estar','Longevidade':'Longevidade Saudável','Vitaminas':'Vitaminas de A a Z','Intestino':'Saúde Intestinal','Peso':'Peso & Composição Corporal','Cafés funcionais':'Cafés funcionais'}
+def nome(c): return NOME.get(c,c)
 MES=['2025-11','2025-12','2026-01','2026-02','2026-03','2026-04','2026-05','2026-06','2026-07','2026-08','2026-09']
 _ch=None
 def dados():
     global _ch
     if _ch is None:
-        d=pd.read_pickle(R/'analise/vendas4.pkl');d=d[d.p.isin(MES)];d=d.assign(g=d.setorf.map(G));_ch=d
+        d=pd.read_pickle(R/'analise/vendas5.pkl');d=d[d.p.isin(MES)];g=d.setorf.map(G);g=g.where(~d.setorf.str.startswith('Gourmet'),'Gourmet');d=d.assign(g=g);_ch=d
     return _ch
 def alocar(loja,total,emp):
     d=dados();t=d[d.loja==loja];T=t.valor.sum();base=t[t.g.notna()]
@@ -25,7 +29,8 @@ def alocar(loja,total,emp):
         n80=int((c<=.8).sum())+1 if len(x) else 0;n95=int((c<=.95).sum())+1 if len(x) else 0
         fr=1.25
         linhas.append(dict(s=s,pap=pap,mot=mot,cap=cap,v=float(v.get(s,0)),n80=n80,n95=n95,mn=n80*fr/cap,mx=n95*fr/cap))
-    df=pd.DataFrame(linhas);av=total-emp
+    # v2: Gourmet entra na divisão como os outros setores; os módulos de empório da v1 viram o piso do Gourmet
+    df=pd.DataFrame(linhas);av=total;df.loc[df.s=='Gourmet','mn']=df.loc[df.s=='Gourmet','mn'].clip(lower=emp);df['mx']=df[['mx','mn']].max(axis=1)
     df['p']=df.v*df.pap.map(PESO);df['ideal']=av*df.p/df.p.sum();df['m']=df.ideal.clip(lower=df.mn,upper=df.mx)
     for _ in range(40):
         gap=av-df.m.sum()

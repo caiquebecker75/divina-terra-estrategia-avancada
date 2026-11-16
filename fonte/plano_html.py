@@ -3,16 +3,24 @@ import json,pathlib,html,re
 R=pathlib.Path(__file__).resolve().parent.parent
 PAL=['#7C381F','#596D49','#CA942A','#AC834C','#461D17','#A9C094','#BCAD99','#E5DDD1']
 TXT={'#7C381F':'#fff','#596D49':'#fff','#CA942A':'#2b1209','#AC834C':'#fff','#461D17':'#fff','#A9C094':'#2b1209','#BCAD99':'#2b1209','#E5DDD1':'#2b1209'}
-FAM={'Castanhas e nozes':'#7C381F','Sementes':'#596D49','Frutas secas':'#AC834C','Snacks e chocolates':'#CA942A','Mix, cacau e farinhas':'#BCAD99'}
+FAM={'Castanhas e frutas secas':'#7C381F','Grãos, cereais e farinhas':'#BCAD99','Sementes e temperos':'#596D49','Chás e snacks':'#CA942A'} # blocos de bins do padrão da rede
 NIV={1:'Alto',2:'Alto',3:'Olhos',4:'Olhos',5:'Mão',6:'Baixo'}
 def dados(): return json.loads((R/'analise/planogramas.json').read_text())
+_ABR=None
+def abr():
+    global _ABR
+    if _ABR is None: _ABR={int(k):v for k,v in json.loads((R/'analise/abrangencia.json').read_text()).items()}
+    return _ABR
 def classes(r,T,cat):
-    "Por tamanho de loja: os 60% de produtos que mais vendem são núcleo, os 20% seguintes são lista e os últimos 20% a loja pode trocar por local."
+    "v2 (devolutiva 2.2 e 5.1): essencial vira núcleo, complementar vira lista, e o resto do desenho é espaço que a loja pode trocar por local."
     c=r[T]['cats'].get(cat)
     if not c: return {}
-    it=c.get('tubos') or [e for n in c['niveis'] for m in n['mods'] for e in m]
-    o=sorted(it,key=lambda e:-e.get('v',0));n=max(1,len(o))
-    return {e['sku']:('Núcleo' if i<round(n*.6) else 'Lista' if i<round(n*.8) else 'Local') for i,e in enumerate(o)}
+    it=c.get('tubos') or [e for n in c['niveis'] for m in n['mods'] for e in m];A=abr()
+    nome={'Essencial':'Núcleo','Complementar':'Lista'}
+    return {e['sku']:nome.get(A.get(e['sku'],{}).get('papel'),'Local') for e in it}
+def lista_aprovada(cat):
+    "Todos os complementares do setor na rede: a loja escolhe dentro desta lista, além do que está no desenho."
+    return sorted([k for k,v in abr().items() if v['c']==cat and v['papel']=='Complementar'])
 def nucleo(r,cat,T='P'): return classes(r,T,cat)
 def cores(c):
     v={}

@@ -5,50 +5,55 @@ F=R/'analise/calendario.json'
 MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
 COR={'Cuidar':'#7C381F','Abastecer':'#596D49','Granel':'#AC834C','Celebrar':'#CA942A'}
 MC=['Cuidar','Abastecer','Celebrar'];MR=['Cuidar','Abastecer','Granel','Celebrar']
-NOME={'Vitaminas de A a Z':'Vitaminas','Colágeno e Beleza':'Colágeno','Equilíbrio e Bem-Estar':'Bem-estar','Saúde Intestinal':'Intestino','Café e cápsulas':'Cafés','Farinhas e despensa':'Farinhas','Despensa sem setor':'Despensa','Peso e Composição':'Peso e composição','Empório: Chocolates e doces finos':'Chocolates','Empório: Azeites e vinagres':'Azeites','Empório: Massas e risotos':'Massas','Empório: Geleias e mel':'Geleias e mel','Empório: Molhos e condimentos':'Molhos','Empório: Cafés especiais':'Cafés especiais'}
+NOME_V2={'Gourmet: Doces e chocolates':'Doces e chocolates','Gourmet: Azeites, molhos e antepastos':'Azeites e molhos','Gourmet: Massas e prontos':'Massas e prontos','Gourmet: Bebidas vegetais e básicos':'Básicos do Gourmet','Gourmet: Biscoitos e snacks':'Biscoitos','Gourmet: Cafés, vinhos e presenteáveis':'Cafés e presentes','Geladeira':'Geladeira','Sem Glúten':'Sem Glúten'}
+NOME={'Vitaminas de A a Z':'Vitaminas','Colágeno e Beleza':'Colágeno','Equilíbrio e Bem-Estar':'Bem-estar','Saúde Intestinal':'Intestino','Café e cápsulas':'Cafés funcionais','Farinhas e despensa':'Farinhas','Despensa sem setor':'Despensa','Peso e Composição':'Peso e composição','Empório: Chocolates e doces finos':'Chocolates','Empório: Azeites e vinagres':'Azeites','Empório: Massas e risotos':'Massas','Empório: Geleias e mel':'Geleias e mel','Empório: Molhos e condimentos':'Molhos','Empório: Cafés especiais':'Cafés especiais'}
+# v2: datas e níveis de ação da tabela oficial da rede (devolutiva de 16/11/2026, p. 12). Nível: Campanha, Apoio ao trade, Conteúdo ou Em aberto.
+# Datas de conscientização são conteúdo, sem produto vinculado. Corpus Christi e as datas que a rede não trabalha saíram.
+SUGESTOES='Dia Mundial do Café (14/04), Dia do Profissional de Educação Física (01/09) e Dia Mundial da Alimentação (16/10)'
 CAL=[
- dict(m=1,dt=[('01/01','Ano novo, rotina nova',1),('Mês todo','Verão e férias',0)],foco='Rotina nova',alvo=None,ini='01/01',
-  C='Rotina nova: creatina, colágeno e bem-estar',A='Snacks de verão. Granel: comece o ano com castanhas e sementes',E='Cozinhar em casa: temperos, massas e azeite',
-  ponta='Creatina e colágeno',mesa='Cozinha de verão',enc='1 referência de creatina, 1 granel, 1 empório',proj='Início do piloto',peso=(55,35,10)),
- dict(m=2,dt=[('Início do mês','Volta às aulas',0),('09/02','Carnaval',1)],foco='Volta às aulas e Carnaval',alvo=(2,9),
-  C='Colágeno e creatina, com a rotina de volta',A='Lancheira: barras, snacks e granel em porção',E='Feriado em casa: massa, azeite e espumante',
-  ponta='Snacks e hidratação',mesa='Massa e azeite para o feriado',enc='1 barra, 1 granel, 1 empório',proj='',peso=(50,30,20)),
- dict(m=3,dt=[('08/03','Dia da Mulher',0),('15/03','Dia do Consumidor',0),('28/03','Páscoa',1)],foco='Páscoa',alvo=(3,28),
-  C='Saúde da mulher, como Destaque do Mês e sem alegação',A='Farinhas e despensa para as receitas de Páscoa',E='Páscoa: chocolate de origem, ovos e colomba',
-  ponta='Chocolate de origem',mesa='Mesa de Páscoa',enc='1 chocolate, 1 granel, 1 referência',proj='Leitura da semana 6',peso=(30,20,50)),
- dict(m=4,dt=[('07/04','Dia Mundial da Saúde',1),('14/04','Dia Mundial do Café',0),('21/04','Tiradentes',0)],foco='Saúde e outono',alvo=(4,7),
-  C='Performance em alta. Imunidade entra, sem alegação',A='Chás e cafés para o outono',E='Fim da Páscoa: o que sobra sai por regra, sem queima',
-  ponta='Performance e rotina',mesa='Café e chá da tarde',enc='1 referência, 1 granel, 1 café',proj='Leitura final do piloto',peso=(50,35,15)),
- dict(m=5,dt=[('09/05','Dia das Mães',1),('24/05','Dia Nacional do Café',0),('27/05','Corpus Christi',0)],foco='Dia das Mães',alvo=(5,9),
-  C='Colágeno e longevidade para presentear, com orientação',A='Café em alta: bloco de cápsulas e supercoffee',E='Cestas por faixa de preço, geleias e chocolates',
-  ponta='Presentes para as mães',mesa='Café da manhã especial',enc='1 cesta, 1 granel, 1 referência',proj='Onda 2',peso=(25,15,60)),
- dict(m=6,dt=[('12/06','Dia dos Namorados',1),('21/06','Início do inverno',0),('24/06','São João',0)],foco='Namorados e Festa Junina',alvo=(6,12),
-  C='Ômegas, vitaminas e intestino: rotina de inverno, sem alegação',A='Festa Junina: amendoim, pipoca e doces do granel',E='Vinho com licença, chocolate e presente a dois',
-  ponta='Jantar a dois',mesa='Mesa dos Namorados',enc='1 presente, 1 granel junino, 1 ômega',proj='',peso=(25,25,50)),
- dict(m=7,dt=[('Mês todo','Férias de inverno',1),('Mês todo','Frio',0)],foco='Inverno',alvo=None,
-  C='Vitaminas e kids nas férias',A='Chás e cafés quentes',E='Massas, sopas e vinho tinto com licença',
-  ponta='Noite fria em casa',mesa='Sopas e massas',enc='1 massa, 1 chá, 1 vitamina',proj='Onda 3',peso=(40,25,35)),
- dict(m=8,dt=[('08/08','Dia dos Pais',1),('31/08','Dia do Nutricionista',0)],foco='Dia dos Pais',alvo=(8,8),
-  C='Destaque do Mês: Ômega 3. Relacionamento com nutricionistas',A='Cafés no maior peso do ano',E='Pais: café especial, conservas e gin com licença',
-  ponta='Presente para o pai',mesa='Tábua e café',enc='1 presente, 1 café, 1 ômega',proj='',peso=(45,15,40)),
- dict(m=9,dt=[('01/09','Dia do Profissional de Educação Física',0),('15/09','Dia do Cliente',1),('23/09','Início da primavera',0)],foco='Semana do Cliente e primavera',alvo=(9,15),
-  C='Semana do Cliente: lista de referência em proteína',A='Primavera: granel com oferta de até 30%. É o maior peso do granel no ano',E='1 oferta de empório no encarte',
-  ponta='Granel da primavera',mesa='Lanche leve',enc='1 granel forte, 1 referência, 1 empório',proj='',peso=(35,50,15)),
- dict(m=10,dt=[('01/10','Dia Internacional do Café',0),('12/10','Dia das Crianças',1),('16/10','Dia Mundial da Alimentação',0)],foco='Mês do azeite e da mesa',alvo=(10,12),
-  C='Kids, com faixa simples e sem promessa',A='Lanches e granel para as crianças',E='Mês do azeite e da mesa italiana, conservas e cafés especiais',
-  ponta='Mesa italiana',mesa='Azeite, massa e conserva',enc='1 azeite, 1 lanche, 1 kids',proj='',peso=(30,30,40)),
- dict(m=11,dt=[('26/11','Black Friday',1),('29/11','Ponta de Natal entra',0)],foco='Black Friday e Natal',alvo=(11,26),
-  C='Black Friday: lista de referência, com creatina e colágeno',A='Snacks de verão começam a subir',E='Montar cestas de Natal. Azeite em alta',
-  ponta='Lista de referência',mesa='Prévia de Natal',enc='3 referências, 1 granel, 1 empório',proj='Pedido de Natal fechado',peso=(55,20,25)),
- dict(m=12,dt=[('25/12','Natal',1),('22/12','Início do verão',0),('31/12','Réveillon',0)],foco='Natal',alvo=(12,25),
-  C='Suplemento recua no mês: garantir reposição, sem verba extra',A='Castanhas, snacks e despensa para a ceia',E='Natal: ponta, mesa e cestas. Vinho com licença, chocolate e conservas',
+ dict(m=1,dt=[('01/01','Verão e volta à rotina',1,'Campanha'),('01/01','Ano novo, rotina nova',0,'Conteúdo'),('20/01','Volta às aulas',0,'Conteúdo')],foco='Verão e volta à rotina',alvo=None,
+  C='Rotina nova: creatina, colágeno e bem-estar, com conteúdo de começo de ano',A='Verão: hidratação, barras e granel em porção. Volta às aulas entra como conteúdo',E='Cozinhar em casa no verão: azeite, temperos e conservas',
+  ponta='Rotina nova',mesa='Verão leve',enc='1 creatina, 1 granel, 1 Gourmet',proj='Início do piloto (18/01)',peso=(55,35,10)),
+ dict(m=2,dt=[('06/02','Carnaval',1,'Campanha'),('14/02',"Valentine's Day",0,'Apoio ao trade')],foco='Carnaval',alvo=(2,6),
+  C='Carnaval: hidratação, eletrólitos e recuperação',A='Barras e snacks para o feriado, granel em porção',E="Valentine's Day: chocolate e presente a dois, como apoio ao trade",
+  ponta='Hidratação e energia',mesa='Presente a dois',enc='1 eletrólito, 1 barra, 1 chocolate',proj='',peso=(50,35,15)),
+ dict(m=3,dt=[('08/03','Dia Internacional da Mulher',1,'Campanha'),('15/03','Dia do Consumidor',1,'Campanha'),('28/03','Páscoa',1,'Campanha')],foco='Mulher, Consumidor e Páscoa',alvo=(3,28),
+  C='Dia da Mulher: colágeno, saúde da mulher e Vivea, sem alegação. Dia do Consumidor: ver a tela das campanhas',A='Páscoa: kit receita com farinha, cacau em pó e castanhas do granel, com a receita impressa',E='Páscoa: ovos e chocolate de origem, colomba e geleias',
+  ponta='Dia do Consumidor, de 12 a 15/03',mesa='Páscoa',enc='1 colágeno, 1 kit receita, 1 chocolate',proj='Leitura da semana 6',peso=(35,20,45)),
+ dict(m=4,dt=[],foco='Mês sem campanha da rede: execução e outono',alvo=None,
+  C='Outono: ômegas e vitaminas como conteúdo, sem alegação',A='Chás e cafés para o frio que começa',E='Depois da Páscoa, o que sobra sai por regra, sem queima',
+  ponta='Rotina de outono',mesa='Café e chá da tarde',enc='1 ômega, 1 chá, 1 café',proj='Leitura final do piloto (11/04)',peso=(50,35,15)),
+ dict(m=5,dt=[('06/05','Aniversário de 16 anos da Divina Terra',1,'Campanha'),('09/05','Dia das Mães',1,'Campanha')],foco='16 anos da rede e Dia das Mães',alvo=(5,6),
+  C='16 anos: Vivea e 16 líderes da rede em destaque. Mães: colágeno e bem-estar para presentear',A='Aniversário: granel com oferta de 16 anos',E='Mães: cestas por faixa de preço, geleias e chocolates',
+  ponta='16 anos da Divina Terra',mesa='Presentes para as mães',enc='1 Vivea, 1 granel, 1 cesta',proj='Onda 2',peso=(35,20,45)),
+ dict(m=6,dt=[('12/06','Dia dos Namorados',1,'Apoio ao trade'),('21/06','Início do inverno',0,'Apoio ao trade'),('24/06','Festa Junina',0,'Conteúdo')],foco='Inverno e Namorados',alvo=(6,12),
+  C='Inverno: ômegas, vitaminas e imunidade, sem alegação',A='Chás e cafés do frio. Festa Junina entra como conteúdo, com o granel',E='Namorados: chocolate e presente a dois',
+  ponta='Inverno',mesa='Presente a dois',enc='1 ômega, 1 chá, 1 chocolate',proj='',peso=(45,30,25)),
+ dict(m=7,dt=[('01/07','Férias de julho e volta às aulas',1,'Apoio ao trade')],foco='Férias de julho',alvo=None,
+  C='Kids nas férias e na volta às aulas',A='Lancheira: barras, snacks e granel em porção',E='Massas e sopas do frio',
+  ponta='Lancheira',mesa='Noite fria em casa',enc='1 kids, 1 barra, 1 massa',proj='Onda 3',peso=(40,40,20)),
+ dict(m=8,dt=[('08/08','Dia dos Pais',1,'Campanha'),('31/08','Dia do Nutricionista',1,'Campanha')],foco='Pais e Nutricionista',alvo=(8,8),
+  C='Dia do Nutricionista: encontro na loja, amostras e cartão de indicação. Pais: proteína e creatina para presentear',A='Cafés funcionais e barras',E='Pais: café especial, conservas e presente',
+  ponta='Presente para o pai',mesa='Café e tábua',enc='1 proteína, 1 café, 1 presente',proj='',peso=(55,15,30)),
+ dict(m=9,dt=[('15/09','Dia do Cliente',1,'Campanha'),('01/09','Setembro Amarelo',0,'Conteúdo')],foco='Semana do Cliente',alvo=(9,15),
+  C='Semana do Cliente: ver a tela das campanhas. Setembro Amarelo: conteúdo de cuidado com a mente, sem produto vinculado',A='Granel: oferta de cliente, o maior peso do granel no ano',E='1 oferta de Gourmet no encarte',
+  ponta='Semana do Cliente',mesa='Lanche leve',enc='1 granel, 1 referência, 1 Gourmet',proj='',peso=(35,50,15)),
+ dict(m=10,dt=[('12/10','Dia das Crianças',1,'Campanha'),('01/10','Outubro Rosa',0,'Conteúdo'),('15/10','Dia do Professor',0,'Em aberto')],foco='Dia das Crianças',alvo=(10,12),
+  C='Kids: a linha infantil inteira em destaque, com faixa simples e sem promessa. Outubro Rosa: conteúdo, sem produto vinculado',A='Lancheira e granel para as crianças',E='Doces sem açúcar e presentes para crianças',
+  ponta='Dia das Crianças',mesa='Lancheira',enc='1 kids, 1 lanche, 1 doce',proj='',peso=(35,40,25)),
+ dict(m=11,dt=[('26/11','Black Friday',1,'Campanha'),('01/11','Novembro Azul',0,'Conteúdo')],foco='Black Friday',alvo=(11,26),
+  C='Black Friday: ver a tela das campanhas. Novembro Azul: conteúdo, sem produto vinculado',A='Granel e barras em combo de Black Friday',E='Prévia de Natal: cestas montadas',
+  ponta='Black Friday',mesa='Prévia de Natal',enc='3 combos, 1 granel, 1 cesta',proj='Pedido de Natal fechado',peso=(60,25,15)),
+ dict(m=12,dt=[('25/12','Natal',1,'Campanha'),('31/12','Réveillon',1,'Campanha'),('01/12','Final de ano e férias',0,'Em aberto')],foco='Natal e Réveillon',alvo=(12,25),
+  C='Suplemento recua no mês: garantir reposição, sem verba extra',A='Castanhas, frutas secas e despensa para a ceia',E='Natal: ponta, mesa e cestas. Réveillon: espumante com licença e castanhas',
   ponta='Natal',mesa='Ceia e presentes',enc='1 cesta, 1 castanha, 1 chocolate',proj='Planograma v2',peso=(10,25,65)),
 ]
+NIV={'Campanha':'camp','Apoio ao trade':'apoio','Conteúdo':'cont','Em aberto':'aberto'}
 def calcula():
     import pandas as pd
-    a=pd.read_pickle(R/'analise/vendas4.pkl');a['setorf']=a.setorf.astype(str)
-    M={**{c:'Cuidar' for c in ['Proteínas','Creatina','Vitaminas de A a Z','Ômegas','Colágeno e Beleza','Equilíbrio e Bem-Estar','Performance','Longevidade','Saúde Intestinal','Imunidade','Kids','Peso e Composição','Suplementos sem setor']},**{c:'Abastecer' for c in ['Barras e snacks','Café e cápsulas','Chás','Farinhas e despensa','Despensa sem setor']},'Granel':'Granel'}
-    a['mot']=a.setorf.map(M);a.loc[a.setorf.str.startswith('Empório'),'mot']='Celebrar';a=a[a.mot.notna()];a['mm']=a.p.str[5:].astype(int)
+    a=pd.read_pickle(R/'analise/vendas5.pkl');a['setorf']=a.setorf.astype(str)
+    M={**{c:'Cuidar' for c in ['Proteínas','Creatina','Vitaminas de A a Z','Ômegas','Colágeno e Beleza','Equilíbrio e Bem-Estar','Performance','Café e cápsulas','Longevidade','Saúde Intestinal','Imunidade','Kids','Peso e Composição','Suplementos sem setor']},**{c:'Abastecer' for c in ['Barras e snacks','Chás','Sem Glúten','Geladeira']},'Granel':'Granel'}
+    a['mot']=a.setorf.map(M);a.loc[a.setorf.str.startswith('Gourmet'),'mot']='Celebrar';a=a[a.mot.notna()];a['mm']=a.p.str[5:].astype(int)
     t=a.pivot_table(index='mm',columns='mot',values='valor',aggfunc='sum');sh=t.div(t.sum(axis=1),axis=0)*100
     vl=a.groupby('p').agg(v=('valor','sum'),l=('loja','nunique'));vl['pl']=vl.v/vl.l;pl={}
     for p,x in vl.iterrows(): pl[int(p[5:])]=pl.get(int(p[5:]),0)+x.pl
@@ -57,7 +62,7 @@ def calcula():
     d={}
     for m in range(1,13):
         s=ix[m].sort_values(ascending=False);s=s[~s.index.isin(['Suplementos sem setor'])]
-        d[m]=dict(sh={k:round(float(sh.loc[m,k]),1) for k in MR},pl=round(float(pl[m])),alta=[[NOME.get(k,k),int(round(v-100))] for k,v in s.items() if v>=105][:4])
+        d[m]=dict(sh={k:round(float(sh.loc[m,k]),1) for k in MR},pl=round(float(pl[m])),alta=[[NOME_V2.get(k,NOME.get(k,k)),int(round(v-100))] for k,v in s.items() if v>=105][:4])
     F.write_text(json.dumps(d,ensure_ascii=False));return d
 def dados():
     return {int(k):v for k,v in json.loads(F.read_text()).items()} if F.exists() else calcula()
@@ -68,6 +73,8 @@ def prazos(i):
     d=DT.date(2027,*a);f=lambda n:(d-DT.timedelta(days=n)).strftime('%d/%m')
     return f(45),f(15),(d+DT.timedelta(days=1)).strftime('%d/%m')
 CSS='''
+.nv{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:1px}.nv-camp{background:var(--paprica)}.nv-apoio{background:var(--oliva)}.nv-cont{background:var(--linho)}.nv-aberto{background:#fff;box-shadow:inset 0 0 0 1.5px var(--cinza)}
+.nvt{display:inline-block;margin-left:6px;font-style:normal;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:9px;color:#fff;vertical-align:1px}.nvt.nv-cont{color:var(--terra)}.nvt.nv-aberto{color:var(--cinza)}.s-cal1 .cg .d span.sem{color:var(--cinza);font-style:italic}
 .s-cal1 .cg{display:grid;grid-template-columns:118px repeat(12,1fr);gap:3px;margin-top:10px;font-size:12.5px;line-height:1.16}.s-cal1 .cg>div{padding:5px 5px;border-radius:5px;background:#fff;min-width:0}.s-cal1 .cg .h{background:var(--terra);color:var(--iogurte);font:400 16px var(--serif);text-align:center}.s-cal1 .cg .l{background:none;font-weight:600;color:var(--terra);display:flex;flex-direction:column;justify-content:center;padding-left:0}.s-cal1 .cg .l small{font-weight:400;color:var(--cinza);font-size:11px}
 .s-cal1 .cg .d b{display:block;color:var(--choco);font-weight:600}.s-cal1 .cg .d span{display:block;margin-top:2px}.s-cal1 .pv{display:flex;flex-direction:column;justify-content:flex-end;height:60px;text-align:center;font-weight:600;color:var(--terra)}.s-cal1 .pv i{display:block;background:var(--linho);border-radius:3px 3px 0 0;margin-top:2px}.s-cal1 .pv.top i{background:var(--choco)}
 .s-cal1 .r{text-align:center;font-weight:600;font-size:14px}.s-cal1 .r.u{outline:2px solid var(--paprica);outline-offset:-2px}
@@ -84,8 +91,9 @@ CSS='''
 def ano():
     d=dados();mx=max(v['pl'] for v in d.values());mn=min(v['pl'] for v in d.values());g='<div class="l"></div>'+''.join(f'<div class="h">{m[:3]}</div>' for m in MESES)
     def _datas(i):
-        pr=''.join('<span><b>'+html.escape(n)+'</b>'+(html.escape(a) if '/' in a else '')+'</span>' for a,n,p in i['dt'] if p)
-        ou=''.join('<span>'+html.escape(n)+(' '+a if '/' in a else '')+'</span>' for a,n,p in i['dt'] if not p)
+        if not i['dt']: return '<div class="d"><span class="sem">Sem data da rede</span></div>'
+        pr=''.join(f'<span><b><i class="nv nv-{NIV[nv]}" title="{nv}"></i>'+html.escape(n)+'</b>'+(html.escape(a) if '/' in a else '')+'</span>' for a,n,p,nv in i['dt'] if p)
+        ou=''.join(f'<span><i class="nv nv-{NIV[nv]}" title="{nv}"></i>'+html.escape(n)+(' '+a if '/' in a else '')+'</span>' for a,n,p,nv in i['dt'] if not p)
         return '<div class="d">'+pr+ou+'</div>'
     g+='<div class="l">Datas de 2027</div>'+''.join(_datas(i) for i in CAL)
     g+='<div class="l">Venda por loja<small>R$ mil no mês</small></div>'+''.join(f'<div class="pv{" top" if d[i["m"]]["pl"]==mx else ""}">{round(d[i["m"]]["pl"]/1000)}<i style="height:{8+30*(d[i["m"]]["pl"]-mn)/(mx-mn):.0f}px"></i></div>' for i in CAL)
@@ -105,24 +113,24 @@ def meses():
     d=dados();bts='';pns=''
     for j,i in enumerate(CAL):
         m=i['m'];x=d[m];nm=MESES[m-1];pz=prazos(i)
-        dts=''.join(f'<li class="{"pr" if p else ""}"><b>{html.escape(a)}</b><span>{html.escape(n)}</span></li>' for a,n,p in i['dt'])
+        dts=''.join(f'<li class="{"pr" if p else ""}"><b>{html.escape(a)}</b><span>{html.escape(n)}<em class="nvt nv-{NIV[nv]}">{nv}</em></span></li>' for a,n,p,nv in i['dt']) or '<li><b>Abril</b><span>Sem campanha da rede no mês<em class="nvt nv-aberto">Execução</em></span></li>'
         prz=(f'<div class="pz"><div><span>Plano e pedido fechados</span><b>{pz[0]}</b></div><div><span>Material na loja</span><b>{pz[1]}</b></div><div><span>Desmontar</span><b>{pz[2]}</b></div></div>' if pz else '<div class="pz"><div><span>Tema do mês inteiro: material na loja</span><b>até o dia 1º</b></div></div>')
         real=x['sh'];abast=real['Abastecer']+real['Granel']
         barras=_barra('Cuidar',real['Cuidar'],i['peso'][0])+_barra('Abastecer',abast,i['peso'][1])+_barra('Celebrar',real['Celebrar'],i['peso'][2])
         alta=''.join(f'<span>{html.escape(n)} +{v}%</span>' for n,v in x['alta'])or'<span>Nenhuma categoria 5% acima da média</span>'
         proj=('<div class="lt">Projeto</div><div style="font-size:14px;color:var(--terra)">'+html.escape(i['proj'])+'</div>') if i['proj'] else ''
         bts+=f'<button class="aba pa{" on" if j==0 else ""}" data-k="cal{m}">{nm[:3]}</button>'
-        pns+=f'<div class="painel{" on" if j==0 else ""}" data-k="cal{m}"><div class="cm"><div class="bx"><h4>{nm}</h4><div class="sb">{html.escape(i["foco"])}. Venda por loja: R$ {round(x["pl"]/1000)} mil</div><ul class="dt">{dts}</ul>{prz}</div><div><div class="mt"><div class="mo" style="--c:{COR["Cuidar"]}"><b>Cuidar</b><p>{html.escape(i["C"])}</p></div><div class="mo" style="--c:{COR["Abastecer"]}"><b>Abastecer</b><p>{html.escape(i["A"])}</p></div><div class="mo" style="--c:#9a6d12"><b>Celebrar</b><p>{html.escape(i["E"])}</p></div></div><div class="es"><div><b>Ponta</b>{html.escape(i["ponta"])}</div><div><b>Mesa do mês</b>{html.escape(i["mesa"])}</div><div><b>Encarte</b>{html.escape(i["enc"])}</div></div></div><div class="bx"><div class="lt" style="margin-top:0">Hoje na venda e peso no trade</div>{barras}<div class="lt">Categorias que pesam mais neste mês</div><div class="alt">{alta}</div>{proj}</div></div></div>'
+        pns+=f'<div class="painel{" on" if j==0 else ""}" data-k="cal{m}"><div class="cm"><div class="bx"><h4>{nm}</h4><div class="sb">{html.escape(i["foco"])}. Venda por loja: R$ {round(x["pl"]/1000)} mil</div><ul class="dt">{dts}</ul>{prz}</div><div><div class="mt"><div class="mo" style="--c:{COR["Cuidar"]}"><b>Cuidar</b><p>{html.escape(i["C"])}</p></div><div class="mo" style="--c:{COR["Abastecer"]}"><b>Abastecer</b><p>{html.escape(i["A"])}</p></div><div class="mo" style="--c:#9a6d12"><b>Celebrar</b><p>{html.escape(i["E"])}</p></div></div><div class="es"><div><b>Ponta</b>{html.escape(i["ponta"])}</div><div><b>Mesa ou ponta extra</b>{html.escape(i["mesa"])}</div><div><b>Encarte</b>{html.escape(i["enc"])}</div></div></div><div class="bx"><div class="lt" style="margin-top:0">Hoje na venda e peso no trade</div>{barras}<div class="lt">Categorias que pesam mais neste mês</div><div class="alt">{alta}</div>{proj}</div></div></div>'
     return f'<div data-abas class="pa-abas"><div class="abas">{bts}</div>{pns}</div>'
 def manual():
     d=dados();lin=''
     for i in CAL:
         x=d[i['m']];r_=x['sh'];pz=prazos(i)
-        lin+=f'<tr><td><b>{MESES[i["m"]-1]}</b></td><td>{"; ".join(html.escape(n+" "+a if "/" in a else n) for a,n,p in i["dt"])}</td><td>{html.escape(i["C"])}</td><td>{html.escape(i["A"])}</td><td>{html.escape(i["E"])}</td><td class="np">{br(r_["Cuidar"],1)} · {br(r_["Abastecer"]+r_["Granel"],1)} · {br(r_["Celebrar"],1)}</td><td class="np">{i["peso"][0]} · {i["peso"][1]} · {i["peso"][2]}</td><td class="np">{(pz[0]+" e "+pz[1]) if pz else "até o dia 1º"}</td></tr>'
-    return f'<table class="tb"><thead><tr><th>Mês</th><th>Datas de 2027</th><th>Cuidar</th><th>Abastecer</th><th>Celebrar</th><th>% real da venda: Cuidar · Abastecer · Celebrar</th><th>% do trade, proposta</th><th>Plano fechado e material na loja</th></tr></thead><tbody>{lin}</tbody></table>'
+        lin+=f'<tr><td><b>{MESES[i["m"]-1]}</b></td><td>{"; ".join(html.escape((n+" "+a if "/" in a else n)+" ("+nv+")") for a,n,p,nv in i["dt"]) or "Sem campanha da rede"}</td><td>{html.escape(i["C"])}</td><td>{html.escape(i["A"])}</td><td>{html.escape(i["E"])}</td><td class="np">{br(r_["Cuidar"],1)} · {br(r_["Abastecer"]+r_["Granel"],1)} · {br(r_["Celebrar"],1)}</td><td class="np">{i["peso"][0]} · {i["peso"][1]} · {i["peso"][2]}</td><td class="np">{(pz[0]+" e "+pz[1]) if pz else "até o dia 1º"}</td></tr>'
+    return f'<table class="tb"><thead><tr><th>Mês</th><th>Datas de 2027 e nível da rede</th><th>Cuidar</th><th>Abastecer</th><th>Celebrar</th><th>% real da venda: Cuidar · Abastecer · Celebrar</th><th>% do trade, proposta</th><th>Plano fechado e material na loja</th></tr></thead><tbody>{lin}</tbody></table>'
 def kit():
     d=dados();L=[]
     for i in CAL:
         x=d[i['m']];r_=x['sh'];pz=prazos(i) or ('','','')
-        L.append([MESES[i['m']-1],'; '.join(n+' '+a if '/' in a else n for a,n,p in i['dt']),i['foco'],i['C'],i['A'],i['E'],i['ponta'],i['mesa'],i['enc'],r_['Cuidar'],r_['Abastecer'],r_['Granel'],r_['Celebrar'],i['peso'][0],i['peso'][1],i['peso'][2],x['pl'],', '.join(f'{n} +{v}%' for n,v in x['alta']),pz[0],pz[1],pz[2],i['proj']])
+        L.append([MESES[i['m']-1],'; '.join((n+' '+a if '/' in a else n)+' ('+nv+')' for a,n,p,nv in i['dt']) or 'Sem campanha da rede',i['foco'],i['C'],i['A'],i['E'],i['ponta'],i['mesa'],i['enc'],r_['Cuidar'],r_['Abastecer'],r_['Granel'],r_['Celebrar'],i['peso'][0],i['peso'][1],i['peso'][2],x['pl'],', '.join(f'{n} +{v}%' for n,v in x['alta']),pz[0],pz[1],pz[2],i['proj']])
     return L

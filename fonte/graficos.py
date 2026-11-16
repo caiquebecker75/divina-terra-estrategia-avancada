@@ -6,7 +6,7 @@ def br(v,c=0): return f'{v:,.{c}f}'.replace(',','X').replace('.',',').replace('X
 _df=None
 def df():
     global _df
-    if _df is None: _df=pd.read_pickle(R/'analise/vendas4.pkl')
+    if _df is None: _df=pd.read_pickle(R/'analise/vendas5.pkl')
     return _df
 def scatter():
     L=pd.read_pickle(R/'analise/lojas_cluster.pkl');W,H=880,560;x0,y0=60,20;pw,ph=W-x0-20,H-y0-50
@@ -59,16 +59,16 @@ def linha():
     return s
 def treemap():
     d=df();T=d.valor.sum();p=(d.groupby('setorf').valor.sum()/T*100).to_dict()
-    Z=[('Cuidar · suplementos',C['cho'],'#fff',[('Proteínas',['Proteínas']),('Creatina',['Creatina']),('Vitaminas de A a Z',['Vitaminas de A a Z']),('Ômegas',['Ômegas']),('Colágeno e Beleza',['Colágeno e Beleza']),('Equilíbrio e Bem-Estar',['Equilíbrio e Bem-Estar']),('Performance',['Performance']),('Longevidade',['Longevidade']),('Saúde Intestinal',['Saúde Intestinal']),('Imunidade',['Imunidade']),('Kids, Peso',['Kids','Peso e Composição']),('A classificar',['Suplementos sem setor'])]),
-    ('Abastecer · granel e despensa',C['oli'],'#fff',[('Granel',['Granel']),('Barras e snacks',['Barras e snacks']),('Cafés funcionais',['Café e cápsulas']),('Farinhas e básicos',['Farinhas e despensa']),('Chás',['Chás']),('Café da loja',['Café da loja']),('A classificar',['Despensa sem setor','Fora de setor'])]),
-    ('Celebrar · empório',C['aca'],C['ter'],[('Chocolates',['Empório: Chocolates e doces finos']),('Geleias e mel',['Empório: Geleias e mel']),('Massas, molhos',['Empório: Massas e risotos','Empório: Molhos e condimentos']),('Azeites, conservas, vinhos, queijos, cafés e temperos',['Empório: Azeites e vinagres','Empório: Conservas e antepastos','Empório: Vinhos e espumantes','Empório: Queijos','Empório: Cafés especiais','Empório: Temperos e especiarias'])])]
+    Z=[('Cuidar · suplementos',C['cho'],'#fff',[('Proteínas',['Proteínas']),('Creatina',['Creatina']),('Ômegas',['Ômegas']),('Equilíbrio & Bem-Estar',['Equilíbrio e Bem-Estar']),('Cafés funcionais',['Café e cápsulas']),('Performance',['Performance']),('Saúde Intestinal',['Saúde Intestinal']),('Vitaminas de A a Z',['Vitaminas de A a Z']),('Longevidade Saudável',['Longevidade']),('Colágeno & Beleza',['Colágeno e Beleza']),('Imunidade',['Imunidade']),('Peso',['Peso e Composição']),('Kids',['Kids']),('A classificar',['Suplementos sem setor'])]),
+    ('Abastecer · granel, restrição e rotina',C['oli'],'#fff',[('Granel',['Granel']),('Sem Glúten',['Sem Glúten']),('Barras e snacks',['Barras e snacks']),('Geladeira e bebidas',['Geladeira']),('Chás',['Chás']),('Café da loja',['Café da loja']),('Fora dos setores',['Fora de setor'])]),
+    ('Celebrar · Gourmet',C['aca'],C['ter'],[('Doces e chocolates',['Gourmet: Doces e chocolates']),('Bebidas vegetais e básicos',['Gourmet: Bebidas vegetais e básicos']),('Azeites, molhos e antepastos',['Gourmet: Azeites, molhos e antepastos']),('Biscoitos, massas, cafés e presentes',['Gourmet: Biscoitos e snacks','Gourmet: Massas e prontos','Gourmet: Cafés, vinhos e presenteáveis'])])]
     o='<div class="tree">'
     for nome,cor,tx,it in Z:
         tot=sum(sum(p.get(k,0) for k in ks) for _,ks in it)
         fl=max(tot,14)
         o+=f'<div class="zona" style="flex:{fl:.1f}"><div class="zt"><b>{nome}</b><span>{br(tot,1)}%</span></div><div class="zc">'
         for n,ks in it:
-            v=sum(p.get(k,0) for k in ks);op='.55' if n=='A classificar' else '1'
+            v=sum(p.get(k,0) for k in ks);op='.55' if n in ('A classificar','Fora dos setores') else '1'
             h=max(v,.9 if tot>10 else 3)
             o+=f'<div class="st" style="flex:{h:.2f} 1 0;background:{cor};color:{tx};opacity:{op}"><span>{n}</span><b>{br(v,1)}%</b></div>'
         o+='</div></div>'
@@ -109,15 +109,15 @@ def simulador():
             cells=[('Cuidar',su,C['cho'],'#fff'),('Abastecer',de,C['oli'],'#fff'),('Granel',gr,C['cap'],'#fff'),('Chás',ch,C['mat'],C['ter']),('Celebrar',em,C['aca'],C['ter'])]
             import novas as _N
             _d=_N.dados12()[f'{t}|{pn}']['modulos'];_o=[x for x in _N.ORD if _d.get(x,0)>0]
-            _ab={'Proteínas':'Prot','Creatina':'Crea','Colágeno':'Colág','Performance':'Perf','Bem-Estar':'Bem','Longevidade':'Long','Vitaminas':'Vit','Ômegas':'Ôm','Intestino':'Int','Imunidade':'Imu','Kids e Peso':'Kids','Barras e snacks':'Barra','Cafés funcionais':'Café','Despensa':'Desp','Chás':'Chá','Granel':'Gran','Empório':'Emp'}
+            _ab={'Proteínas':'Prot','Creatina':'Crea','Colágeno':'Colág','Performance':'Perf','Bem-Estar':'Bem','Longevidade':'Long','Vitaminas':'Vit','Ômegas':'Ôm','Intestino':'Int','Imunidade':'Imu','Kids':'Kids','Peso':'Peso','Sem Glúten':'SG','Gourmet':'Gour','Barras e snacks':'Barra','Cafés funcionais':'Café','Despensa':'Desp','Chás':'Chá','Granel':'Gran','Empório':'Emp'}
             w='';_ac=0
             for x in _o:
-                _f=_d[x];_c=_N.COR[_N.MOT[x]];_c=C['mat'] if x=='Chás' else _c;_tx=C['ter'] if x in('Chás','Empório') else '#fff'
+                _f=_d[x];_c=_N.COR[_N.MOT[x]];_c=C['mat'] if x=='Chás' else _c;_tx=C['ter'] if x in('Chás','Gourmet') else '#fff'
                 _k=int(_f+.999)
                 for j in range(_k):
                     _ac+=1;w+=f'<i style="background:{_c};color:{_tx}" title="Módulo {_ac}: {x}"><b>{_ac}</b>{_ab[x]}{"½" if (j==_k-1 and _f%1) else ""}</i>'
             leg=''.join(f'<li><i style="background:{c}"></i><b>{n}</b> {nm}</li>' for nm,n,c,_ in cells)
-            pns+=f'<div class="painel{" on" if first else ""}" data-k="{k}"><div class="parede t{t}">{w}</div><ul class="leg">{leg}</ul><div class="infos"><div><span class="num">{CONT[(t,p)]}</span><small>lojas neste quadro hoje</small></div><p class="p"><b>{pn}, {dt["n"]}.</b> Exemplos: {EX[(t,p)]}. Empório com {em} módulo{"s" if em>1 else ""} e {br(sum(1 for _ in range(0)))if False else ""}{ {1:"36",2:"68",3:"96",4:"130"}[em]} produtos.</p></div></div>'
+            pns+=f'<div class="painel{" on" if first else ""}" data-k="{k}"><div class="parede t{t}">{w}</div><ul class="leg">{leg}</ul><div class="infos"><div><span class="num">{CONT[(t,p)]}</span><small>lojas neste quadro hoje</small></div><p class="p"><b>{pn}, {dt["n"]}.</b> Exemplos: {EX[(t,p)]}. Gourmet com {br(_d.get("Gourmet",0),1).replace(",0","")} módulos e {_N.dados12()[f"{t}|{pn}"]["cats"].get("Gourmet",{}).get("skus",0)} produtos.</p></div></div>'
             first=False
     tab='<table class="grade"><tr><th></th>'+''.join(f'<th>{v[0]}</th>' for v in PER.values())+'</tr>'
     for t,dt in TAM.items():
@@ -144,7 +144,7 @@ def planta(prop):
         s+=z(780,24,90,44,c['mat'],'Freezer',c['ter'])
         s+=z(1040,24,130,44,c['cho'],'Encapsulados')
         for x,w,t in ((110,120,'Gôndola G'),(290,90,'Gôndola P'),(390,120,'Gôndola G'),(560,90,'Gôndola P')): s+=z(x,110,w,62,c['lin'],t,c['ter'])
-        s+=z(860,105,190,60,c['ter'],'Caixa')
+        s+=z(860,105,190,60,c['ter'],'Checkout')
         s+=z(120,232,70,66,c['oli'],'Kombucha')+z(205,240,150,44,c['ave'],'Balança, expositor',c['ter'])
         s+=f'<rect x="240" y="180" width="330" height="50" rx="8" fill="none" stroke="{c["pap"]}" stroke-width="2.5" stroke-dasharray="7 6"/><text x="405" y="210" text-anchor="middle" font-size="14" font-weight="600" fill="{c["pap"]}">Vão central: 11 m² parados</text>'
         for x,w,t in ((70,60,'Granel P'),(135,130,'Granel 18'),(270,60,'Granel M'),(335,80,'Chás')): s+=z(x,336,w,40,c['cap'],t)
@@ -155,14 +155,14 @@ def planta(prop):
         for i,t in enumerate(n): s+=z(70+i*88,24,84,44,c['cho'],t,'#fff',12.5)
         s+=z(780,24,90,44,c['mat'],'Freezer',c['ter'])
         s+=z(1040,24,130,44,c['cho'],'Longevidade')
-        for x,w,t,f,tc in ((110,120,'Barras e Snacks',c['oli'],'#fff'),(290,90,'Kids',c['oli'],'#fff'),(390,120,'Despensa',c['oli'],'#fff'),(560,90,'Sem Glúten',c['oli'],'#fff')): s+=z(x,110,w,62,f,t,tc,12.5)
-        s+=z(860,105,190,60,c['ter'],'Caixa + chocolates')
+        for x,w,t,f,tc in ((110,120,'Barras e Snacks',c['oli'],'#fff'),(290,90,'Kids',c['oli'],'#fff'),(390,120,'Gourmet básicos',c['oli'],'#fff'),(560,90,'Sem Glúten',c['oli'],'#fff')): s+=z(x,110,w,62,f,t,tc,12.5)
+        s+=z(860,105,190,60,c['ter'],'Checkout')
         s+=z(120,240,70,58,c['oli'],'Kombucha')
-        s+=f'<rect x="240" y="186" width="290" height="110" rx="55" fill="{c["aca"]}"/><text x="385" y="238" text-anchor="middle" font-size="17" font-weight="600" fill="{c["ter"]}">Mesa do Empório</text><text x="385" y="258" text-anchor="middle" font-size="13" fill="{c["ter"]}">tema do mês e degustação</text>'
+        s+=f'<rect x="240" y="186" width="290" height="110" rx="55" fill="{c["aca"]}"/><text x="385" y="238" text-anchor="middle" font-size="17" font-weight="600" fill="{c["ter"]}">Mesa do mês, em teste</text><text x="385" y="258" text-anchor="middle" font-size="13" fill="{c["ter"]}">tema do mês e degustação</text>'
         s+=z(70,336,345,40,c['cap'],'Granel: 20 tubos e prova, com placa visível da porta')
         for i,t in enumerate(['À mesa','Receber','Do mundo']): s+=z(420+i*88,336,84,40,c['aca'],t,c['ter'])
         for x in (720,880): s+=z(x,250,120,70,c['ave'],'Mesas',c['ter'])
-        s+=f'<text x="650" y="300" font-size="13.5" font-weight="600" fill="{c["ter"]}">Empório perto</text><text x="650" y="318" font-size="13.5" font-weight="600" fill="{c["ter"]}">de quem fica</text>'
+        s+=f'<text x="650" y="300" font-size="13.5" font-weight="600" fill="{c["ter"]}">Gourmet perto</text><text x="650" y="318" font-size="13.5" font-weight="600" fill="{c["ter"]}">de quem fica</text>'
         for x,t in ((230,'PROTEÍNAS E CREATINA'),(500,'SAÚDE'),(405,'')): pass
     s+=f'<rect x="1000" y="330" width="170" height="44" rx="4" fill="{c["ave"]}"/><text x="1085" y="357" text-anchor="middle" font-size="13" fill="{c["ter"]}">Café e balcão</text></svg>'
     return s
@@ -208,7 +208,7 @@ def rogers():
 
 def receita_tela():
     import receita as RC
-    COR={'Cuidar':C['cho'],'Abastecer':C['oli']}
+    COR={'Cuidar':C['cho'],'Abastecer':C['oli'],'Celebrar':C['aca']}
     bts='';pns=''
     for i,(l,n,t,e,tp) in enumerate(RC.EX):
         a=RC.alocar(l,t,e);k=f'r{i}'
@@ -216,8 +216,7 @@ def receita_tela():
         tiles=''
         for _,r in a.sort_values(['mot','f'],ascending=[False,False]).iterrows():
             if r.f<=0: continue
-            tiles+=f'<div class="mdl" style="flex:{r.f} 1 0;background:{COR[r.mot]}"><b>{br(r.f,1).replace(",0","")}</b><span>{r.s}</span></div>'
-        tiles+=f'<div class="mdl" style="flex:{e} 1 0;background:{C["aca"]};color:{C["ter"]}"><b>{e}</b><span>Empório</span></div>'
+            tiles+=f'<div class="mdl" style="flex:{r.f} 1 0;background:{COR[r.mot]};color:{C["ter"] if r.mot=="Celebrar" else "#fff"}"><b>{br(r.f,1).replace(",0","")}</b><span>{RC.nome(r.s)}</span></div>'
         cr=a[a.s=='Creatina'].iloc[0]
         pns+=f'<div class="painel{" on" if i==0 else ""}" data-k="{k}"><div class="parede2">{tiles}</div><p class="obs2">Creatina faz {br(cr.pv,1)}% da venda desta loja, mas {int(cr.n80)} produtos respondem por 80% dela: {br(cr.f,1).replace(",0","")} módulo basta, se estiver no melhor lugar. Número = módulos de 0,90 m, sem contar granel, frio, café e caixa.</p></div>'
     return bts,pns
