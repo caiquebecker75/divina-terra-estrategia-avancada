@@ -1,0 +1,27 @@
+[
+  {
+    "n": 1,
+    "data": "05/11/2026",
+    "pasta": "v1",
+    "titulo": "Primeira entrega",
+    "resumo": "Apresentação executiva de 19 telas, book de 50 telas e manual. Esta foi a versão revisada pela rede na devolutiva de 16/11/2026.",
+    "mudou": [
+      "Apresentação executiva separada do book",
+      "Book reduzido de 104 para 50 telas",
+      "Piloto em uma loja: Pinheiros, com Moinhos de comparação"
+    ]
+  },
+  {
+    "n": 2,
+    "data": null,
+    "pasta": null,
+    "titulo": "Revisão a partir da devolutiva",
+    "resumo": "Em produção. Entra no ar quando a revisão estiver pronta para validação.",
+    "mudou": [
+      "Produtos reclassificados pela árvore de 16 setores da rede, com Kids e Peso separados",
+      "Sellout de janeiro de 2025 a outubro de 2026, com as lojas novas",
+      "Planogramas com lista de execução por módulo",
+      "Calendário alinhado à tabela oficial de 2027"
+    ]
+  }
+]
