@@ -32,3 +32,7 @@ Uma versão congelada não se altera. Os arquivos repetidos entre versões não 
 4. `python3 fonte/planogramas.py` e, em Python, `planogramas.tudo12()`: planogramas P, M, G e os 12 tipos.
 5. `python3 fonte/build.py`, `python3 fonte/exec_build.py`, `python3 fonte/manual.py` e os PDFs.
 6. Planilhas para a rede, fora do Git (têm venda): `fonte/planilha_classificacao.py` e `fonte/execucao.py`, em `kit/`.
+
+## Visão estratégica para a diretoria (16/11/2026)
+
+`diretoria.html` e `divina-terra-diretoria.pdf`: 20 slides para a diretoria, a partir do deck que o time da rede montou com telas do book. Slides próprios em `fonte/diretoria/novas.html` e `fonte/diretoria/dir.css` (ponto em que estamos, curva de valor, cinco razões, experiência na loja, mini trade book, calendário promocional); os demais vêm de `fonte/exec/telas.html`. Gerar com `python3 fonte/diretoria_build.py`, depois de `exec_build.py`.

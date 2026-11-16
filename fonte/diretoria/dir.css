@@ -1,0 +1,111 @@
+:root{--paprica:#CA3C2E}
+/* Slides próprios da visão estratégica para a diretoria (d-*). O resto vem de exec.css. */
+.tela[class*=" d-"]{padding:84px 96px 96px}
+.tela[class*=" d-"] h2{font-size:46px;max-width:1300px}
+.tela[class*=" d-"] .fonte{bottom:58px}
+
+/* Em que ponto estamos */
+.d-ponto .lin{list-style:none;display:grid;grid-template-columns:repeat(8,1fr);margin:34px 0 0;padding:0;position:relative}
+.d-ponto .lin:before{content:"";position:absolute;left:0;right:0;top:15px;height:2px;background:var(--aveia)}
+.d-ponto .lin li{position:relative;padding:38px 12px 0 0;font-size:16px;line-height:1.25;color:var(--cinza)}
+.d-ponto .lin li:before{content:"";position:absolute;left:0;top:6px;width:20px;height:20px;border-radius:50%;background:var(--iogurte);box-shadow:inset 0 0 0 2px var(--linho)}
+.d-ponto .lin li.f:before{background:var(--oliva);box-shadow:none}
+.d-ponto .lin li.h:before{background:var(--acafrao);box-shadow:0 0 0 6px rgba(202,148,42,.25);width:22px;height:22px;top:5px}
+.d-ponto .lin li b{display:block;font-family:var(--serif);font-weight:400;font-size:26px;color:var(--terra);margin-bottom:4px}
+.d-ponto .lin li.h b{color:var(--acafrao)}
+.d-ponto .lin li.f span{color:var(--terra)}
+.d-ponto .tres{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.d-ponto .tres>div{background:var(--aveia);border-radius:14px;padding:22px 24px}
+.d-ponto .tres>div.esc{background:var(--terra);color:var(--iogurte)}
+.d-ponto .tres h3{font-family:var(--serif);font-weight:400;font-size:28px;margin:0 0 10px;color:var(--choco)}
+.d-ponto .tres .esc h3{color:var(--acafrao)}
+.d-ponto .tres ul{margin:0;padding-left:20px;display:grid;gap:7px;font-size:17.5px;line-height:1.28}
+
+/* Curva de valor */
+.d-curva .g{display:grid;grid-template-columns:1.32fr .68fr;gap:30px;margin-top:24px;align-items:start}
+.d-curva .graf svg{width:100%;height:auto;display:block}
+.d-curva .leg{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:4px;font-size:14px;color:var(--cinza)}
+.d-curva .leg span{display:flex;align-items:center;gap:6px}.d-curva .leg i{display:block;width:22px;height:4px;border-radius:2px}
+.d-curva .lei{display:grid;gap:10px}
+.d-curva .lei>div{background:var(--aveia);border-radius:12px;padding:14px 18px;font-size:16.5px;line-height:1.3;color:var(--terra)}
+.d-curva .lei>div b{display:block;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--choco);margin-bottom:4px}
+.d-curva .lei>div.cl{background:var(--matcha)}
+.d-curva .lei>div.cl b{color:var(--terra)}
+
+/* Cinco razões */
+.d-razoes .cinco{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:34px}
+.d-razoes article{background:var(--aveia);border-radius:16px;padding:22px 20px 24px;display:flex;flex-direction:column;min-height:470px}
+.d-razoes article.v{background:var(--choco);color:var(--iogurte)}
+.d-razoes article i{font-style:normal;font-family:var(--serif);font-size:20px;color:var(--cap)}
+.d-razoes article.v i{color:var(--acafrao)}
+.d-razoes h3{font-family:var(--serif);font-weight:400;font-size:25px;line-height:1.12;margin:8px 0 0;min-height:112px}
+.d-razoes article b{display:block;font-family:var(--serif);font-weight:300;font-size:62px;line-height:1;letter-spacing:-.02em;color:var(--choco);margin-top:auto}
+.d-razoes article.v b{color:var(--acafrao)}
+.d-razoes article p{font-size:16.5px;line-height:1.3;margin:10px 0 0;color:var(--terra)}
+.d-razoes article.v p{color:var(--aveia)}
+
+/* Experiência na loja */
+.d-exp .quatro{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+.d-exp article{background:var(--aveia);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.d-exp article img{width:100%;height:280px;object-fit:cover;display:block}
+.d-exp article div{padding:16px 20px 20px}
+.d-exp h3{font-family:var(--serif);font-weight:400;font-size:38px;line-height:1;margin:0;color:var(--choco)}
+.d-exp article p{font-size:17px;line-height:1.3;margin:8px 0 0;color:var(--terra)}
+.d-exp .fica{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:18px;font-size:15.5px}
+.d-exp .fica b{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--choco);margin-right:6px}
+.d-exp .fica span{background:var(--terra);color:var(--iogurte);border-radius:99px;padding:6px 14px}
+
+/* Mini trade book */
+.d-mini .oito{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.d-mini .oito>div{background:var(--aveia);border-radius:16px;padding:20px 22px 22px;min-height:236px;position:relative}
+.d-mini .oito>div:nth-child(1){background:var(--terra);color:var(--iogurte)}
+.d-mini .oito i{font-style:normal;position:absolute;right:20px;top:16px;font-family:var(--serif);font-size:44px;line-height:1;color:var(--linho)}
+.d-mini .oito>div:nth-child(1) i{color:var(--cap)}
+.d-mini h3{font-family:var(--serif);font-weight:400;font-size:32px;margin:0 0 10px;color:var(--choco)}
+.d-mini .oito>div:nth-child(1) h3{color:var(--acafrao)}
+.d-mini p{font-size:17px;line-height:1.32;margin:0;color:var(--terra)}
+.d-mini .oito>div:nth-child(1) p{color:var(--iogurte)}
+.d-mini p b{font-weight:600}
+
+/* Calendário promocional em uma página */
+.d-cal .cal{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-top:22px}
+.d-cal .cal>div{background:#fff;border-radius:8px;padding:9px 8px 10px;display:flex;flex-direction:column;min-height:370px}
+.d-cal .cal h4{margin:-9px -8px 8px;padding:8px;background:var(--terra);color:var(--iogurte);font-family:var(--serif);font-weight:400;font-size:20px;text-align:center;border-radius:8px 8px 0 0}
+.d-cal .cal .dt{display:grid;gap:6px;font-size:12.5px;line-height:1.18;color:var(--terra)}
+.d-cal .cal .dt span{display:block}
+.d-cal .cal .dt span b{display:block;font-weight:600}
+.d-cal .cal .dt span.c b{color:var(--choco)}
+.d-cal .cal .dt span small{display:inline-block;margin-top:2px;font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:8px;color:#fff;background:var(--paprica)}
+.d-cal .cal .dt span.a small{background:var(--oliva)}
+.d-cal .cal .dt span.t small{background:var(--linho);color:var(--terra)}
+.d-cal .cal .dt span.e small{background:#fff;color:var(--cinza);box-shadow:inset 0 0 0 1px var(--linho)}
+.d-cal .cal .sem{font-size:12.5px;font-style:italic;color:var(--cinza)}
+.d-cal .cal .fo{margin-top:auto;padding-top:10px;border-top:1px solid var(--aveia);font-size:12.5px;line-height:1.2;color:var(--cinza)}
+.d-cal .cal .fo b{display:block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--cap);margin-bottom:2px}
+.d-cal .cal>div.pk{box-shadow:inset 0 0 0 2px var(--paprica)}
+.d-cal .camp{display:grid;grid-template-columns:auto repeat(4,1fr);gap:10px;align-items:stretch;margin-top:12px;font-size:14.5px;line-height:1.25}
+.d-cal .camp b{align-self:center;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--choco);max-width:130px}
+.d-cal .camp span{background:var(--aveia);border-radius:10px;padding:10px 12px;color:var(--terra)}
+.d-cal .camp em{display:block;font-style:normal;font-weight:600;color:var(--paprica)}
+
+/* ocupação da tela */
+.d-ponto h2{font-size:50px}
+.d-ponto .lin{margin-top:46px}
+.d-ponto .lin li{font-size:18px}.d-ponto .lin li b{font-size:32px}
+.d-ponto .tres{margin-top:56px;gap:18px}
+.d-ponto .tres>div{padding:26px 28px;min-height:300px}
+.d-ponto .tres h3{font-size:32px;margin-bottom:14px}
+.d-ponto .tres ul{font-size:20px;gap:10px}
+.d-exp h2{font-size:50px}
+.d-exp .quatro{margin-top:34px;gap:16px}
+.d-exp article img{height:360px}
+.d-exp article div{padding:20px 22px 24px}
+.d-exp h3{font-size:44px}.d-exp article p{font-size:19.5px}
+.d-exp .fica{margin-top:24px;font-size:17px}
+.d-mini h2{font-size:50px}
+.d-mini .oito{margin-top:38px;gap:16px}
+.d-mini .oito>div{min-height:300px;padding:24px 26px}
+.d-mini h3{font-size:38px;margin-bottom:14px}.d-mini p{font-size:20px;line-height:1.34}
+.d-mini .oito i{font-size:54px}
+.d-mini .oito>div{min-height:280px}
+.d-ponto .tres>div{min-height:280px}

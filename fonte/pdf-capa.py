@@ -15,3 +15,8 @@ B=B.replace('O PDF mostra cada tela de forma estática. No link, ela abre com as
 B=B.replace('Esta apresentação foi feita','Este book foi feito').replace('Clique aqui para acessar a apresentação','Clique aqui para acessar o book').replace(f'href="{L}"',f'href="{L}book.html"').replace('projetos.75lab.com.br/divina-terra-estrategia-avancada<','projetos.75lab.com.br/divina-terra-estrategia-avancada/book.html<')
 B=B.replace('<div class="q"><img src="assets/qr-deck.png" alt=""><b>No celular, aponte a câmera</b></div>','')
 (R/'pdf-capa-book.html').write_text(B)
+
+D=(R/'pdf-capa.html').read_text()
+D=D.replace(f'href="{L}"',f'href="{L}diretoria.html"').replace('Clique aqui para acessar a apresentação','Clique aqui para acessar a visão estratégica').replace('projetos.75lab.com.br/divina-terra-estrategia-avancada<','projetos.75lab.com.br/divina-terra-estrategia-avancada/diretoria.html<')
+D=D.replace('<div class="q"><img src="assets/qr-deck.png" alt=""><b>No celular, aponte a câmera</b></div>','')
+(R/'pdf-capa-diretoria.html').write_text(D)
