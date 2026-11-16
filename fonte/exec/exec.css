@@ -165,3 +165,7 @@ body.tem-mouse #cursor,body.tem-mouse #anel{opacity:1}
 
 /* v2: frase de posicionamento mais longa */
 .t-posicao .gigante{font-size:150px}
+
+/* sem citações de pessoas: contexto na voz da 75 LAB e o que a cliente busca */
+.t-pedido .ctx{margin-top:60px;padding-left:28px;border-left:3px solid var(--acafrao);font-family:var(--serif);font-weight:300;font-size:33px;line-height:1.24;max-width:880px}
+.t-motivos .bu{display:block;font-family:var(--serif);font-weight:300;font-size:25px;line-height:1.2;margin-top:10px;color:#fff}
