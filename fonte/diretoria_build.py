@@ -97,9 +97,10 @@ def espacos():
     r = json.load(open(R / 'analise/planogramas.json'))
     q = {T: N.quant(r, T) for T in 'PMG'}
     vd = pd.read_pickle(R / 'analise/vendas5.pkl'); L = pd.read_pickle(R / 'analise/lojas_cluster.pkl')
-    tam = {lj: (L.tam.get(lj, '?')) for lj in vd.loja.unique()}
+    lojas = set(vd.loja.unique()) | set(pd.read_pickle(R / 'analise/sysmo3.pkl').loja.unique())  # + as 3 lojas do Sysmo
+    tam = {lj: (L.tam.get(lj, '?')) for lj in lojas}
     nl = {T: sum(1 for v in tam.values() if (v.replace('GG', 'G') if v in ('P', 'M', 'G', 'GG') else 'M') == T) for T in 'PMG'}
-    assert sum(nl.values()) == 71, nl
+    assert sum(nl.values()) == 74, nl
     br = N.br
     def mil(v): return br(round(v / 1000))
     def cerca(n): return br(round(n, -2)) if n >= 1000 else br(round(n, -1)) if n >= 60 else br(n)

@@ -14,15 +14,29 @@
   {
     "n": 2,
     "data": "16/11/2026",
-    "pasta": null,
+    "pasta": "v2",
     "titulo": "Revisão a partir da devolutiva",
-    "resumo": "Apresentação de 19 telas, book de 52 telas e manual, revisados a partir da devolutiva da rede de 16/11/2026, com a mesma base de vendas (71 lojas, 10/2025 a 10/2026). Em validação.",
+    "resumo": "Apresentação de 19 telas, book de 52 telas e manual, revisados a partir da devolutiva da rede de 16/11/2026, com a mesma base de vendas (71 lojas, 10/2025 a 10/2026).",
     "mudou": [
       "Produtos reclassificados pela árvore de 16 setores da rede, com Kids e Peso separados e 2.706 produtos revisados um a um",
       "Planogramas com as prateleiras da rede, Vivea nos olhos e produto regional fora do desenho nacional",
       "Lista de execução por loja: só o núcleo é obrigatório, sem obra",
       "Calendário pela tabela oficial de 2027, com as campanhas de Dia do Consumidor, 16 anos, Dia do Cliente e Black Friday",
       "Posicionamento mais inclusivo, dados de chocolate e azeite corrigidos e Vila Madalena como caso"
+    ]
+  },
+  {
+    "n": 3,
+    "data": "19/11/2026",
+    "pasta": null,
+    "titulo": "Base com 74 lojas",
+    "resumo": "Book, apresentação, visão para a diretoria e manual com Belém Plaza, Holambra e São José dos Campos, que chegaram pelo sistema Sysmo (jan a dez de 2025). A rede passa a R$ 87,5 mi por ano em 74 lojas; produtos e planogramas seguem as 71 lojas do relatório principal. Em validação.",
+    "mudou": [
+      "Números da rede com 74 lojas: R$ 87,5 mi por ano, R$ 49 de cada R$ 100 em suplemento, 21,5% de granel e 6,6% de Gourmet",
+      "Holambra entra como segunda prova do Gourmet: 11,9% da venda, como Vila Madalena, numa das dez maiores lojas da rede",
+      "Regiões refeitas: Sudeste com 13 lojas e Norte, Nordeste e Centro-Oeste com 12, onde Belém Plaza é a maior loja da rede",
+      "Simulação do potencial: de R$ 1,1 mi a R$ 10,1 mi por ano, R$ 4,2 mi no cenário base",
+      "Faltam 8 lojas, cerca de 18,5% do faturamento; a visão para a diretoria segue a ordem da reunião de alinhamento de 16/11"
     ]
   }
 ]

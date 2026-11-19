@@ -118,7 +118,7 @@
     let on=false;c.addEventListener('pointerdown',e=>{on=true;c.setPointerCapture(e.pointerId);mover(e.clientX);e.stopPropagation();});c.addEventListener('pointermove',e=>{if(on)mover(e.clientX);});c.addEventListener('pointerup',()=>{on=false;});c.addEventListener('click',e=>e.stopPropagation());});
   /* simulador de mix: cada R$ 100 hoje e depois */
   (function(){
-    const r=$('#simE');if(!r)return;const g=$('#simG'),i=$('#simI'),B=77.5,a=.0653*B,b=.218*B,sup0=.504,mio0=1-.504-.218-.0653;
+    const r=$('#simE');if(!r)return;const g=$('#simG'),i=$('#simI'),B=87.5,a=.0661*B,b=.2152*B,sup0=.4888,mio0=1-.4888-.2152-.0661;
     const fmt=(v,c=1)=>v.toLocaleString('pt-BR',{minimumFractionDigits:c,maximumFractionDigits:c});
     function calc(){const E=+r.value/100,G=+g.value/100,I=+i.value/100,N=(B-I*(a+b))/(1-I*(E+G)),res=N*(1-E-G),s=res*sup0/(sup0+mio0),m=res-s;
       $('#simEv').textContent=fmt(E*100,0)+'%';$('#simGv').textContent=fmt(G*100,0)+'%';$('#simIv').textContent=fmt(I*100,0)+'%';

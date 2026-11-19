@@ -46,12 +46,12 @@
   /* simulador do potencial: N=(B-I(a+b))/(1-I(E+G)), com a e b de hoje */
   const sE=$('#sE');
   if(sE){
-    const sG=$('#sG'),sI=$('#sI'),B=77.5,a=.0653*B,b=.218*B,cen=$$('.d-pot .cen button');
+    const sG=$('#sG'),sI=$('#sI'),B=87.5,a=.0661*B,b=.2152*B,cen=$$('.d-pot .cen button');
     const calc=()=>{const E=+sE.value/100,G=+sG.value/100,I=+sI.value/100,N=(B-I*(a+b))/(1-I*(E+G));
       $('#vE').textContent=sE.value+'%';$('#vG').textContent=sG.value+'%';$('#vI').textContent=sI.value+'%';
       $('#rR').textContent='+R$ '+fmt(N-B,1)+' mi';$('#rP').textContent='+'+fmt((N/B-1)*100,1)+'%';
       const at=[sE.value,sG.value,sI.value].join(',');cen.forEach(c=>c.classList.toggle('on',c.dataset.c===at));
-      const res=N*(1-E-G),sp=.504,mi=1-.504-.218-.0653,su=res*sp/(sp+mi),de=res-su,seg={bS:su/N*100,bG:G*100,bD:de/N*100,bE:E*100},nom={bS:'Suplemento',bG:'Granel',bD:'Despensa e outros',bE:''};
+      const res=N*(1-E-G),sp=.4888,mi=1-.4888-.2152-.0661,su=res*sp/(sp+mi),de=res-su,seg={bS:su/N*100,bG:G*100,bD:de/N*100,bE:E*100},nom={bS:'Suplemento',bG:'Granel',bD:'Despensa',bE:''};
       for(const k in seg){const el=$('#'+k);if(!el)continue;el.style.flex=seg[k]+' 1 0';el.textContent='R$ '+fmt(seg[k],0)+(nom[k]?' '+nom[k]:'');}};
     [sE,sG,sI].forEach(x=>{x.addEventListener('input',calc);x.addEventListener('click',para);x.addEventListener('keydown',para);});
     cen.forEach(c=>c.addEventListener('click',e=>{para(e);const [e1,g1,i1]=c.dataset.c.split(',');sE.value=e1;sG.value=g1;sI.value=i1;calc();}));

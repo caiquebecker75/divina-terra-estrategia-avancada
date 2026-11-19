@@ -33,6 +33,10 @@ Uma versão congelada não se altera. Os arquivos repetidos entre versões não 
 5. `python3 fonte/build.py`, `python3 fonte/exec_build.py`, `python3 fonte/manual.py` e os PDFs.
 6. Planilhas para a rede, fora do Git (têm venda): `fonte/planilha_classificacao.py` e `fonte/execucao.py`, em `kit/`.
 
+## Versão 3 (19/11/2026): 74 lojas
+Belém Plaza, Holambra e São José dos Campos vendem pelo sistema Sysmo e chegaram em 19/11/2026 (jan a dez de 2025, arquivo no HD em `Downloads/divina-terra/sysmo`). `python3 fonte/sysmo.py` classifica os produtos delas (88% do valor pelo código do cadastro da rede, o resto pelas regras da classificação v2) e grava `analise/sysmo3.pkl`.
+Elas entram só nos números da rede (faturamento, motor, regiões, simulação, prova do Gourmet): R$ 87,5 mi por ano em 74 lojas. Produtos, núcleo e planogramas seguem as 71 lojas do relatório principal, porque o período é outro (2025) e lançamentos de 2026 sairiam do núcleo só por isso. Os números da rede estão escritos nos textos de `src/`, `fonte/exec/telas.html` e `fonte/diretoria/novas.html` e nas constantes do simulador (`src/deck.js` e `fonte/diretoria/dir.js`).
+
 ## Visão estratégica para a diretoria (16/11/2026)
 
 `diretoria.html` e `divina-terra-diretoria.pdf`: 21 slides interativos para a diretoria, na ordem da reunião de alinhamento de 16/11/2026 (abre pelo motor e pelas regiões; Pinheiros é o piloto assistido do planograma e o Gourmet tem piloto em Alphaville; tela nova "Quanto vale cada espaço" para negociar com as marcas; saíram Vila Madalena, o comparativo do piloto e o quem faz o quê) (fio da história no topo, abas, filtros, simulador; `fonte/diretoria/dir.js`), a partir do deck que o time da rede montou com telas do book. Slides próprios em `fonte/diretoria/novas.html` e `fonte/diretoria/dir.css` (ponto em que estamos, curva de valor, cinco razões, experiência na loja, mini trade book, calendário promocional); os demais vêm de `fonte/exec/telas.html`. Gerar com `python3 fonte/diretoria_build.py`, depois de `exec_build.py`.
