@@ -92,25 +92,12 @@ body.compacto .hf,body.compacto .topo p{display:none}body.compacto .heroi{grid-t
 .h3s{font-size:19px;font-weight:600;letter-spacing:-.01em;margin-top:6px}
 .nota{font-size:13px;color:var(--muted);margin:0}
 /* loja: planta e 3D */
-.modo{display:inline-flex;background:var(--aveia);border-radius:99px;padding:4px;gap:4px}
-.modo button{border:none;background:none;border-radius:99px;padding:8px 16px;font-weight:600}
-.modo button.on{background:var(--band);color:var(--band-fg)}
 .planta{background:var(--card);border-radius:14px;padding:10px;overflow-x:auto;box-shadow:0 1px 0 var(--line),0 12px 30px -18px rgba(70,29,23,.35)}
 .planta svg{display:block;width:100%;min-width:900px;height:auto}
 .planta .bay{cursor:pointer}.planta .bay rect.f{transition:fill-opacity .15s}
 .planta .bay:hover rect.f,.planta .bay:focus rect.f{fill-opacity:.9}
 .planta .bay.sel rect.f{stroke:var(--gold);stroke-width:.06}
 .planta text{font-family:var(--sans);pointer-events:none}
-.tres{position:relative;background:var(--card);border-radius:14px;box-shadow:0 12px 30px -18px rgba(70,29,23,.35);overflow:hidden;height:min(72vh,640px)}
-.tres canvas{display:block;width:100%;height:100%;touch-action:none}
-.tres .cams{position:absolute;left:10px;top:10px;display:flex;gap:6px;flex-wrap:wrap;z-index:2}
-.tres .cams button{border:none;border-radius:99px;padding:8px 12px;font-weight:600;font-size:13px;background:var(--band);color:var(--band-fg);opacity:.92}
-.tres .dica3d{position:absolute;right:10px;top:12px;z-index:2;font-size:12px;color:var(--muted);background:var(--card);border-radius:99px;padding:5px 10px;opacity:.9}
-@media(max-width:600px){.tres .dica3d{top:auto;bottom:10px;left:10px;right:auto}}
-.tres .aviso{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted)}
-.cartao{position:absolute;left:10px;right:10px;bottom:10px;z-index:3;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 8px 24px rgba(0,0,0,.18)}
-.cartao b{display:block}.cartao small{color:var(--muted)}
-.cartao button{border:none;border-radius:12px;padding:12px 16px;font-weight:600;background:var(--band);color:var(--band-fg);flex:none}
 .legset{display:flex;flex-wrap:wrap;gap:6px 16px}.legset span{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted)}
 /* montar */
 .grupos{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
@@ -273,10 +260,8 @@ body{min-height:100vh}</style>
 <main><div class="w">
 
 <section class="v" id="v-loja">
-  <div class="cab"><div class="sec"><span class="eb2"><svg class="ic"><use href="#i-mapa"/></svg>Planta da loja · 93,53 m²</span><h2 class="h2">Pinheiros, <em>como ela é</em></h2><p class="sub">Cada móvel está pintado com o setor que vai nele. Toque num módulo para abrir o planograma.</p></div>
-    <div class="modo" role="tablist" aria-label="Vista"><button id="mPl" class="on" role="tab">Planta</button><button id="m3d" role="tab">3D</button></div></div>
+  <div class="cab"><div class="sec"><span class="eb2"><svg class="ic"><use href="#i-mapa"/></svg>Planta da loja · 93,53 m²</span><h2 class="h2">Pinheiros, <em>como ela é</em></h2><p class="sub">Cada móvel está pintado com o setor que vai nele. Toque num módulo para abrir o planograma.</p></div></div>
   <div id="boxPlanta" class="planta"><svg id="svgPlanta" role="img" aria-label="Planta da loja de Pinheiros com os módulos clicáveis"></svg></div>
-  <div id="box3d" class="tres" hidden><div class="cams"><button data-c="geral">A loja toda</button><button data-c="entrada">Entrando</button><button data-c="cima">De cima</button><button data-c="fundo">Do caixa</button></div><div class="dica3d">Arraste para girar · dois dedos para aproximar · toque num móvel</div><div class="aviso" id="aviso3d">Carregando a loja em 3D…</div></div>
   <div class="legset" id="legSet"></div>
   <p class="nota">Planta do projeto executivo (Arquitetura de Consumo, R00 de 02/01/2026, folha 02/11), conferida com as fotos da visita de 14/10. A entrada fica à esquerda. Arraste para o lado no celular. Confira as medidas com trena antes de montar.</p>
 </section>
@@ -485,73 +470,6 @@ function abre(x){
     <button class="fx" id="fx">Fechar</button></div>`;
   const fecha=()=>{$('#folha').hidden=true;$('#folha').innerHTML=''};$('#fx').onclick=fecha;$('#veu').onclick=fecha;
   document.addEventListener('keydown',function k(e){if(e.key==='Escape'){fecha();document.removeEventListener('keydown',k)}});$('#fx').focus();
-}
-// ---------- 3D ----------
-let T3=null;
-$('#mPl').onclick=()=>{$('#mPl').classList.add('on');$('#m3d').classList.remove('on');$('#boxPlanta').hidden=false;$('#box3d').hidden=true};
-$('#m3d').onclick=()=>{$('#m3d').classList.add('on');$('#mPl').classList.remove('on');$('#boxPlanta').hidden=true;$('#box3d').hidden=false;if(!T3)carrega3D();else T3.resize()};
-function script(src){return new Promise((ok,erro)=>{const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=erro;document.head.appendChild(s)})}
-async function carrega3D(){
-  T3={resize(){}};
-  try{if(!window.THREE)await script('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js');
-    if(!THREE.OrbitControls)await script('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js');}
-  catch(e){$('#aviso3d').textContent='A vista em 3D precisa de internet. A planta funciona sem.';return}
-  monta3D();
-}
-function monta3D(){
-  const box=$('#box3d');$('#aviso3d').remove();
-  const ren=new THREE.WebGLRenderer({antialias:true,alpha:true});ren.setPixelRatio(Math.min(2,window.devicePixelRatio||1));box.appendChild(ren.domElement);
-  const cena=new THREE.Scene();cena.background=new THREE.Color(matchMedia('(prefers-color-scheme: dark)').matches?0x1b1310:0xefe9e1);const cam=new THREE.PerspectiveCamera(48,1,.1,200);
-  const ctl=new THREE.OrbitControls(cam,ren.domElement);ctl.enableDamping=true;ctl.maxPolarAngle=Math.PI*.49;ctl.minDistance=2;ctl.maxDistance=30;
-  cena.add(new THREE.HemisphereLight(0xfff6ea,0x6f5f55,.95));const sol=new THREE.DirectionalLight(0xffffff,.55);sol.position.set(4,10,2);cena.add(sol);
-  const tl=new THREE.TextureLoader();
-  // chão = a própria planta
-  const tex=tl.load(PLANTA);const piso=new THREE.Mesh(new THREE.PlaneGeometry(P.x1-P.x0,P.y1-P.y0),new THREE.MeshLambertMaterial({map:tex}));
-  piso.rotation.x=-Math.PI/2;piso.position.set((P.x0+P.x1)/2,0,(P.y0+P.y1)/2);cena.add(piso);
-  const caixa=(x0,x1,z0,z1,h,cor,op=1,y0=0)=>{const g=new THREE.BoxGeometry(Math.max(.02,x1-x0),h,Math.max(.02,z1-z0));const mt=new THREE.MeshLambertMaterial({color:cor,transparent:op<1,opacity:op});const ms=new THREE.Mesh(g,mt);ms.position.set((x0+x1)/2,y0+h/2,(z0+z1)/2);cena.add(ms);return ms};
-  // parede de suplementos e fundo, baixas, para ver por dentro (a do granel fica de fora para a câmera entrar)
-  caixa(0,14.45,-.1,0,2.5,0xe5ddd1,.55);caixa(14.45,14.55,-.1,6.39,2.5,0xe5ddd1,.55);
-  const OB={vitrine:[0x9fc3d6,.22,2.4],porta:[0xffffff,.05,.05],kombucha:[0x2f6b3a,1,1.4],balcao:[0x8c6a55,1,1.0],frio:[0xf3f3f3,1,1.9],caixa:[0x8c6a55,1,1.05],mesa:[0xcdb79e,1,.75],cafe:[0x9c8770,1,1.05],ponta:[0xe0b45a,1,1.35],mesames:[0xfbf1de,1,.85]};
-  G.obj.forEach(o=>{const c=OB[o.t];if(c&&o.t!=='porta')caixa(o.x0,o.x1,o.y0,o.y1,c[2],c[0],c[1])});
-  const texCache={};const texDe=s=>texCache[s]||(texCache[s]=tl.load(F[s]));
-  const alvos=[];
-  const rotulo=(txt,x,y,z)=>{const cv=document.createElement('canvas');cv.width=512;cv.height=96;const c=cv.getContext('2d');c.fillStyle='rgba(70,29,23,.88)';c.fillRect(0,0,512,96);c.fillStyle='#fff';c.font='600 40px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(txt.length>24?txt.slice(0,23)+'…':txt,256,50);
-    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv)}));sp.scale.set(.85,.16,1);sp.position.set(x,y,z);cena.add(sp)};
-  ST.forEach((st,si)=>{const m=MV[st.mi];const r=retangulos(m,st.gr?null:st.bi)[0];const H=m.alt||1.6;
-    const corp=caixa(r.x,r.x+r.w,r.y,r.y+r.h,st.gr?.95:H,new THREE.Color(st.gr?'#9C7A5E':COR[setoresDe(st)[0]]).lerp(new THREE.Color('#ffffff'),st.gr?.15:.35));corp.userData.si=si;alvos.push(corp);
-    // frente do móvel
-    const nrm=m.olha==='y+'?[0,1]:m.olha==='y-'?[0,-1]:[-1,0];
-    const fx=nrm[0]<0?r.x-.012:nrm[0]>0?r.x+r.w+.012:null, fz=nrm[1]>0?r.y+r.h+.012:nrm[1]<0?r.y-.012:null;
-    const ang=nrm[0]<0?-Math.PI/2:nrm[1]<0?Math.PI:0;
-    const topo=m.niv===7?H-.45:H-.22;const passo=(topo-.12)/5;
-    if(st.gr){const cols=Math.max(4,Math.ceil(m.tubos.length/3));const raio=Math.min(.075,r.w/cols*.34);
-      m.tubos.forEach((t,k)=>{const cx=r.x+(k%cols+.5)*r.w/cols;const cy=1.12+Math.floor(k/cols)*.36;
-        const tb=new THREE.Mesh(new THREE.CylinderGeometry(raio,raio,.3,18),new THREE.MeshLambertMaterial({color:FAM[t.fam]||'#8C6A55',transparent:true,opacity:.9}));tb.position.set(cx,cy,r.y+.15);cena.add(tb)});}
-    else{let x0=0;m.bays[st.bi].forEach(sg=>{const fr=sg.w/100;sg.nv.forEach(nv=>{let usado=0;const yb=.12+(6-nv.n)*passo;
-        const prat=new THREE.Mesh(new THREE.BoxGeometry(nrm[0]?0.05:fr,.02,nrm[0]?fr:0.05),new THREE.MeshLambertMaterial({color:0x8c6a55}));
-        nv.it.forEach(it=>{const f=Math.max(1,it.f);for(let k2=0;k2<f;k2++){const w=it.w/100*.96;const centro=x0+usado+w/2;usado+=it.w/100;
-          const mat=F[it.s]?new THREE.MeshBasicMaterial({map:texDe(it.s),transparent:true,alphaTest:.1}):new THREE.MeshBasicMaterial({color:corMarca(it.m)});
-          const pl=new THREE.Mesh(new THREE.PlaneGeometry(w,Math.min(.2,passo*.85)),mat);const yy=yb+Math.min(.2,passo*.85)/2+.01;
-          if(nrm[0]<0)pl.position.set(fx,yy,r.y+r.h-centro);else if(nrm[1]>0)pl.position.set(r.x+centro,yy,fz);else pl.position.set(r.x+r.w-centro,yy,fz);
-          pl.rotation.y=ang;cena.add(pl)}});
-        if(nrm[0]<0)prat.position.set(fx,yb,r.y+r.h-x0-fr/2);else if(nrm[1]>0)prat.position.set(r.x+x0+fr/2,yb,fz);else prat.position.set(r.x+r.w-x0-fr/2,yb,fz);cena.add(prat)});x0+=fr});}
-    const lz=m.olha==='y-'?r.y-.05:m.olha==='y+'?r.y+r.h+.05:r.y+r.h/2,lx=m.olha==='x-'?r.x-.05:r.x+r.w/2;
-    rotulo(st.gr?m.nome:setoresDe(st).join(' + '),lx,(st.gr?.95:H)+.16,lz);
-  });
-  const CAM={geral:[[7.2,7.5,13.5],[7.2,0,2.6]],entrada:[[-2.6,3.1,3.2],[7,0.5,3.2]],cima:[[7.2,15,3.6],[7.2,0,3.2]],fundo:[[13.6,2.6,5.2],[4,0.8,2]]};
-  const vai=k=>{const[c,t]=CAM[k];const f=cam.aspect<1?1.75:1;cam.position.set(t[0]+(c[0]-t[0])*f,t[1]+(c[1]-t[1])*f,t[2]+(c[2]-t[2])*f);ctl.target.set(...t);ctl.update()};
-  $$('.cams button',box).forEach(b=>b.addEventListener('click',()=>vai(b.dataset.c)));
-  const ray=new THREE.Raycaster(),pt=new THREE.Vector2();let dn=null,cartao=null,marcado=null;
-  ren.domElement.addEventListener('pointerdown',e=>{dn=[e.clientX,e.clientY]});
-  ren.domElement.addEventListener('pointerup',e=>{if(!dn||Math.hypot(e.clientX-dn[0],e.clientY-dn[1])>6)return;const rc=ren.domElement.getBoundingClientRect();
-    pt.set((e.clientX-rc.left)/rc.width*2-1,-(e.clientY-rc.top)/rc.height*2+1);ray.setFromCamera(pt,cam);const h=ray.intersectObjects(alvos)[0];
-    if(marcado){marcado.material.emissive&&marcado.material.emissive.set(0x000000)}
-    if(cartao){cartao.remove();cartao=null}
-    if(!h)return;marcado=h.object;marcado.material.emissive.set(0x5a3a10);const si=h.object.userData.si,st=ST[si];
-    cartao=document.createElement('div');cartao.className='cartao';cartao.innerHTML=`<div><b>${esc(nomeSt(st))}</b><small>${esc(setoresDe(st).join(' + '))}${pronto(si)?' · pronto':''}</small></div><button>Abrir módulo</button>`;
-    box.appendChild(cartao);cartao.querySelector('button').onclick=()=>abreSt(si)});
-  const tam=()=>{const w=box.clientWidth,h=box.clientHeight;ren.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()};tam();window.addEventListener('resize',tam);vai('geral');
-  T3={resize:tam};(function loop(){requestAnimationFrame(loop);ctl.update();ren.render(cena,cam)})();
 }
 // ---------- vitrines ----------
 const V=G.vit||[];const ABR=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
