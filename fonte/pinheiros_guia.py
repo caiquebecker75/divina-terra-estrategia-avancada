@@ -32,6 +32,15 @@ for m in G['moveis']:  # foto do produto solto nos potes do granel
         if f.exists(): fotos['g' + str(t['s'])] = 'data:image/webp;base64,' + base64.b64encode(f.read_bytes()).decode()
 fonte = 'data:font/ttf;base64,' + base64.b64encode((R / 'assets/fontes/GeneralSans-Variable.ttf').read_bytes()).decode()
 G['planta'] = dict(x0=MX0, x1=MX1, y0=MY0, y1=MY1)
+def svg_uri(f, de=None, para=None):
+    t = f.read_text()
+    if de: t = t.replace(de, para)
+    return 'data:image/svg+xml;base64,' + base64.b64encode(t.encode()).decode()
+LOGO = svg_uri(R / 'assets/logos/dt-horizontal-claro.svg')
+LAB = svg_uri(R / 'assets/logos/75lab-logo-lime.svg', '#C0EE4E', '#F6F4F1')
+SPRITE = (R / 'fonte/icones.svg').read_text()
+hf = Image.open(R / 'assets/img/f53.jpg').convert('RGB'); hf.thumbnail((900, 1200)); bh = io.BytesIO(); hf.save(bh, 'WEBP', quality=68)
+HEROI = 'data:image/webp;base64,' + base64.b64encode(bh.getvalue()).decode()
 # --publico: versão para o site (repositório público), sem estoque e sem venda em R$ por produto. Grava pinheiros.html na raiz.
 PUBLICO = '--publico' in sys.argv
 if PUBLICO:
@@ -57,61 +66,98 @@ PAGINA = r'''<title>Pinheiros · planograma da loja</title>
 :root{
   --bg:#F7F5F1;--card:#FFFFFF;--fg:#2B1A14;--muted:#6F5F55;--line:#E4DACD;--aveia:#E5DDD1;--linho:#BCAD99;
   --band:#461D17;--band-fg:#F7F5F1;--accent:#7C381F;--gold:#CA942A;
-  --tem:#596D49;--pedir:#C98A1B;--novo:#7C381F;--tirar:#C2452D;--olho:#FBF1DE;--shelf:#8C6A55;
+  --tem:#596D49;--pedir:#C98A1B;--novo:#7C381F;--tirar:#C2452D;--olho:#FBF1DE;--shelf:#8C6A55;--cap:#AC834C;
   --serif:'Source Serif 4',Georgia,'Times New Roman',serif;--sans:'General Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#1B1310;--card:#271C17;--fg:#F2EBE3;--muted:#BBAA9B;--line:#3D2F27;--aveia:#33261F;--linho:#5E4C40;
   --band:#2E1E18;--band-fg:#F2EBE3;--accent:#D8875F;--gold:#E3B14E;
-  --tem:#8DAA76;--pedir:#E3A93A;--novo:#D8875F;--tirar:#E26A52;--olho:#3A2D1E;--shelf:#A88972;color-scheme:dark}}
+  --tem:#8DAA76;--pedir:#E3A93A;--novo:#D8875F;--tirar:#E26A52;--olho:#3A2D1E;--shelf:#A88972;--cap:#D2AE7C;color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#1B1310;--card:#271C17;--fg:#F2EBE3;--muted:#BBAA9B;--line:#3D2F27;--aveia:#33261F;--linho:#5E4C40;
   --band:#2E1E18;--band-fg:#F2EBE3;--accent:#D8875F;--gold:#E3B14E;
-  --tem:#8DAA76;--pedir:#E3A93A;--novo:#D8875F;--tirar:#E26A52;--olho:#3A2D1E;--shelf:#A88972;color-scheme:dark}
+  --tem:#8DAA76;--pedir:#E3A93A;--novo:#D8875F;--tirar:#E26A52;--olho:#3A2D1E;--shelf:#A88972;--cap:#D2AE7C;color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font:15px/1.45 var(--sans);margin:0}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--band)}
 .w{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;text-wrap:balance}
+h1,h2,h3{font-family:var(--sans);font-weight:500;letter-spacing:-.022em;margin:0;text-wrap:balance}
+h1 em,h2 em,h3 em{font-family:var(--serif);font-style:italic;font-weight:300;letter-spacing:-.01em;color:var(--accent)}
+.ic{width:18px;height:18px;flex:none}
+.eb2{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--cap)}
+.eb2 .ic{width:16px;height:16px}
+.sec{display:grid;gap:8px;padding-top:10px}
 button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .topo{background:var(--band);color:var(--band-fg)}
-.topo .w{padding-block:20px 16px;display:grid;gap:10px}
-.eb{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
-.topo h1{font-size:clamp(28px,5.5vw,44px);line-height:1.05}.topo h1 em{font-style:italic;color:var(--gold)}
-.topo p{margin:0;max-width:66ch;opacity:.9}
-.prog{display:grid;gap:6px;max-width:520px}.prog .bar{height:12px;border-radius:99px;background:rgba(247,245,241,.18);overflow:hidden}
+.topo .w{padding-block:18px 26px;display:grid;gap:22px}
+.marca{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.marca .lg{height:30px;width:auto;display:block}
+.marca .sep{width:1px;height:24px;background:rgba(247,245,241,.28)}
+.marca .loja{font-weight:600;font-size:15px;letter-spacing:.02em}
+.marca .por{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12.5px;opacity:.75}
+.marca .por img{height:15px;width:auto;display:block}
+.heroi{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:28px;align-items:end}
+.heroi .ht{display:grid;gap:14px;align-content:end}
+.topo .eb2{color:var(--gold)}
+.topo h1{font-size:clamp(34px,6vw,60px);line-height:1.02;letter-spacing:-.03em}.topo h1 em{color:var(--gold)}
+.topo p{margin:0;max-width:58ch;opacity:.88;font-size:15.5px}
+.hf{margin:0;position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;max-width:100%}
+.hf img{width:100%;height:100%;object-fit:cover;display:block}
+.hf figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 9px;font-size:12px;background:linear-gradient(transparent,rgba(27,14,10,.75));color:#F2EBE3}
+@media(max-width:760px){.heroi{grid-template-columns:1fr;gap:18px}.hf{order:-1;aspect-ratio:16/8}.marca .por{display:none}}
+.prog{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:6px 14px;max-width:560px;margin-top:4px}
+.prog b{font-size:13.5px;font-weight:600}.prog .bar{grid-column:1/-1;height:8px;border-radius:99px;background:rgba(247,245,241,.16);overflow:hidden}
 .prog .bar i{display:block;height:100%;width:0;background:var(--gold);border-radius:99px;transition:width .4s}
+.rod{background:var(--band);color:var(--band-fg);margin-top:20px}
+.rod .w{padding-block:28px calc(28px + env(safe-area-inset-bottom,0px));display:grid;gap:14px}
+.rod .lg{height:26px;width:auto}
+.rod p{margin:0;max-width:62ch;font-size:13.5px;opacity:.82;line-height:1.55}
+.rod .lab{height:12px;width:auto;vertical-align:-1px;margin:0 2px}
 nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
-nav.tabs .w{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
-nav.tabs a{flex:none;text-decoration:none;color:var(--fg);font-weight:600;font-size:14px;padding:9px 14px;border-radius:99px;background:var(--aveia)}
-nav.tabs a.on{background:var(--accent);color:#fff}
+nav.tabs .w{display:flex;gap:22px;overflow-x:auto;scrollbar-width:none}
+nav.tabs a{flex:none;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);font-weight:600;font-size:14.5px;padding:15px 0 12px;border-bottom:3px solid transparent}
+nav.tabs a:hover{color:var(--fg)}
+nav.tabs a.on{color:var(--fg);border-bottom-color:var(--gold)}
+nav.tabs a.on .ic{color:var(--accent)}
+@media(max-width:760px){nav.tabs .w{gap:4px}nav.tabs a{flex-direction:column;gap:4px;font-size:11.5px;padding:10px 8px 8px;min-width:66px;text-align:center}nav.tabs a .ic{width:21px;height:21px}}
 main .w{padding-block:20px 80px}
-section.v{display:grid;gap:16px}section.v[hidden]{display:none}
+section.v{display:grid;gap:18px}
+.sec+.passos,.sec+.leg,.sec+.regras{margin-top:-2px}
+/* fora da aba Loja o topo encolhe: sobra tela para trabalhar */
+body.compacto .hf,body.compacto .topo p{display:none}body.compacto .heroi{grid-template-columns:1fr}body.compacto .topo .w{gap:14px;padding-block:14px 18px}body.compacto .topo h1{font-size:clamp(24px,3.4vw,34px)}body.compacto .heroi .ht{gap:10px}section.v[hidden]{display:none}
 .h2{font-size:clamp(23px,4.4vw,31px)}
 .sub{color:var(--muted);margin:0;max-width:70ch}
-.leg{display:flex;flex-wrap:wrap;gap:8px}.leg span{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:13.5px;font-weight:500}
+.leg{display:flex;flex-wrap:wrap;gap:8px 18px}.leg span{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500}
 .dot{width:14px;height:14px;border-radius:50%;flex:none;display:inline-block}
 .d-tem{background:var(--tem)}.d-pedir{background:var(--pedir)}.d-novo{background:var(--novo)}.d-livre{background:repeating-linear-gradient(135deg,var(--linho) 0 3px,transparent 3px 6px);border:1px solid var(--linho)}.d-tirar{background:var(--tirar)}
 .passos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
-.passos div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:6px;align-content:start}
-.passos svg{width:34px;height:34px;color:var(--accent)}.passos b{font-size:16px}.passos p{margin:0;color:var(--muted);font-size:14px}
+.passos div{padding:4px 0;display:grid;gap:8px;align-content:start}
+.passos .pn{display:flex;align-items:center;gap:10px;color:var(--accent)}
+.passos .pn i{font-style:normal;width:30px;height:30px;border-radius:50%;background:var(--band);color:var(--band-fg);display:grid;place-items:center;font-weight:600;font-size:14px}
+.passos .pn .ic{width:24px;height:24px}
+.passos b{font-size:16.5px;font-weight:600}.passos p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.5}
 .regras{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
-.regras div{border-radius:14px;padding:14px 16px;background:var(--aveia);display:grid;gap:4px}.regras b{font-family:var(--serif);font-size:20px;font-weight:400}.regras span{font-size:14px;color:var(--muted)}
-.bigcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.bigcards div{border-radius:14px;padding:14px;color:#fff;display:grid;gap:2px}.bigcards b{font-family:var(--serif);font-size:34px;font-weight:400;line-height:1}
+.regras div{border-radius:12px;padding:16px;background:var(--aveia);display:grid;gap:6px;align-content:start}
+.regras .ic{width:22px;height:22px;color:var(--accent)}
+.regras b{font-size:17px;font-weight:600;letter-spacing:-.01em}.regras span{font-size:14px;color:var(--muted)}
+.bigcards{display:flex;flex-wrap:wrap;border-block:1px solid var(--line)}
+.bigcards div{flex:1 1 160px;padding:14px 18px 15px;border-left:1px solid var(--line);display:grid;gap:3px;font-size:13.5px;color:var(--muted);line-height:1.3}
+.bigcards div:first-child{border-left:none;padding-left:0}
+.bigcards b{font-family:var(--sans);font-size:clamp(30px,4.4vw,42px);font-weight:500;letter-spacing:-.03em;line-height:1;color:var(--k,var(--fg));font-variant-numeric:tabular-nums}
+.h3s{font-size:19px;font-weight:600;letter-spacing:-.01em;margin-top:6px}
 .nota{font-size:13px;color:var(--muted);margin:0}
 /* loja: planta e 3D */
 .modo{display:inline-flex;background:var(--aveia);border-radius:99px;padding:4px;gap:4px}
 .modo button{border:none;background:none;border-radius:99px;padding:8px 16px;font-weight:600}
 .modo button.on{background:var(--band);color:var(--band-fg)}
-.planta{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:10px;overflow-x:auto}
+.planta{background:var(--card);border-radius:14px;padding:10px;overflow-x:auto;box-shadow:0 1px 0 var(--line),0 12px 30px -18px rgba(70,29,23,.35)}
 .planta svg{display:block;width:100%;min-width:900px;height:auto}
 .planta .bay{cursor:pointer}.planta .bay rect.f{transition:fill-opacity .15s}
 .planta .bay:hover rect.f,.planta .bay:focus rect.f{fill-opacity:.9}
 .planta .bay.sel rect.f{stroke:var(--gold);stroke-width:.06}
 .planta text{font-family:var(--sans);pointer-events:none}
-.tres{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;height:min(72vh,640px)}
+.tres{position:relative;background:var(--card);border-radius:14px;box-shadow:0 12px 30px -18px rgba(70,29,23,.35);overflow:hidden;height:min(72vh,640px)}
 .tres canvas{display:block;width:100%;height:100%;touch-action:none}
 .tres .cams{position:absolute;left:10px;top:10px;display:flex;gap:6px;flex-wrap:wrap;z-index:2}
 .tres .cams button{border:none;border-radius:99px;padding:8px 12px;font-weight:600;font-size:13px;background:var(--band);color:var(--band-fg);opacity:.92}
@@ -121,17 +167,17 @@ section.v{display:grid;gap:16px}section.v[hidden]{display:none}
 .cartao{position:absolute;left:10px;right:10px;bottom:10px;z-index:3;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 8px 24px rgba(0,0,0,.18)}
 .cartao b{display:block}.cartao small{color:var(--muted)}
 .cartao button{border:none;border-radius:12px;padding:12px 16px;font-weight:600;background:var(--band);color:var(--band-fg);flex:none}
-.legset{display:flex;flex-wrap:wrap;gap:6px}.legset span{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:4px 10px;border-radius:99px;background:var(--card);border:1px solid var(--line)}
+.legset{display:flex;flex-wrap:wrap;gap:6px 16px}.legset span{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted)}
 /* montar */
 .grupos{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
-.grupos button{flex:none;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:8px 12px;text-align:left;display:grid;gap:2px;min-width:128px}
+.grupos button{flex:none;border:none;border-bottom:3px solid var(--line);background:none;border-radius:0;padding:8px 4px 9px;margin-right:14px;text-align:left;display:grid;gap:2px;min-width:118px}
 .grupos button b{font-size:14px}.grupos button small{color:var(--muted);font-size:12px}
-.grupos button.on{background:var(--band);color:var(--band-fg);border-color:var(--band)}.grupos button.on small{color:var(--band-fg);opacity:.8}
+.grupos button.on{border-bottom-color:var(--gold)}.grupos button.on b{color:var(--accent)}
 .grupos button.ok small::after{content:" · pronto";color:var(--tem);font-weight:600}
 .mod{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:18px;align-items:start}
 @media(max-width:860px){.mod{grid-template-columns:1fr}}
 .cab{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.cab h3{font-size:clamp(22px,4vw,28px)}.cab .zn{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.cab h3{font-size:clamp(24px,4vw,32px)}.cab .zn{font-size:12.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--cap)}
 .seta{display:flex;gap:8px}.seta button{width:52px;height:52px;border-radius:50%;border:none;background:var(--band);color:var(--band-fg);font-size:22px;display:grid;place-items:center}
 .seta button:disabled{opacity:.3;cursor:default}
 .minimapa{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px;overflow:hidden}
@@ -190,6 +236,7 @@ details.grp summary small{color:var(--muted);font-weight:500;margin-left:auto}
 .res{display:grid;gap:8px}.res button{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 12px;text-align:left;display:grid;grid-template-columns:46px minmax(0,1fr);gap:10px;align-items:center}
 .res img,.res .ph0{width:46px;height:46px;object-fit:contain;border-radius:6px;background:var(--aveia)}
 .res b{display:block;font-weight:600}.res small{color:var(--muted)}
+.folha::before{content:"";justify-self:center;width:44px;height:5px;border-radius:99px;background:var(--line);margin-top:-6px}
 .folha{position:fixed;inset:auto 0 0 0;z-index:40;background:var(--card);border-radius:20px 20px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.25);padding:16px max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));max-width:620px;margin:0 auto;display:grid;gap:12px}
 .folha .tp{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;align-items:center}
 .folha img,.folha .ph0{width:96px;height:110px;object-fit:contain;border-radius:10px;background:var(--aveia)}
@@ -262,20 +309,26 @@ details.grp summary small{color:var(--muted);font-weight:500;margin-left:auto}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
-<header class="topo"><div class="w">
-  <span class="eb">Divina Terra Pinheiros · piloto do planograma</span>
-  <h1>A loja nova, <em>módulo a módulo</em></h1>
-  <p>Toque num módulo da planta para ver o que vai nele. Monte um por vez e marque quando terminar. Cada foto é uma frente; a cor embaixo do produto diz o que fazer.</p>
-  <div class="prog"><b id="pgTxt">0 módulos montados</b><div class="bar"><i id="pgBar"></i></div></div>
+<header class="topo"><svg width="0" height="0" style="position:absolute" aria-hidden="true">__SPRITE__</svg><div class="w">
+  <div class="marca"><img class="lg" src="__LOGO__" alt="Divina Terra"><span class="sep"></span><span class="loja">Pinheiros</span><span class="por">Guia da loja por <img src="__LAB__" alt="75 LAB"></span></div>
+  <div class="heroi">
+    <div class="ht">
+      <span class="eb2"><svg class="ic"><use href="#i-gondola"/></svg>Piloto do planograma · dezembro de 2026</span>
+      <h1>A loja nova, <em>módulo a módulo</em></h1>
+      <p>Toque num móvel da planta para ver o que vai nele. Monte um módulo por vez e marque quando terminar. Cada foto é uma frente, e a cor embaixo do produto diz o que fazer.</p>
+      <div class="prog"><b id="pgTxt">0 módulos montados</b><div class="bar"><i id="pgBar"></i></div></div>
+    </div>
+    <figure class="hf"><img src="__HEROI__" alt="Corredor da loja de Pinheiros, com as gôndolas e a parede de suplementos"><figcaption>Pinheiros, na visita de 14/10/2026</figcaption></figure>
+  </div>
 </div></header>
 <nav class="tabs" aria-label="Partes do guia"><div class="w">
-  <a href="#loja" data-v="loja">Loja</a><a href="#montar" data-v="montar">Montar</a><a href="#vitrines" data-v="vitrines">Vitrines</a><a href="#inicio" data-v="inicio">Como montar</a>
-  <a href="#tirar" data-v="tirar">Tirar da gôndola</a><a href="#pedido" data-v="pedido">Pedido</a><a href="#buscar" data-v="buscar">Onde vai?</a>
+  <a href="#loja" data-v="loja"><svg class="ic"><use href="#i-mapa"/></svg><span>Loja</span></a><a href="#montar" data-v="montar"><svg class="ic"><use href="#i-gondola"/></svg><span>Montar</span></a><a href="#vitrines" data-v="vitrines"><svg class="ic"><use href="#i-loja"/></svg><span>Vitrines</span></a><a href="#inicio" data-v="inicio"><svg class="ic"><use href="#i-livro"/></svg><span>Como montar</span></a>
+  <a href="#tirar" data-v="tirar"><svg class="ic"><use href="#i-pacote"/></svg><span>Tirar</span></a><a href="#pedido" data-v="pedido"><svg class="ic"><use href="#i-caminhao"/></svg><span>Pedido</span></a><a href="#buscar" data-v="buscar"><svg class="ic"><use href="#i-busca"/></svg><span>Onde vai?</span></a>
 </div></nav>
 <main><div class="w">
 
 <section class="v" id="v-loja">
-  <div class="cab"><div><h2 class="h2">Pinheiros, como ela é</h2><p class="sub">Planta da loja com cada módulo pintado pelo setor que vai nele. Toque num módulo para abrir o planograma.</p></div>
+  <div class="cab"><div class="sec"><span class="eb2"><svg class="ic"><use href="#i-mapa"/></svg>Planta da loja · 93,53 m²</span><h2 class="h2">Pinheiros, <em>como ela é</em></h2><p class="sub">Cada móvel está pintado com o setor que vai nele. Toque num módulo para abrir o planograma.</p></div>
     <div class="modo" role="tablist" aria-label="Vista"><button id="mPl" class="on" role="tab">Planta</button><button id="m3d" role="tab">3D</button></div></div>
   <div id="boxPlanta" class="planta"><svg id="svgPlanta" role="img" aria-label="Planta da loja de Pinheiros com os módulos clicáveis"></svg></div>
   <div id="box3d" class="tres" hidden><div class="cams"><button data-c="geral">A loja toda</button><button data-c="entrada">Entrando</button><button data-c="cima">De cima</button><button data-c="fundo">Do caixa</button></div><div class="dica3d">Arraste para girar · dois dedos para aproximar · toque num móvel</div><div class="aviso" id="aviso3d">Carregando a loja em 3D…</div></div>
@@ -289,57 +342,59 @@ details.grp summary small{color:var(--muted);font-weight:500;margin-left:auto}
 </section>
 
 <section class="v" id="v-vitrines" hidden>
-  <div><h2 class="h2">Calendário de vitrines</h2><p class="sub">Um tema por mês, ligado às datas da rede. Para cada mês: o que vai nas duas vitrines, na mesa do mês e na ponta da entrada, com a data de montar e de desmontar. Toque num mês e num produto.</p></div>
+  <div class="sec"><span class="eb2"><svg class="ic"><use href="#i-calendario"/></svg>Dezembro de 2026 a dezembro de 2027</span><h2 class="h2">Uma vitrine <em>por mês</em></h2><p class="sub">Um tema por mês, ligado às datas da rede. Para cada mês: o que vai nas duas vitrines, na mesa do mês e na ponta da entrada, com a data de montar e de desmontar. Toque num mês e num produto.</p></div>
   <div class="ano" id="ano" role="tablist" aria-label="Meses"></div>
   <div id="mesv" style="display:grid;gap:16px"></div>
 </section>
 
 <section class="v" id="v-inicio" hidden>
-  <h2 class="h2">Como montar</h2>
+  <div class="sec"><span class="eb2"><svg class="ic"><use href="#i-livro"/></svg>Antes de começar</span><h2 class="h2">Como <em>montar</em></h2></div>
   <div class="passos">
-    <div><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="26" height="10" rx="2"/><path d="M8 11v4M13 11v6M18 11v4M23 11v6"/></svg><b>1. Meça com trena</b><p>Cada módulo tem a medida da planta: 0,80 ou 1,10 m na parede, 0,90 ou 1,30 m na gôndola. Se for diferente, avise.</p></div>
-    <div><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10h22l-2 17H7z"/><path d="M11 10V7a5 5 0 0 1 10 0v3"/></svg><b>2. Tire o que sai</b><p>Na aba "Tirar da gôndola" está o que não volta para a prateleira. Separe antes de montar.</p></div>
-    <div><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="4" width="22" height="24" rx="2"/><path d="M5 11h22M5 18h22M16 4v24"/></svg><b>3. Monte de cima para baixo</b><p>Um módulo por vez, nível 1 primeiro. Esvazie, limpe e arrume pela foto.</p></div>
-    <div><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="9" width="24" height="17" rx="3"/><circle cx="16" cy="17.5" r="5"/><path d="M11 9l2-4h6l2 4"/></svg><b>4. Etiqueta e foto</b><p>Etiqueta de preço em cada produto e uma foto do módulo pronto para o grupo.</p></div>
+    <div><span class="pn"><i>1</i><svg class="ic"><use href="#i-regua"/></svg></span><b>Meça com trena</b><p>Cada módulo tem a medida da planta: 0,80 ou 1,10 m na parede, 0,90 ou 1,30 m na gôndola. Se for diferente, avise.</p></div>
+    <div><span class="pn"><i>2</i><svg class="ic"><use href="#i-pacote"/></svg></span><b>Tire o que sai</b><p>Na aba "Tirar da gôndola" está o que não volta para a prateleira. Separe antes de montar.</p></div>
+    <div><span class="pn"><i>3</i><svg class="ic"><use href="#i-camadas"/></svg></span><b>Monte de cima para baixo</b><p>Um módulo por vez, nível 1 primeiro. Esvazie, limpe e arrume pela foto.</p></div>
+    <div><span class="pn"><i>4</i><svg class="ic"><use href="#i-tag"/></svg></span><b>Etiqueta e foto</b><p>Etiqueta de preço em cada produto e uma foto do módulo pronto para o grupo.</p></div>
   </div>
-  <h2 class="h2">O que cada cor quer dizer</h2>
+  <div class="sec"><span class="eb2"><svg class="ic"><use href="#i-olho"/></svg>Legenda</span><h2 class="h2">O que cada <em>cor</em> quer dizer</h2></div>
   <div class="leg"><span><i class="dot d-tem"></i>Já tem na loja: pegue e arrume aqui</span><span><i class="dot d-pedir"></i>Chega no pedido: deixe o espaço e a etiqueta</span><span><i class="dot d-novo"></i>Novo na loja: chega no pedido</span><span><i class="dot d-livre"></i>Espaço livre da loja</span></div>
-  <h2 class="h2">Quatro regras de ouro</h2>
+  <div class="sec"><span class="eb2"><svg class="ic"><use href="#i-regras"/></svg>Exposição</span><h2 class="h2">Quatro regras <em>de ouro</em></h2></div>
   <div class="regras">
-    <div><b>Nos olhos, o que mais vende</b><span>Níveis 3 e 4, marcados em amarelo no desenho.</span></div>
-    <div><b>Pesado embaixo</b><span>Pote acima de 500 g só nos níveis 5 e 6.</span></div>
-    <div><b>Marca junta, líder no meio</b><span>Os produtos da mesma marca ficam lado a lado.</span></div>
-    <div><b>Uma prateleira, um tipo</b><span>Cada prateleira tem um tipo de produto e um tamanho.</span></div>
+    <div><svg class="ic"><use href="#i-olho"/></svg><b>Nos olhos, o que mais vende</b><span>Níveis 3 e 4, marcados em amarelo no desenho.</span></div>
+    <div><svg class="ic"><use href="#i-balanca"/></svg><b>Pesado embaixo</b><span>Pote acima de 500 g só nos níveis 5 e 6.</span></div>
+    <div><svg class="ic"><use href="#i-selo"/></svg><b>Marca junta, líder no meio</b><span>Os produtos da mesma marca ficam lado a lado.</span></div>
+    <div><svg class="ic"><use href="#i-grade"/></svg><b>Uma prateleira, um tipo</b><span>Cada prateleira tem um tipo de produto e um tamanho.</span></div>
   </div>
   <div class="bigcards" id="numeros"></div>
-  <p class="nota">Feito pela 75 LAB com o estoque da loja de 12/11/2026 e a venda de julho a setembro de 2026. O que você marca fica salvo só neste aparelho.</p>
 </section>
 
 <section class="v" id="v-tirar" hidden>
-  <h2 class="h2">Tirar da gôndola</h2>
-  <p class="sub">Faça isto antes de montar. Marque cada produto quando tirar.</p>
-  <div class="bigcards"><div style="background:var(--tirar)"><b id="nTirar">0</b>parados: não vendem desde julho</div><div style="background:var(--muted)"><b id="nGuardar">0</b>ainda vendem, mas ficaram sem lugar</div></div>
-  <h3 class="h2" style="font-size:22px">Parados: levar para a mesa de oferta ou para transferência</h3>
+  <div class="sec"><span class="eb2"><svg class="ic"><use href="#i-pacote"/></svg>Antes de montar</span><h2 class="h2">O que <em>sai</em> da gôndola</h2><p class="sub">Faça isto antes de montar. Marque cada produto quando tirar.</p></div>
+  <div class="bigcards"><div style="--k:var(--tirar)"><b id="nTirar">0</b>parados: não vendem desde julho</div><div style="--k:var(--muted)"><b id="nGuardar">0</b>ainda vendem, mas ficaram sem lugar</div></div>
+  <h3 class="h3s">Parados: levar para a mesa de oferta ou para transferência</h3>
   <p class="sub">Não repor. Não precisa queimar preço: a rede decide se vão para outra loja.</p>
   <div class="lista" id="lTirar"></div>
-  <h3 class="h2" style="font-size:22px">Ainda vendem: guardar no estoque</h3>
+  <h3 class="h3s">Ainda vendem: guardar no estoque</h3>
   <p class="sub">Volta para a prateleira quando abrir espaço livre no setor. Quando acabar, não repor.</p>
   <div class="lista" id="lGuardar"></div>
 </section>
 
 <section class="v" id="v-pedido" hidden>
-  <h2 class="h2">O que chega no pedido</h2>
+  <div class="sec"><span class="eb2"><svg class="ic"><use href="#i-caminhao"/></svg>Pedido para a rede</span><h2 class="h2">O que <em>chega</em> no pedido</h2></div>
   <p class="sub">Produtos do planograma sem estoque ou com pouco. Na prateleira, deixe o espaço e a etiqueta: quando chegar, é só colocar.</p>
   <div class="bigcards" id="pedNum"></div>
   <div class="lista" id="lPedido"></div>
 </section>
 
 <section class="v" id="v-buscar" hidden>
-  <h2 class="h2">Onde vai este produto?</h2>
+  <div class="sec"><span class="eb2"><svg class="ic"><use href="#i-busca"/></svg>Busca</span><h2 class="h2">Onde vai <em>este produto?</em></h2></div>
   <div class="busca"><label for="q" class="sub">Digite o nome, a marca ou o código do produto</label><input id="q" type="search" placeholder="Ex.: creatina, Essential, 886" autocomplete="off"></div>
   <div class="res" id="res"></div>
 </section>
 </div></main>
+<footer class="rod"><div class="w">
+  <img class="lg" src="__LOGO__" alt="Divina Terra">
+  <p>Guia de montagem da Divina Terra Pinheiros, feito pela <img class="lab" src="__LAB__" alt="75 LAB"> com a planta executiva da loja (R00, folha 02/11), o estoque de 12/11 e a venda de julho a setembro de 2026. O que você marca fica salvo só neste aparelho.</p>
+</div></footer>
 <div id="folha" hidden></div>
 
 <script type="application/json" id="dados">__DADOS__</script>
@@ -385,7 +440,7 @@ function progresso(){
   desenhaPlanta();
 }
 const VIS=['loja','montar','vitrines','inicio','tirar','pedido','buscar'];
-function mostra(v){if(!VIS.includes(v))v='loja';VIS.forEach(x=>{$('#v-'+x).hidden=x!==v});$$('nav.tabs a').forEach(a=>a.classList.toggle('on',a.dataset.v===v));if(v==='montar')desenha();if(v==='vitrines')desenhaV();}
+function mostra(v){if(!VIS.includes(v))v='loja';document.body.classList.toggle('compacto',v!=='loja');VIS.forEach(x=>{$('#v-'+x).hidden=x!==v});$$('nav.tabs a').forEach(a=>a.classList.toggle('on',a.dataset.v===v));if(v==='montar')desenha();if(v==='vitrines')desenhaV();}
 window.addEventListener('hashchange',()=>{mostra(location.hash.slice(1));window.scrollTo(0,0)});
 // ---------- legenda de setores ----------
 $('#legSet').innerHTML=Object.entries(COR).map(([k,v])=>`<span><i class="dot" style="background:${v}"></i>${esc(k)}</span>`).join('');
@@ -628,12 +683,12 @@ grupos(G.tirar,'#lTirar','p');grupos(G.guardar,'#lGuardar','g');
 // ---------- pedido ----------
 (function(){const por={};G.pedido.forEach(x=>{(por[x.m||'Sem marca']=por[x.m||'Sem marca']||[]).push(x)});
   const ord=Object.keys(por).sort((a,b)=>por[b].length-por[a].length);const pri=t=>G.pedido.filter(x=>x.pri===t).length;
-  $('#pedNum').innerHTML=[[pri('Repor já'),'repor já: vende bem e acabou','#461D17'],[pri('Núcleo a incorporar'),'novos na loja','#7C381F'],[pri('Completar o planograma'),'para completar o planograma','#CA942A']].map(([v,t,c])=>`<div style="background:${c}"><b>${v}</b>${t}</div>`).join('');
+  $('#pedNum').innerHTML=[[pri('Repor já'),'repor já: vende bem e acabou','#461D17'],[pri('Núcleo a incorporar'),'novos na loja','#7C381F'],[pri('Completar o planograma'),'para completar o planograma','#CA942A']].map(([v,t,c])=>`<div style="--k:${c}"><b>${v}</b>${t}</div>`).join('');
   $('#lPedido').innerHTML=ord.map(m=>`<details class="grp"><summary>${esc(m)}<small>${por[m].length} produtos</small></summary><ul class="tl">${por[m].map(x=>`<li><span class="dot ${x.pri==='Repor já'?'d-tirar':x.pri==='Núcleo a incorporar'?'d-novo':'d-pedir'}"></span><span><b>${esc(x.n)}</b><small>${esc(x.pri)} · ${esc(x.lg)}</small></span><span class="q">${x.q} ${esc(x.un)}</span></li>`).join('')}</ul></details>`).join('');
 })();
 // ---------- números ----------
 const R_=G.resumo;
-$('#numeros').innerHTML=[[ST.length,'módulos para montar','#7C381F'],[R_.plano,'produtos no planograma','#596D49'],[R_.pedir,'chegam no pedido','#CA942A'],[R_.tirar,'saem da gôndola','#461D17']].map(([v,t,c])=>`<div style="background:${c}"><b>${num(v)}</b>${t}</div>`).join('');
+$('#numeros').innerHTML=[[ST.length,'módulos para montar','#7C381F'],[R_.plano,'produtos no planograma','#596D49'],[R_.pedir,'chegam no pedido','#CA942A'],[R_.tirar,'saem da gôndola','#461D17']].map(([v,t,c])=>`<div style="--k:${c}"><b>${num(v)}</b>${t}</div>`).join('');
 // ---------- busca ----------
 const norm=t=>String(t).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
 $('#q').addEventListener('input',e=>{const q=norm(e.target.value.trim());if(q.length<2){$('#res').innerHTML='';return}
@@ -647,7 +702,7 @@ desenhaPlanta();mostra(location.hash.slice(1)||'loja');progresso();
 })();
 </script>'''
 
-doc = (PAGINA.replace('__FONTE__', fonte).replace('__PLANTA__', planta)
+doc = (PAGINA.replace('__FONTE__', fonte).replace('__PLANTA__', planta).replace('__LOGO__', LOGO).replace('__LAB__', LAB).replace('__SPRITE__', SPRITE).replace('__HEROI__', HEROI)
        .replace('__DADOS__', json.dumps(G, ensure_ascii=False).replace('</', '<\\/')).replace('__FOTOS__', json.dumps({str(k): v for k, v in fotos.items()})))
 if PUBLICO:
     out = R / 'pinheiros.html'
