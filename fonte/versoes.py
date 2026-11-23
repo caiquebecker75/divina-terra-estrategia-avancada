@@ -13,7 +13,7 @@ def mb(p):
 def links(v):
     base = R / 'versoes' / v['pasta'] if v['pasta'] else R
     pre = f"{v['pasta']}/" if v['pasta'] else '../'
-    tela = [('Apresentação', 'index.html'), ('Visão para a diretoria', 'diretoria.html'), ('Book', 'book.html'), ('Manual', 'manual.html'), ('Resposta à devolutiva', 'devolutiva.html')]
+    tela = [('Apresentação', 'index.html'), ('Visão para a diretoria', 'diretoria.html'), ('Book', 'book.html'), ('Manual', 'manual.html'), ('Resposta à devolutiva', 'devolutiva.html'), ('Guia de Pinheiros', 'pinheiros.html')]
     pdf = [('Apresentação', 'divina-terra-apresentacao.pdf'), ('Diretoria', 'divina-terra-diretoria.pdf'), ('Book', 'divina-terra-book.pdf'), ('Manual', 'manual-divina-terra.pdf')]
     a = ''.join(f'<a class="bt" href="{pre}{f}">{t}</a>' for t, f in tela if (base / f).exists())
     b = ''.join(f'<a class="bt pdf" href="{pre}{f}" download>{t} <small>PDF · {mb(base / f)}</small></a>' for t, f in pdf if (base / f).exists())

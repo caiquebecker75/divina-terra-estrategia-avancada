@@ -2,7 +2,7 @@
 # cada módulo real é clicável e abre o que vai nele. Vista em 3D da loja montada sobre a mesma planta, com as fotos dos produtos
 # nas prateleiras. Módulo a módulo com checklist, o que tirar da gôndola, o pedido e a busca "onde vai este produto?".
 # Lê analise/pinheiros_guia.json (gerado por fonte/pinheiros.py). Saída com estoque da loja, fora do Git: kit/pinheiros-guia.html
-import base64, io, json, pathlib
+import base64, io, json, pathlib, sys
 import fitz
 from PIL import Image
 R = pathlib.Path(__file__).resolve().parent.parent
@@ -32,6 +32,20 @@ for m in G['moveis']:  # foto do produto solto nos potes do granel
         if f.exists(): fotos['g' + str(t['s'])] = 'data:image/webp;base64,' + base64.b64encode(f.read_bytes()).decode()
 fonte = 'data:font/ttf;base64,' + base64.b64encode((R / 'assets/fontes/GeneralSans-Variable.ttf').read_bytes()).decode()
 G['planta'] = dict(x0=MX0, x1=MX1, y0=MY0, y1=MY1)
+# --publico: versão para o site (repositório público), sem estoque e sem venda em R$ por produto. Grava pinheiros.html na raiz.
+PUBLICO = '--publico' in sys.argv
+if PUBLICO:
+    for m in G['moveis']:
+        for bay in m.get('bays', []):
+            for sg in bay:
+                for nv in sg['nv']:
+                    for it in nv['it']: it.pop('e', None)
+        for t in m.get('tubos', []): t['e'] = 1 if t['e'] > 0 else 0
+    for x in G['tirar'] + G['guardar']: x.pop('e', None)
+    for mv in G['vit']:
+        for sp_ in mv['sp']:
+            for it in sp_['it']:
+                for k in ('vm', 'v11', 'vr'): it.pop(k, None)
 
 PAGINA = r'''<title>Pinheiros · planograma da loja</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -467,7 +481,7 @@ function abre(x){
     <div class="tp">${ph?`<img src="${ph}" alt="">`:`<span class="ph0" style="background:${corMarca(it.m)}"></span>`}<div><div class="mk">${esc(it.m)} · código ${it.s}</div><h3>${esc(it.n)}</h3></div></div>
     <div class="acao a-${it.a}">${a[0]}. ${a[1]}</div>
     <dl><dt>Onde</dt><dd>${esc(onde)}</dd><dt>Prateleira</dt><dd>${esc(x.rot||x.setor)}</dd><dt>Frentes</dt><dd>${it.f}</dd>
-    <dt>Estoque 12/11</dt><dd>${num(it.e||0,it.e%1?2:0)}</dd>${it.p?`<dt>Pedido</dt><dd>${it.p}</dd>`:''}${pr?`<dt>Faixa de preço</dt><dd>${pr}</dd>`:''}</dl>
+    ${it.e!=null?`<dt>Estoque 12/11</dt><dd>${num(it.e,it.e%1?2:0)}</dd>`:''}${it.p?`<dt>Pedido</dt><dd>${it.p}</dd>`:''}${pr?`<dt>Faixa de preço</dt><dd>${pr}</dd>`:''}</dl>
     <button class="fx" id="fx">Fechar</button></div>`;
   const fecha=()=>{$('#folha').hidden=true;$('#folha').innerHTML=''};$('#fx').onclick=fecha;$('#veu').onclick=fecha;
   document.addEventListener('keydown',function k(e){if(e.key==='Escape'){fecha();document.removeEventListener('keydown',k)}});$('#fx').focus();
@@ -605,7 +619,7 @@ function abreV(it,s,m){
 function grupos(lista,alvo,tipo){
   const por={};lista.forEach((x,i)=>{(por[x.st]=por[x.st]||[]).push(Object.assign({i},x))});
   $(alvo).innerHTML=Object.keys(por).sort().map(st=>{const xs=por[st];const feitos=xs.filter(x=>EST['t:'+tipo+':'+x.i]).length;
-    return `<details class="grp"><summary>${esc(st)}<small>${feitos} de ${xs.length}</small></summary><ul class="tl">${xs.map(x=>`<li class="${EST['t:'+tipo+':'+x.i]?'x':''}"><input type="checkbox" data-t="${tipo}" data-i="${x.i}" ${EST['t:'+tipo+':'+x.i]?'checked':''} aria-label="Tirei ${esc(x.n)}"><span><b>${esc(x.n)}</b><small>${esc(x.m)}</small></span><span class="q">${num(x.e,x.e%1?2:0)} un.</span></li>`).join('')}</ul></details>`}).join('');
+    return `<details class="grp"><summary>${esc(st)}<small>${feitos} de ${xs.length}</small></summary><ul class="tl">${xs.map(x=>`<li class="${EST['t:'+tipo+':'+x.i]?'x':''}"><input type="checkbox" data-t="${tipo}" data-i="${x.i}" ${EST['t:'+tipo+':'+x.i]?'checked':''} aria-label="Tirei ${esc(x.n)}"><span><b>${esc(x.n)}</b><small>${esc(x.m)}</small></span><span class="q">${x.e!=null?num(x.e,x.e%1?2:0)+' un.':''}</span></li>`).join('')}</ul></details>`}).join('');
   $$('input',$(alvo)).forEach(c=>c.addEventListener('change',e=>{const k='t:'+c.dataset.t+':'+c.dataset.i;EST[k]=e.target.checked;salva();c.closest('li').classList.toggle('x',e.target.checked);
     const d=c.closest('details'),cb=$$('input',d);d.querySelector('small').textContent=`${cb.filter(i=>i.checked).length} de ${cb.length}`}));
 }
@@ -635,6 +649,11 @@ desenhaPlanta();mostra(location.hash.slice(1)||'loja');progresso();
 
 doc = (PAGINA.replace('__FONTE__', fonte).replace('__PLANTA__', planta)
        .replace('__DADOS__', json.dumps(G, ensure_ascii=False).replace('</', '<\\/')).replace('__FOTOS__', json.dumps({str(k): v for k, v in fotos.items()})))
-out = R / 'kit/pinheiros-guia.html'; out.write_text(doc)
+if PUBLICO:
+    out = R / 'pinheiros.html'
+    out.write_text('<!doctype html>\n<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex">\n'
+                   + doc.replace('</style>', 'body{min-height:100vh}</style>', 1).replace('<header class="topo">', '</head><body>\n<header class="topo">', 1) + '\n</body></html>\n')
+else:
+    out = R / 'kit/pinheiros-guia.html'; out.write_text(doc)
 bad = [t for t in ('—', '–') if t in PAGINA]
 print(out, round(len(doc.encode()) / 1e6, 2), 'MB;', len(fotos), 'fotos; planta', im.size, ';', 'TRAVESSAO' if bad else 'sem travessão')
