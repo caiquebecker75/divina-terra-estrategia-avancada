@@ -317,3 +317,90 @@ print(xl); print('módulos', {k_: v_ for k_, v_ in M.items() if v_}, 'soma', sum
 for c_, (o_, nf_, n_) in ocupacao(M, cats).items(): print(f'  {c_:18s} {M[c_]:4} mód  ocupação {o_*100:5.1f}%  fora {nf_}')
 print(rs.round(0).to_string()); print('sem código:', int(sem_cod.sum()), '| no planograma:', len(pos), '| incorpora:', len(inc), '| travessão' if bad else '| sem travessão')
 
+
+# ---------- lista de pedido (23/11/2026) ----------
+# Alvo: 4 semanas de venda até a próxima compra + 1 de segurança, e nunca menos que as frentes do planograma (+ 1 unidade se vende 1 a cada 2 semanas ou mais).
+# Granel em kg: 3 semanas, mínimo de 2 kg. Essencial que a loja não vende usa o giro médio de uma loja da rede.
+# Não entra no pedido: parado, excesso e estoque alto. Valor a preço de venda (não há custo por produto).
+import math
+SEM11 = 47.8
+giro_rede = {int(r_.sku): r_.qtd / r_.lojas / SEM11 for r_ in med.itertuples()}
+ped = []
+for r_ in u.itertuples():
+    if pd.isna(r_.sku): continue
+    s_ = int(r_.sku); no_pl = s_ in pos
+    if not no_pl and r_.acao != 'Repor já: vende e está sem estoque': continue
+    if r_.acao.startswith(('Parado', 'Excesso', 'Estoque alto')) or r_.setor in FORA: continue
+    gir = r_.giro if r_.giro > 0 else giro_rede.get(s_, 0)
+    fr = pos[s_][3] if no_pl else 1
+    granel_ = (pos[s_][0] == 'Granel') if no_pl else (r_.setor == 'Granel')
+    alvo = max(2, math.ceil(gir * 3)) if granel_ else max(fr + (1 if gir >= .5 else 0), math.ceil(gir * 5))
+    pedir = math.ceil(max(0, alvo - (r_.estoque or 0)))
+    if pedir <= 0: continue
+    pri = ('1. Repor já' if r_.acao == 'Repor já: vende e está sem estoque' else '2. Núcleo a incorporar' if r_.acao.startswith('Incorpora') else '3. Completar o planograma')
+    preco_ = r_.preco if pd.notna(r_.preco) and r_.preco else pm_rede.get(s_)
+    ped.append(dict(Prioridade=pri, Marca=str(r_.marca).title() if r_.marca else '', SKU=s_, Produto=str(r_.desc).title(), Setor=r_.setor, Lugar=r_.lugar or 'Parte local, 1 frente',
+                    Frentes=fr, Estoque=round(float(r_.estoque or 0), 2), Giro=round(gir, 2), Alvo=alvo, Pedir=pedir, Unidade='kg' if granel_ else 'un.',
+                    Valor=round(pedir * preco_, 2) if preco_ else None))
+P = pd.DataFrame(ped).sort_values(['Prioridade', 'Marca', 'Setor', 'Produto'])
+RM = P.groupby('Marca').agg(Produtos=('SKU', 'count'), Repor_ja=('Prioridade', lambda t: (t == '1. Repor já').sum()), Nucleo=('Prioridade', lambda t: (t == '2. Núcleo a incorporar').sum()),
+                            Valor=('Valor', 'sum')).sort_values('Valor', ascending=False).reset_index()
+RM.columns = ['Marca', 'Produtos', 'Repor já', 'Núcleo a incorporar', 'Pedido a preço de venda (R$)']; RM['Pedido a preço de venda (R$)'] = RM['Pedido a preço de venda (R$)'].round(0)
+RP_ = P.groupby('Prioridade').agg(Produtos=('SKU', 'count'), Valor=('Valor', 'sum')).reset_index()
+wb = Workbook(); ws = wb.active; ws.title = 'Leia antes'
+TX = [('Divina Terra · Pinheiros · lista de pedido para o planograma', 't'),
+      ('O que pedir para montar o planograma da loja, a partir do estoque de 12/11/2026 e da venda de julho a setembro de 2026.', ''), ('', ''),
+      ('Prioridade', 's'),
+      ('1. Repor já: vende pelo menos 1 a cada 2 semanas e está sem estoque.', ''),
+      ('2. Núcleo a incorporar: produto essencial da rede que a loja ainda não tem. Já tem lugar no planograma.', ''),
+      ('3. Completar o planograma: está no desenho e o estoque não cobre as frentes ou as próximas semanas de venda.', ''), ('', ''),
+      ('Quanto pedir', 's'),
+      ('Alvo = 4 semanas de venda até a próxima compra + 1 semana de segurança, e nunca menos que as frentes do planograma; quem vende 1 a cada 2 semanas ou mais ganha 1 unidade a mais. Pedir = alvo menos o estoque de 12/11.', ''),
+      ('Granel, em kg: 3 semanas de venda, com mínimo de 2 kg por tubo. Essencial que a loja não vende: giro médio de uma loja da rede.', ''),
+      ('Não entram: produtos parados, com excesso ou com estoque alto (lista na revisão do mix). Black Friday e o teste de Natal pedem compra à parte.', ''), ('', ''),
+      ('Antes de enviar', 's'),
+      ('Conferir o estoque do dia: a lista usa o estoque de 12/11 e a venda até setembro. Ajustar pelo pedido mínimo e pela embalagem de cada fornecedor.', ''),
+      ('Valor a preço de venda médio da loja (sem custo por produto, não há valor de compra).', ''), ('', ''),
+      ('Uso interno da Divina Terra e da 75 LAB.', '')]
+for i, (t, k) in enumerate(TX, 1):
+    q = ws.cell(i, 1, t); q.alignment = Alignment(wrap_text=True)
+    if k == 't': q.font = Font(bold=True, size=16, color=TERRA)
+    elif k == 's': q.font = Font(bold=True, size=12, color='7C381F')
+ws.column_dimensions['A'].width = 130
+ws = wb.create_sheet('Resumo'); tabela(ws, RP_.rename(columns={'Valor': 'Pedido a preço de venda (R$)'}).round(0), {'Prioridade': 30})
+ws = wb.create_sheet('Por marca'); tabela(ws, RM, {'Marca': 28})
+ws = wb.create_sheet('Pedido'); tabela(ws, P.rename(columns={'Giro': 'Giro por semana', 'Estoque': 'Estoque 12/11', 'Valor': 'Valor a preço de venda (R$)'}),
+                                     {'Prioridade': 24, 'Marca': 20, 'Produto': 46, 'Setor': 22, 'Lugar': 28})
+xp_ = R / 'kit/pinheiros-pedido.xlsx'; wb.save(xp_)
+
+# versão para imprimir, por marca
+grp = ''
+ordem_m = RM.Marca.tolist()
+for mca in ordem_m:
+    t = P[P.Marca == mca]
+    lin = ''.join(f'<tr><td>{html.escape(r_.Prioridade[3:])}</td><td>{r_.SKU}</td><td>{html.escape(r_.Produto[:56])}</td><td>{html.escape(str(r_.Setor))}</td><td>{html.escape(r_.Lugar)}</td>'
+                  f'<td class="n">{br(r_.Estoque, 0 if float(r_.Estoque).is_integer() else 2)}</td><td class="n"><b>{r_.Pedir}</b> {r_.Unidade}</td><td class="n">{("R$ " + br(r_.Valor, 0)) if pd.notna(r_.Valor) else ""}</td></tr>' for r_ in t.itertuples())
+    grp += f'<section class="mc"><h3>{html.escape(mca or "Sem marca")} <small>{len(t)} produtos · R$ {br(t.Valor.sum() / 1000, 1)} mil a preço de venda</small></h3><table class="tb"><thead><tr><th>Prioridade</th><th>SKU</th><th>Produto</th><th>Setor</th><th>Lugar no planograma</th><th>Estoque 12/11</th><th>Pedir</th><th>Valor</th></tr></thead><tbody>{lin}</tbody></table></section>'
+cards2 = [(f'{len(P)}', 'produtos a pedir'), (f'{(P.Prioridade == "1. Repor já").sum()}', 'repor já'), (f'{(P.Prioridade == "2. Núcleo a incorporar").sum()}', 'núcleo a incorporar'),
+          (f'{(P.Prioridade == "3. Completar o planograma").sum()}', 'para completar o planograma'), (f'R$ {br(P.Valor.sum() / 1000, 0)} mil', 'a preço de venda'), (f'{P.Marca.nunique()}', 'marcas')]
+pg2 = f'''<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><base href="../"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Pinheiros · lista de pedido</title><link rel="icon" href="assets/logos/dt-icone-terra.svg">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,400&display=swap" rel="stylesheet">
+<style>@font-face{{font-family:'General Sans';src:url('assets/fontes/GeneralSans-Variable.ttf');font-weight:200 700}}
+:root{{--iogurte:#F7F5F1;--aveia:#E5DDD1;--choco:#7C381F;--terra:#461D17;--acafrao:#CA942A;--cinza:#6F5F55;--serif:'Source Serif 4',Georgia,serif;--sans:'General Sans',system-ui,sans-serif}}
+*{{box-sizing:border-box}}body{{margin:0;background:var(--iogurte);color:var(--terra);font:13px/1.4 var(--sans)}}main{{max-width:1100px;margin:0 auto;padding:30px 24px 60px}}
+h1,h3{{font-family:var(--serif);font-weight:400;margin:0}}h1{{font-size:40px;margin:14px 0 6px}}h1 em{{color:var(--choco)}}h3{{font-size:22px;margin:22px 0 6px}}h3 small{{font-family:var(--sans);font-size:12.5px;color:var(--cinza);margin-left:6px}}
+.m img{{height:22px}}.m{{display:flex;gap:12px;align-items:center}}.m img.l{{height:15px}}.lead{{font-size:15px;color:var(--cinza)}}
+.cards{{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:16px 0}}.cards div{{background:var(--aveia);border-radius:10px;padding:10px 12px}}.cards b{{display:block;font-family:var(--serif);font-weight:300;font-size:24px;line-height:1.05;white-space:nowrap}}.cards div:nth-child(2){{background:var(--terra);color:var(--iogurte)}}.cards div:nth-child(2) b{{color:var(--acafrao)}}
+.regra{{background:#fff;border-radius:10px;padding:10px 14px;font-size:13px}}.tb{{border-collapse:collapse;width:100%;background:#fff;border-radius:8px;overflow:hidden}}.tb th{{background:var(--aveia);text-align:left;padding:5px 8px;font-weight:600;font-size:12px}}.tb td{{padding:4px 8px;border-top:1px solid var(--aveia);vertical-align:top}}.n{{text-align:right;white-space:nowrap}}
+.mc h3{{break-after:avoid}}.tb tr{{break-inside:avoid}}.tb thead{{display:table-header-group}}.f{{font-size:12px;color:var(--cinza);margin-top:20px}}</style></head><body><main>
+<div class="m"><img src="assets/logos/dt-horizontal-terra.svg" alt="Divina Terra"><span>×</span><img class="l" src="assets/logos/75lab-logo-preto.svg" alt="75 LAB"></div>
+<h1>Pinheiros: <em>lista de pedido</em></h1><p class="lead">O que pedir para montar o planograma da loja, por marca. Estoque de 12/11/2026 e venda de julho a setembro de 2026.</p>
+<div class="cards">{''.join(f'<div><b>{v_}</b>{t_}</div>' for v_, t_ in cards2)}</div>
+<p class="regra"><b>Quanto pedir:</b> 4 semanas de venda até a próxima compra mais 1 de segurança, e nunca menos que as frentes do planograma (mais 1 unidade para quem vende 1 a cada 2 semanas ou mais). Granel em kg, 3 semanas, mínimo de 2 kg. Antes de enviar, conferir o estoque do dia e o pedido mínimo de cada fornecedor. Não entram parados, excesso nem estoque alto. Black Friday e o teste de Natal pedem compra à parte.</p>
+{grp}
+<p class="f">Fonte: estoque de Pinheiros em 12/11/2026; relatório de vendas até 09/2026; planograma de Pinheiros. Valor a preço de venda médio da loja; sem custo por produto. Uso interno.</p>
+</main></body></html>'''
+(R / 'kit/pinheiros-pedido.html').write_text(pg2)
+print(xp_, len(P), 'produtos'); print(RP_.round(0).to_string(index=False)); print(RM.head(12).to_string(index=False))
+print('travessão' if any(t in pg2 for t in ('—', '–')) else 'sem travessão')
