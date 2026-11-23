@@ -404,3 +404,55 @@ h1,h3{{font-family:var(--serif);font-weight:400;margin:0}}h1{{font-size:40px;mar
 (R / 'kit/pinheiros-pedido.html').write_text(pg2)
 print(xp_, len(P), 'produtos'); print(RP_.round(0).to_string(index=False)); print(RM.head(12).to_string(index=False))
 print('travessão' if any(t in pg2 for t in ('—', '–')) else 'sem travessão')
+
+# ---------- dados do guia da loja (fonte/pinheiros_guia.py) ----------
+# Cada móvel é uma sequência de módulos físicos de 0,90 m; um módulo pode juntar duas metades de setores vizinhos.
+ZONAS = [('parede', 'Parede de suplementos', 'Parede da esquerda. Módulos altos de 7 níveis: o 7º fica só para estoque aéreo e placa.',
+          [('Proteínas', (0, 2)), ('Creatina', None), ('Ômegas', None), ('Vitaminas', None), ('Colágeno', None), ('Bem-Estar', None)]),
+         ('proteina', 'Ilha da Proteína', 'Primeira ilha, de frente para a parede. Continua as proteínas da parede.', [('Proteínas', (2, None))]),
+         ('treino', 'Ilha do Treino', 'Pré e pós-treino, cafés funcionais e peso.', [('Performance', None), ('Cafés funcionais', None), ('Peso', None)]),
+         ('saude', 'Ilha da Saúde', 'Intestino, longevidade e imunidade.', [('Intestino', None), ('Longevidade', None), ('Imunidade', None)]),
+         ('lanches', 'Ilha dos Lanches', 'Barras e snacks: o que se leva para o dia.', [('Barras e snacks', None)]),
+         ('despensa', 'Ilha da Despensa', 'Sem glúten e os básicos do Gourmet.', [('Sem Glúten', None), ('Gourmet', (3, None))]),
+         ('gourmet', 'Gourmet ao lado das mesas', 'Os três módulos onde ficavam as farinhas, perto de quem senta para o café.', [('Gourmet', (0, 3))]),
+         ('chas', 'Chás', 'Estante do fundo, com gancheira para chá de sachê.', [('Chás', None)])]
+def mods_setor(cat):
+    cc = cats[cat]; n = int(cc['f'] + .999)
+    return [(k, 1.0 if k + 1 <= cc['f'] else .5) for k in range(n)]
+def item_guia(q):
+    s_ = q['sku']; r_ = u[u.sku == s_]
+    es = float(r_.estoque.iloc[0]) if len(r_) else 0.0
+    ac = 'novo' if s_ in set(inc) else ('tem' if es > 0 else 'pedir')
+    pq = P[P.SKU == s_].Pedir; pq = int(pq.iloc[0]) if len(pq) else 0
+    return dict(s=int(s_), n=q['nome'], m=q['mc'], f=int(q['f']), w=float(q['w']), a=ac, l=bool(q.get('loc')), e=round(es, 2), p=pq,
+                pr=[q.get('pmin'), q.get('pmax')], b=q.get('band', ''))
+zonas_g = []
+for zid, znome, zdesc, regras in ZONAS:
+    segs = []
+    for cat, qtd in regras:
+        if cat not in cats: continue
+        todos = mods_setor(cat)
+        pega = todos if qtd is None else todos[qtd[0]:qtd[1]]
+        for k, larg in pega:
+            cc = cats[cat]
+            niv = [dict(n=n['n'], r=(n['rots'][k] if k < len(n['rots']) else ''), it=[item_guia(q) for q in n['mods'][k]] if k < len(n['mods']) else []) for n in cc['niveis']]
+            segs.append(dict(c=cat, k=k + 1, t=int(cc['f'] + .999), w=larg, nv=niv))
+    # módulo físico de 0,90 m: meio módulo de um setor faz par com o próximo meio módulo da mesma ilha
+    bays = []; fila_ = list(segs)
+    while fila_:
+        sg = fila_.pop(0)
+        if sg['w'] >= 1.0: bays.append([sg]); continue
+        par = next((x_ for x_ in fila_ if x_['w'] < 1.0), None)
+        if par: fila_.remove(par); bays.append([sg, par])
+        else: bays.append([sg])
+    zonas_g.append(dict(id=zid, nome=znome, desc=zdesc, bays=bays))
+gr_ = cats.get('Granel')
+granel_g = [dict(s=t['sku'], n=t['nome'], fam=t['fam'], e=float(u[u.sku == t['sku']].estoque.iloc[0]) if len(u[u.sku == t['sku']]) else 0.0) for t in gr_['tubos']] if gr_ else []
+tirar = u[u.acao.str.startswith('Parado') & (u.estoque > 0)].sort_values(['setor', 'desc'])
+guardar = u[(u.acao == 'Fora do planograma: reduz ou sai aos poucos') & (u.estoque > 0)].sort_values(['setor', 'desc'])
+lst = lambda t: [dict(s=(int(r_.sku) if pd.notna(r_.sku) else None), n=str(r_.desc).title(), m=str(r_.marca).title() if pd.notna(r_.marca) else '', st=str(r_.setor), e=float(r_.estoque)) for r_ in t.itertuples()]
+guia = dict(zonas=zonas_g, granel=granel_g, tirar=lst(tirar), guardar=lst(guardar),
+            pedido=[dict(pri=r_.Prioridade[3:], m=r_.Marca, s=int(r_.SKU), n=r_.Produto, st=r_.Setor, lg=r_.Lugar, q=int(r_.Pedir), un=r_.Unidade) for r_ in P.itertuples()],
+            resumo=dict(estoque=int(len(e)), plano=int(len(pos)), novo=int(len(inc)), pedir=int(len(P)), tirar=int(len(tirar)), guardar=int(len(guardar))))
+(R / 'analise/pinheiros_guia.json').write_text(json.dumps(guia, ensure_ascii=False))
+print('guia:', {z['nome']: len(z['bays']) for z in zonas_g}, 'granel', len(granel_g), 'tirar', len(tirar), 'guardar', len(guardar))
