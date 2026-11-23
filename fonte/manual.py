@@ -45,6 +45,35 @@ def nucleo_tab():
         for e in it: lin.append([html.escape(c),e['sku'],html.escape(e['desc'].title()),html.escape(e['mc']),'R$ '+br(e.get('pm',0),2) if e.get('pm') else ''])
     return tabela(['Categoria','SKU','Produto','Marca','Preço médio pago'],lin)
 ALT=sorted(rs['emAltaRede'],key=lambda x:0) if isinstance(rs['emAltaRede'],list) else rs['emAltaRede']
+def prof_tab():
+    "Devolutiva 2.8: profundidade do sortimento. Desenho P, M e G contra o que a loja mediana vende e contra a rede."
+    import json as _j, receita as RC
+    d = RC.dados(); ab = _j.loads((R / 'analise/abrangencia.json').read_text())
+    d = d.assign(k=d.sku.astype(int).astype(str)); d['papel'] = d.k.map(lambda k: ab.get(k, {}).get('papel', 'Cauda'))
+    u3 = d[d.p.isin(RC.MES[-3:])]
+    LEIT = {'Cafés funcionais': 'O desenho já tem o que a loja vende. Prateleira própria dentro de Performance.',
+            'Barras e snacks': 'Área própria proposta; caixa e ponta como exposição secundária, com prazo.',
+            'Chás': 'Caixa, granel e gancheira no mesmo setor. A kombucha vai para a geladeira.',
+            'Gourmet': 'Na loja P o desenho é um pouco menor do que a loja vende: a lista aprovada completa.',
+            'Colágeno': 'Na loja P, divide a gôndola de Equilíbrio & Bem-Estar, com prateleira própria.',
+            'Performance': 'A exceção: a loja vende mais do que cabe no módulo. Sachês e géis vão para gancheira ou display de caixa; o piloto mede.',
+            'Longevidade': 'Desenho maior do que a venda de hoje: espaço para a curadoria de saúde da mulher e do homem.',
+            'Vitaminas': 'Desenho do tamanho da venda. Vitamina C, D e zinco moram aqui.'}
+    lin = []
+    for nome, g in [('Cafés funcionais', 'Cafés funcionais'), ('Barras e snacks', 'Barras e snacks'), ('Chás', 'Chás'), ('Gourmet', 'Gourmet'),
+                    ('Colágeno', 'Colágeno'), ('Performance', 'Performance'), ('Longevidade', 'Longevidade'), ('Vitaminas', 'Vitaminas')]:
+        x = d[d.g == g]; y = u3[u3.g == g]
+        des = ' · '.join(str(r[T]['cats'].get(g, {}).get('skus', 0) or 'na gôndola vizinha') for T in 'PMG')
+        cob = x[x.papel.isin(['Essencial', 'Complementar'])].valor.sum() / x.valor.sum() * 100
+        lin.append([f'<b>{nome}</b>', N.n(x.k.nunique()), int(y.groupby('loja').sku.nunique().median()), des,
+                    N.n(x[x.papel == 'Essencial'].k.nunique()), N.n(x[x.papel == 'Complementar'].k.nunique()), f'{cob:.0f}%', LEIT[nome]])
+    x = d[d.depto.astype(str).str.contains('IMPORT')]; y = u3[u3.depto.astype(str).str.contains('IMPORT')]
+    cob = x[x.papel.isin(['Essencial', 'Complementar'])].valor.sum() / x.valor.sum() * 100
+    lin.append(['<b>Importados</b>', N.n(x.k.nunique()), int(y.groupby('loja').sku.nunique().median()), 'dentro de cada setor',
+                N.n(x[x.papel == 'Essencial'].k.nunique()), N.n(x[x.papel == 'Complementar'].k.nunique()), f'{cob:.0f}%',
+                f'Só {N.br(x.valor.sum() / d.valor.sum() * 100, 2)}% da venda hoje: entram pela curadoria do Gourmet, não pelo histórico.'])
+    return tabela(['Categoria', 'Produtos com venda na rede', 'A loja mediana vende', 'No desenho P · M · G', 'Núcleo', 'Lista aprovada', 'Venda coberta por núcleo e lista', 'Leitura'], lin)
+
 def mercado_fontes():
     lin=[]
     for x in rs['emAltaMercado']['evidencias']:
@@ -74,6 +103,9 @@ corpo=f'''
 <section id="produtos"><h2>4. Produtos</h2><h3>Filtro de curadoria: quatro perguntas para entrar</h3><ol class="pas"><li><b>Combina com quem quer se cuidar?</b> Ingrediente, origem ou feitio que a cliente respeita.</li><li><b>Só existe bem na curadoria?</b> Não é o que ela já pega no mercado, ao mesmo preço.</li><li><b>Tem ocasião clara?</b> Receber, cozinhar, presentear ou o dia a dia.</li><li><b>A loja consegue operar?</b> Validade, equipamento, licença e giro.</li></ol>
 <h3>Núcleo, lista e local</h3>{tabela(['Parte','Quanto','O que é','Quem decide'],[['<b>Núcleo</b>','60%','Igual em toda loja do mesmo tamanho. Faz a venda e a marca.','Rede'],['<b>Lista aprovada</b>','20%','A loja escolhe de uma lista da rede.','Loja, dentro da lista'],['<b>Local</b>','20%','Regional e achados da franqueada.','Franqueado, com registro']])}
 <h3>Como entra e como sai</h3><div class="dois"><div class="cx"><b>Entra</b><p>Passa no filtro e tira alguém: entra um, sai um. Toda decisão fica para o ritual do mês, no comitê.</p></div><div class="cx"><b>Sai</b><p>Traz a cliente de volta? Completa a cesta? Tem substituto na loja? Três “não”: sai, sem queima, em até 90 dias.</p></div></div>
+<h3>Critérios para manter, reduzir, tirar e incluir</h3><p class="nota">Os dez critérios pedidos na devolutiva (item 3.3), com o sinal que dispara a ação. Quem decide é o comitê, no ritual do mês; a revisão do sortimento é trimestral.</p>{tabela(['Critério','O que olhar','Sinal','O que fazer','Dado hoje'],[['<b>Giro</b>','Unidades por semana, por loja','Menos de 1 por semana em 3 meses','Reduz para 1 frente; se seguir, sai sem queima','Temos: relatório de vendas'],['<b>Curva ABC</b>','Posição dentro do setor','Caiu da curva A ou B para a C','Sai do núcleo e vai para a lista aprovada ou para o local','Temos'],['<b>Margem</b>','Margem por produto, contra a média do setor','Abaixo da média e sem papel de preço de referência','Renegociar com a marca; sem acordo, sai','Falta: custo por produto'],['<b>Validade</b>','Perda por vencimento','Perda em dois ciclos de compra seguidos','Menos frentes e pedido menor; se seguir, sai','Falta: relatório de perdas'],['<b>Estoque</b>','Dias de estoque na loja','Mais de 60 dias, fora de data sazonal','Pedido menor e frente reduzida','Falta: estoque por loja'],['<b>Ruptura</b>','Dias sem o produto na gôndola','Essencial faltando mais de 2 dias','Mais 1 frente e pedido maior; o núcleo nunca falta','Auditoria da loja'],['<b>Sazonalidade</b>','Venda do mês contra a média do ano','Pico de estação, como imunidade no inverno','Ganha espaço na estação e devolve depois, pelo calendário','Temos'],['<b>Perfil da cliente</b>','Tipo de loja e região onde vende','Vende só num perfil ou numa região','Vira local ou regional, fora do núcleo nacional','Temos'],['<b>Capacidade de exposição</b>','Módulos do setor contra os produtos que fazem 80% a 95% da venda','Não cabe','Corta pela cauda; entra um, sai um','Contagem de módulos da loja'],['<b>Novidade</b>','Lançamento que passa no filtro de curadoria','Entrou e não girou em 90 dias','Sai e libera o lugar para o próximo da lista','Temos, depois da entrada']])}
+<h3>Profundidade do sortimento</h3><p class="nota">Resposta ao item 2.8 da devolutiva: o desenho de cada tamanho de loja contra o que a loja mediana vende hoje (07 a 09/2026) e contra a variedade da rede. A lista aprovada completa o desenho sem obrigar a loja.</p>{prof_tab()}
+<h3>Lojas de referência</h3><p class="nota">Resposta ao item 5.5: o que cada loja mostra, o que vai para a rede e o que fica nela. Concorrência ao redor de cada loja: a levantar com a rede.</p>{tabela(['Loja','Venda por ano','Área','Gourmet','Granel','Lugar e público','O que puxa o Gourmet','Vai para a rede','Fica na loja'],[['<b>Vila Madalena</b>','R$ 0,7 mi, 48ª de 74','64 m²','11,9%','18%','Bairro boêmio de São Paulo, de passagem a pé e de café','Warabu, Amendopro, Amarelo Café: chocolate de origem e café especial','Curadoria por ocasião e prova no balcão','O café próprio e o consumo na hora'],['<b>Holambra</b>','R$ 2,0 mi, 8ª de 74','90 m²','11,9%','22%','Cidade turística do interior de São Paulo, de visitante de fim de semana','Harts, Garibaldi, Luckau, Casa Madeira: granola, espumante, vinho e doces','Presente pronto, espumante e chocolate perto do caixa','O volume de turista; importados como La Pastina e Biscoff'],['<b>Alphaville</b>','R$ 2,0 mi, 12ª de 74','77 m²','9,8%','9%','Bairro de condomínios na Grande São Paulo, cliente de carro e de alta renda','Haoma, Foco Alternativo, Ser Qualy: básicos finos e doces sem açúcar','Básicos de despensa com marca de curadoria','O granel fraco: lá a prioridade é o suplemento'],['<b>Pinheiros</b>','R$ 1,8 mi, 14ª de 74','119 m²','6,9%','12%','Bairro de São Paulo, loja do piloto do planograma','Haoma, Harts, Wonderlev, Hey Mu','O planograma da rede, montado com a equipe','O que o piloto mostrar que é só dela']])}
 <h3>Lista-base do núcleo</h3><p class="nota">Os 8 primeiros de cada categoria na loja P, pela venda real. A lista completa está nos relatórios de posição e no kit.</p>{nucleo_tab()}<p class="nota">Por categoria, os três grupos estão na tela “O que entra em cada parte” da apresentação e nos relatórios de posição abaixo.</p></section>
 <section id="marcas"><h2>5. Marcas</h2><h3>Decisão por marca</h3>{recs()}<p class="nota">Método: venda nas mesmas lojas, sem ajuste de preço; marca cruzada com o cadastro por nome e descrição. Sem comparação ano contra ano. Os números de empresa muitas vezes vêm da própria empresa.</p><h3>Evidências de mercado</h3>{mercado_fontes()}
 <h3>Ressalvas</h3><ul>{''.join(f"<li>{html.escape(str(x))}</li>" for x in rs["ressalvas"] if not re.search("OZ.MPIC|GLP.?1 SUPPORT|Correção do briefing",str(x),re.I))}</ul></section>
