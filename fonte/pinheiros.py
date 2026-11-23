@@ -110,7 +110,7 @@ def ocupacao(M, cats):
     oc = {}
     for cat, cc in cats.items():
         if 'tubos' in cc: continue
-        larg = sum((PL.UTIL if mi + 1 <= cc['f'] else PL.UTIL / 2) for mi in range(int(cc['f'] + .999))) * len(cc['niveis'])
+        larg = sum(cc['larg'] if cc.get('larg') else [(PL.UTIL if mi + 1 <= cc['f'] else PL.UTIL / 2) for mi in range(int(cc['f'] + .999))]) * len(cc['niveis'])
         usado = sum(q['w'] * q['f'] for n in cc['niveis'] for m in n['mods'] for q in m)
         dentro = {q['sku'] for n in cc['niveis'] for m in n['mods'] for q in m}
         y = PL._linhas(xp, cat, M); y = y[y.mes3 & ~y.desc.str.contains(PL.EXC)]
@@ -133,7 +133,7 @@ def preenche_local(cats):
             for n in sorted(cc['niveis'], key=lambda n_: PL.OLHOS.index(n_['n'])):
                 if n['n'] not in niv_ok: continue
                 for mi, m in enumerate(n['mods']):
-                    larg = PL.UTIL if mi + 1 <= cc['f'] else PL.UTIL / 2
+                    larg = cc['larg'][mi] if cc.get('larg') else (PL.UTIL if mi + 1 <= cc['f'] else PL.UTIL / 2)
                     if sum(q['w'] * q['f'] for q in m) + w <= larg:
                         lo, hi = PL.preco(int(r_.sku))
                         m.append(dict(sku=int(r_.sku), desc=r_.desc, marca=r_.marca, prat=r_.prat, nome=PL.curto(r_.desc, r_.marca), mc=PL.nome_marca(r_.marca), w=w, f=1,
@@ -159,6 +159,45 @@ for rodada in range(2):
     if sobra >= .5: M['Gourmet'] = M.get('Gourmet', 0) + sobra
 cats = monta_plano(M); N_LOCAL = preenche_local(cats)
 AJUSTE = {c_: (M0.get(c_, 0), M[c_]) for c_ in M if M0.get(c_, 0) != M[c_]}
+# ---------- os móveis reais de Pinheiros (planta R00 de 02/01/2026, folha 02/11, conferida com as fotos da visita de 14/10) ----------
+# Metros: X da fachada (vitrine) para o fundo da loja; Y da parede de suplementos (esquerda de quem entra) para a parede do granel.
+# Cada módulo leva a largura útil real (largura do móvel menos 4 cm de montante). Destino no fundo, rotina no caminho.
+def mv(id_, nome, grupo, x0, x1, y0, y1, bays, alt=1.6, niv=6, olha='', nota=''):
+    return dict(id=id_, nome=nome, grupo=grupo, x0=x0, x1=x1, y0=y0, y1=y1, bays=bays, alt=alt, niv=niv, olha=olha, nota=nota)
+PS = [(0.63, 1.43), (1.43, 2.23), (2.23, 3.33), (3.33, 4.43), (4.43, 5.53), (5.53, 6.63), (6.63, 7.73), (7.73, 8.71)]
+SUP = [[('Vitaminas', 76)], [('Ômegas', 76)], [('Colágeno', 53), ('Imunidade', 53)], [('Creatina', 106)], [('Proteínas', 106)], [('Proteínas', 106)], [('Proteínas', 106)], [('Proteínas', 94)]]
+MOVEIS = [mv(f'S{k + 1}', f'Parede de suplementos · módulo {k + 1}', 'parede', a, b, 0.0, 0.32, [SUP[k]], alt=2.2, niv=7, olha='y+',
+             nota='Módulo de parede de 7 níveis: o 7º, no alto, fica só para estoque aéreo e placa do setor.') for k, (a, b) in enumerate(PS)]
+GON = [('1', 1.58, 3.39, [[('Peso', 86)], [('Cafés funcionais', 86)]], [[('Barras e snacks', 86)], [('Barras e snacks', 86)]]),
+       ('2', 4.24, 5.54, [[('Performance', 126)]], [[('Barras e snacks', 126)]]),
+       ('3', 5.54, 7.34, [[('Performance', 86)], [('Performance', 86)]], [[('Sem Glúten', 86)], [('Sem Glúten', 86)]]),
+       ('4', 8.19, 9.49, [[('Proteínas', 126)]], [[('Sem Glúten', 126)]])]
+for g, a, b, A, B_ in GON:
+    MOVEIS.append(mv(f'G{g}A', f'Gôndola {g} · lado da parede', 'gondola', a, b, 1.56, 1.955, A, olha='y-', nota='Lado virado para a parede de suplementos. Na gôndola, o nível 1 é o topo.'))
+    MOVEIS.append(mv(f'G{g}B', f'Gôndola {g} · lado do balcão', 'gondola', a, b, 1.955, 2.35, B_, olha='y+', nota='Lado virado para o balcão da balança e o granel. Na gôndola, o nível 1 é o topo.'))
+FUNDO = [(0.0, 0.95, [('Longevidade', 91)]), (0.95, 1.90, [('Intestino', 91)]), (1.90, 2.85, [('Bem-Estar', 91)])]
+for k, (a, b, bay) in enumerate(FUNDO):
+    MOVEIS.append(mv(f'E{k + 1}', f'Parede de encapsulados · módulo {k + 1}', 'fundo', 13.87, 14.17, a, b, [bay], alt=2.0, olha='x-',
+                     nota='Parede do fundo, ao lado do caixa: cápsulas e frascos de uso diário.'))
+MOVEIS.append(mv('C1', 'Chás', 'direita', 5.81, 7.04, 6.09, 6.39, [[('Chás', 119)]], alt=2.0, olha='y-', nota='Painel do lado direito: caixinhas nas prateleiras e sachês na gancheira.'))
+for k, (a, b) in enumerate([(7.04, 7.99), (7.99, 8.94), (8.94, 9.89)]):
+    MOVEIS.append(mv(f'R{k + 1}', f'Gourmet · módulo {k + 1}', 'direita', a, b, 6.09, 6.39, [[('Gourmet', 91)]], alt=2.0, olha='y-',
+                     nota='Onde ficavam as farinhas, perto das mesas: o Gourmet de quem senta para o café.'))
+# planograma de cada setor nos módulos reais, na ordem dos móveis
+ordem_mod = {}
+for m_ in MOVEIS:
+    for bi, bay in enumerate(m_['bays']):
+        for si, (cat, wcm) in enumerate(bay): ordem_mod.setdefault(cat, []).append((m_['id'], bi, si, wcm))
+MF = {c_: len(v_) for c_, v_ in ordem_mod.items()}
+cats_f = {}
+for cat, lst_ in ordem_mod.items():
+    y = PL._linhas(xp, cat, MF)
+    if y.empty: continue
+    cc = PL.escolher(y, cat, len(lst_), NUC.get(cat), larg_in=[w_ for *_, w_ in lst_]); cc['larg'] = [w_ for *_, w_ in lst_]; cc['onde'] = lst_
+    cats_f[cat] = cc
+cats_f['Granel'] = cats['Granel']
+M = {c_: round(sum(cc['larg']) / PL.UTIL, 1) if cc.get('larg') else cc.get('f', 0) for c_, cc in cats_f.items()}
+cats = cats_f; N_LOCAL = preenche_local(cats)
 RP = {'PIN': {'modulos': M, 'cats': cats}}
 
 pos = {}
@@ -166,9 +205,11 @@ for cat, cc in cats.items():
     if 'tubos' in cc:
         for k, t in enumerate(cc['tubos'], 1): pos[t['sku']] = (cat, f'Tubo {k}', 'Granel', 1)
         continue
+    NOME_MV = {m_['id']: m_['nome'] for m_ in MOVEIS}
     for n in cc['niveis']:
         for mi, m in enumerate(n['mods'], 1):
-            for q in m: pos[q['sku']] = (cat, f'Módulo {mi}', f'Nível {n["n"]} · {PH.NIV[n["n"]]}', q['f'])
+            onde_ = NOME_MV[cc['onde'][mi - 1][0]] + (f' (módulo {cc["onde"][mi - 1][1] + 1})' if len([o for o in cc['onde'] if o[0] == cc['onde'][mi - 1][0]]) > 1 else '') if cc.get('onde') else f'Módulo {mi}'
+            for q in m: pos[q['sku']] = (cat, onde_, f'Nível {n["n"]} · {PH.NIV[n["n"]]}', q['f'])
 u['planograma'] = u.sku.map(lambda s: pos[int(s)][0] if pd.notna(s) and int(s) in pos else '')
 u['lugar'] = u.sku.map(lambda s: f'{pos[int(s)][1]} · {pos[int(s)][2]}' if pd.notna(s) and int(s) in pos else '')
 u['frentes'] = u.sku.map(lambda s: pos[int(s)][3] if pd.notna(s) and int(s) in pos else None)
@@ -182,27 +223,15 @@ u.loc[(u.acao == 'Saudável') & ~no_plano & ~u.setor.isin(FORA), 'acao'] = 'Fora
 u.loc[(u.acao == 'Sem estoque, vende pouco') & no_plano, 'acao'] = 'Repor para o planograma: entra com 1 frente'
 u.loc[(u.acao == 'Sem estoque, vende pouco') & ~no_plano, 'acao'] = 'Sem estoque e fora do planograma: não repor'
 
-# ---------- onde montar cada setor (proposta para conferir com a trena) ----------
-PAREDE = ['Proteínas', 'Creatina', 'Ômegas', 'Vitaminas', 'Colágeno', 'Bem-Estar', 'Intestino', 'Longevidade', 'Imunidade']
-ILHA = ['Proteínas', 'Creatina', 'Performance', 'Cafés funcionais', 'Barras e snacks', 'Kids', 'Peso', 'Sem Glúten', 'Gourmet']
-monta = []; cap = 8.0
-for cat in PAREDE:
-    f = float(M.get(cat, 0))
-    if f <= 0 or cat not in cats: continue
-    ali = min(f, cap) if cat not in ('Proteínas', 'Creatina') else min(f, cap, 2.0 if cat == 'Proteínas' else 1.0)
-    if ali > 0: monta.append((cat, ali, 'Parede de suplementos (M01): níveis 1 a 6; o 7º só para estoque aéreo e placa')); cap -= ali
-    if f - ali > 0: monta.append((cat, f - ali, 'Ilha central (M02), ao lado da parede'))
-for cat in ILHA:
-    if cat in ('Proteínas', 'Creatina') or cat not in cats: continue
-    f = float(M.get(cat, 0))
-    if cat == 'Gourmet':
-        monta.append((cat, min(3.0, f), 'Três módulos ao lado das mesas, no lugar das farinhas: À mesa, Receber, Do mundo'))
-        if f > 3: monta.append((cat, f - 3, 'Ilha de Gourmet básicos (M02)'))
-        continue
-    monta.append((cat, f, 'Ilha central (M02)'))
-monta.append(('Chás', float(M.get('Chás', 0)), 'Estante do fundo (Z06), com gancheira para chá de sachê'))
-monta.append(('Granel', float(M.get('Granel', 0)), 'Módulos de granel atuais (M04): nenhum bin sai do lugar; placa visível da porta e potinho de prova'))
-
+# ---------- onde montar cada setor: móveis reais ----------
+monta = []
+for cat, cc in cats.items():
+    if cat == 'Granel': monta.append(('Granel', 0, 'Granel P, Granel 18 e Granel M, à direita de quem entra: nenhum pote sai do lugar')); continue
+    lugares = []
+    for mid, bi, si, wcm in cc.get('onde', []):
+        nm = next(m_['nome'] for m_ in MOVEIS if m_['id'] == mid)
+        if nm not in lugares: lugares.append(nm)
+    monta.append((cat, round(sum(cc.get('larg', [])) / 100, 2), '; '.join(lugares)))
 # ---------- planilha ----------
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment
@@ -264,60 +293,11 @@ est = dict(zip(u.sku, u.estoque))
 plt = pd.DataFrame(pl, columns=['Setor', 'Módulo', 'Nível', 'Posição', 'SKU', 'Produto', 'Marca', 'Frentes', 'Prateleira e tamanho'])
 plt['Estoque 12/11'] = plt.SKU.map(lambda s: est.get(s, 0)); plt['Pedir'] = ['Sim' if (q or 0) <= 0 else '' for q in plt['Estoque 12/11']]
 ws = wb.create_sheet('Planograma'); tabela(ws, plt, {'Produto': 46, 'Nível': 16, 'Prateleira e tamanho': 34})
-ws = wb.create_sheet('Onde montar'); tabela(ws, pd.DataFrame([(a, round(b, 1), c_) for a, b, c_ in monta], columns=['Setor', 'Módulos de 0,90 m', 'Onde']), {'Setor': 22, 'Onde': 90})
+ws = wb.create_sheet('Onde montar'); tabela(ws, pd.DataFrame([(a, b, c_) for a, b, c_ in monta], columns=['Setor', 'Metros de prateleira por nível', 'Onde']), {'Setor': 22, 'Onde': 110})
 xl = R / 'kit/pinheiros-revisao-mix.xlsx'; wb.save(xl)
 
-# ---------- página do planograma ----------
+pag = ''
 br = lambda val, k=0: f'{val:,.{k}f}'.replace(',', 'X').replace('.', ',').replace('X', '.')
-def tab(cab, lin): return '<table class="tb"><thead><tr>' + ''.join(f'<th>{c_}</th>' for c_ in cab) + '</tr></thead><tbody>' + ''.join('<tr>' + ''.join(f'<td>{v_}</td>' for v_ in l) + '</tr>' for l in lin) + '</tbody></table>'
-k = rs['produtos']; vv = rs['valor']; med_cob = u[(u.estoque > 0) & (u.giro > 0)].cobertura.median()
-cards = [('Produtos em estoque', br(len(e))), ('Repor já', br(k.get('Repor já: vende e está sem estoque', 0))), ('Incorporar do núcleo', br(k.get('Incorpora: núcleo da rede que a loja não tem', 0))),
-         ('Parados com estoque', br(k.get('Parado: vendeu antes de julho', 0) + k.get('Parado: sem venda em 11 meses', 0))),
-         ('Parado, a preço de venda', 'R$ ' + br((vv.get('Parado: vendeu antes de julho', 0) + vv.get('Parado: sem venda em 11 meses', 0)) / 1000) + ' mil'),
-         ('Excesso, mais de 6 meses', br(k.get('Excesso: mais de 6 meses de estoque', 0)))]
-lista = lambda a, n=40: tab(['Produto', 'Marca', 'Setor', 'Estoque', 'Giro/sem.', 'Lugar'], [[html.escape(str(r.desc).title()[:52]), html.escape(str(r.marca).title()), r.setor, br(r.estoque, 0 if float(r.estoque).is_integer() else 2), br(r.giro, 1), r.lugar] for r in u[u.acao == a].sort_values('v11', ascending=False).head(n).itertuples()])
-ordem = [c_ for c_ in PL.CATS if c_ in cats]
-def bloco(c_):
-    if 'tubos' in cats[c_]: return PH.plano(RP, 'PIN', c_)
-    n = int(cats[c_]['f'] + .999)
-    return ''.join(f'<div class="bl">{PH.plano(RP, "PIN", c_, maxm=3, ini=k)}</div>' for k in range(0, n, 3))
-onde = lambda c_: ' e '.join(o.split(':')[0].split(',')[0] for a, b, o in monta if a == c_)
-planos = ''.join(f'<section class="pl" id="pl-{i}"><h3>{html.escape(c_)} <small>{br(float(M[c_]), 1)} módulo{"s" if M[c_] > 1 else ""} · {onde(c_)}</small></h3>{bloco(c_)}</section>' for i, c_ in enumerate(ordem))
-pag = f'''<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><base href="../"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
-<title>Pinheiros · planograma da loja</title><link rel="icon" href="assets/logos/dt-icone-terra.svg">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,400&display=swap" rel="stylesheet">
-<style>@font-face{{font-family:'General Sans';src:url('assets/fontes/GeneralSans-Variable.ttf');font-weight:200 700}}
-:root{{--iogurte:#F7F5F1;--aveia:#E5DDD1;--linho:#BCAD99;--cap:#AC834C;--choco:#7C381F;--terra:#461D17;--oliva:#596D49;--matcha:#A9C094;--acafrao:#CA942A;--cinza:#6F5F55;--serif:'Source Serif 4',Georgia,serif;--sans:'General Sans',system-ui,sans-serif}}
-*{{box-sizing:border-box}}body{{margin:0;background:var(--iogurte);color:var(--terra);font:15px/1.45 var(--sans)}}main{{max-width:1500px;margin:0 auto;padding:36px 28px 80px}}
-h1,h2,h3{{font-family:var(--serif);font-weight:400;margin:0}}h1{{font-size:46px;margin:18px 0 6px}}h1 em{{color:var(--choco)}}h2{{font-size:32px;margin:44px 0 12px}}h3{{font-size:26px;margin:10px 0}}h3 small{{font-family:var(--sans);font-size:14px;color:var(--cinza);margin-left:8px}}
-.lead{{font-size:18px;color:var(--cinza);max-width:1000px}}.m img{{height:24px}}.m{{display:flex;gap:12px;align-items:center}}.m img.l{{height:16px}}
-.cards{{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:22px 0}}.cards div{{background:var(--aveia);border-radius:12px;padding:14px 16px}}.cards b{{display:block;font-family:var(--serif);font-weight:300;font-size:36px;line-height:1}}.cards div:nth-child(2),.cards div:nth-child(3){{background:var(--terra);color:var(--iogurte)}}.cards div:nth-child(2) b,.cards div:nth-child(3) b{{color:var(--acafrao)}}
-.tb{{border-collapse:collapse;width:100%;font-size:14px;background:#fff;border-radius:10px;overflow:hidden;margin:8px 0}}.tb th{{background:var(--aveia);text-align:left;padding:7px 10px;font-weight:600}}.tb td{{padding:6px 10px;border-top:1px solid var(--aveia);vertical-align:top}}
-.pl{{background:#fff;border-radius:14px;padding:18px 20px;margin:16px 0}}.bl{{margin:10px 0 22px;break-inside:avoid;overflow-x:auto}}.nota{{font-size:13.5px;color:var(--cinza)}}.passo{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}}.passo div{{background:#fff;border-radius:12px;padding:14px 16px}}.passo b{{display:block;color:var(--choco);font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}}
-@media print{{main{{padding:12mm}}.pl{{page-break-inside:avoid}}}}
-{PH.CSS}</style></head><body><main>
-<div class="m"><img src="assets/logos/dt-horizontal-terra.svg" alt="Divina Terra"><span>×</span><img class="l" src="assets/logos/75lab-logo-preto.svg" alt="75 LAB"></div>
-<h1>Pinheiros: <em>o planograma da loja</em></h1>
-<p class="lead">Piloto assistido do planograma. O mix revisado pelo estoque de 12/11/2026 e pela venda da própria loja, e o desenho de cada setor, módulo a módulo. Os móveis são os de hoje: as medidas foram estimadas na visita de 14/10 e precisam de trena antes da montagem.</p>
-<div class="cards">{''.join(f'<div><b>{v_}</b>{t_}</div>' for t_, v_ in cards)}</div>
-<h2>Como montar</h2>
-<div class="passo"><div><b>1. Antes</b>Conferir as medidas com trena e separar os parados (lista abaixo) para a mesa do mês ou transferência.</div><div><b>2. Pedido</b>Repor o que vende e está sem estoque e pedir os produtos do núcleo que a loja não tem.</div><div><b>3. Montagem</b>Um setor por vez, de cima para baixo, seguindo módulo e nível. Fora de horário, em duas noites.</div><div><b>4. Depois</b>Foto de cada módulo, etiqueta nova e leitura da venda nas semanas 6 e 12.</div></div>
-<h2>Onde fica cada setor</h2>{tab(['Setor', 'Módulos de 0,90 m', 'Onde'], [[a, br(b, 1), o] for a, b, o in monta])}
-<p class="nota">Proposta a partir do mapa de Pinheiros do book e do inventário de móveis da visita. Módulos por setor: venda da própria loja vezes o papel de cada setor, no tamanho G (39 módulos), perfil suplemento forte; depois, setor com prateleira sobrando cedeu meio módulo para setor com produto vendido que não coube. Prateleira que sobrou no desenho recebeu o que a própria loja vende, marcado como local.</p>
-<h2>Planograma, setor a setor</h2><p class="nota">Cada foto é uma frente. Níveis 3 e 4 são os olhos. Núcleo, lista e local como no book.</p>{planos}
-<h2>Repor já</h2><p class="nota">Vende pelo menos 1 a cada 2 semanas e está sem estoque. Os 40 que mais vendem; a lista completa está na planilha.</p>{lista('Repor já: vende e está sem estoque')}
-<h2>Incorporar do núcleo</h2><p class="nota">Produtos essenciais da rede que Pinheiros ainda não tem. Já estão no planograma.</p>{lista('Incorpora: núcleo da rede que a loja não tem')}
-<h2>Excesso de estoque</h2><p class="nota">Mais de 6 meses de estoque pelo giro de julho a setembro, e mais do que uma frente cheia. Pedido zero até baixar. Na loja, metade dos produtos tem mais de {br(med_cob, 0)} semanas de estoque.</p>{lista('Excesso: mais de 6 meses de estoque')}
-<h2>Parados com estoque</h2><p class="nota">Têm estoque e não venderam de julho a setembro de 2026. Não repor; mesa do mês ou transferência, sem queima. Sem venda na loja, o valor usa o preço médio da rede.</p>{lista('Parado: vendeu antes de julho')}{lista('Parado: sem venda em 11 meses')}
-<p class="nota">Fonte: estoque de Pinheiros em 12/11/2026; relatório de vendas de 11/2025 a 09/2026; classificação v2; motor de planogramas do book, com a venda de Pinheiros. Tem estoque e venda da loja: uso interno.</p>
-</main>{PH.DICA}</body></html>'''
-(R / 'kit/pinheiros-planograma.html').write_text(pag)
-bad = [t for t in ('—', '–') if t in pag]
-print(xl); print('módulos', {k_: v_ for k_, v_ in M.items() if v_}, 'soma', sum(M.values())); print('ajuste', AJUSTE, '| locais preenchidos', N_LOCAL)
-for c_, (o_, nf_, n_) in ocupacao(M, cats).items(): print(f'  {c_:18s} {M[c_]:4} mód  ocupação {o_*100:5.1f}%  fora {nf_}')
-print(rs.round(0).to_string()); print('sem código:', int(sem_cod.sum()), '| no planograma:', len(pos), '| incorpora:', len(inc), '| travessão' if bad else '| sem travessão')
-
-
 # ---------- lista de pedido (23/11/2026) ----------
 # Alvo: 4 semanas de venda até a próxima compra + 1 de segurança, e nunca menos que as frentes do planograma (+ 1 unidade se vende 1 a cada 2 semanas ou mais).
 # Granel em kg: 3 semanas, mínimo de 2 kg. Essencial que a loja não vende usa o giro médio de uma loja da rede.
@@ -405,20 +385,7 @@ h1,h3{{font-family:var(--serif);font-weight:400;margin:0}}h1{{font-size:40px;mar
 print(xp_, len(P), 'produtos'); print(RP_.round(0).to_string(index=False)); print(RM.head(12).to_string(index=False))
 print('travessão' if any(t in pg2 for t in ('—', '–')) else 'sem travessão')
 
-# ---------- dados do guia da loja (fonte/pinheiros_guia.py) ----------
-# Cada móvel é uma sequência de módulos físicos de 0,90 m; um módulo pode juntar duas metades de setores vizinhos.
-ZONAS = [('parede', 'Parede de suplementos', 'Parede da esquerda. Módulos altos de 7 níveis: o 7º fica só para estoque aéreo e placa.',
-          [('Proteínas', (0, 2)), ('Creatina', None), ('Ômegas', None), ('Vitaminas', None), ('Colágeno', None), ('Bem-Estar', None)]),
-         ('proteina', 'Ilha da Proteína', 'Primeira ilha, de frente para a parede. Continua as proteínas da parede.', [('Proteínas', (2, None))]),
-         ('treino', 'Ilha do Treino', 'Pré e pós-treino, cafés funcionais e peso.', [('Performance', None), ('Cafés funcionais', None), ('Peso', None)]),
-         ('saude', 'Ilha da Saúde', 'Intestino, longevidade e imunidade.', [('Intestino', None), ('Longevidade', None), ('Imunidade', None)]),
-         ('lanches', 'Ilha dos Lanches', 'Barras e snacks: o que se leva para o dia.', [('Barras e snacks', None)]),
-         ('despensa', 'Ilha da Despensa', 'Sem glúten e os básicos do Gourmet.', [('Sem Glúten', None), ('Gourmet', (3, None))]),
-         ('gourmet', 'Gourmet ao lado das mesas', 'Os três módulos onde ficavam as farinhas, perto de quem senta para o café.', [('Gourmet', (0, 3))]),
-         ('chas', 'Chás', 'Estante do fundo, com gancheira para chá de sachê.', [('Chás', None)])]
-def mods_setor(cat):
-    cc = cats[cat]; n = int(cc['f'] + .999)
-    return [(k, 1.0 if k + 1 <= cc['f'] else .5) for k in range(n)]
+# ---------- dados do guia da loja (fonte/pinheiros_guia.py): móveis reais, com posição na planta ----------
 def item_guia(q):
     s_ = q['sku']; r_ = u[u.sku == s_]
     es = float(r_.estoque.iloc[0]) if len(r_) else 0.0
@@ -426,33 +393,49 @@ def item_guia(q):
     pq = P[P.SKU == s_].Pedir; pq = int(pq.iloc[0]) if len(pq) else 0
     return dict(s=int(s_), n=q['nome'], m=q['mc'], f=int(q['f']), w=float(q['w']), a=ac, l=bool(q.get('loc')), e=round(es, 2), p=pq,
                 pr=[q.get('pmin'), q.get('pmax')], b=q.get('band', ''))
-zonas_g = []
-for zid, znome, zdesc, regras in ZONAS:
-    segs = []
-    for cat, qtd in regras:
-        if cat not in cats: continue
-        todos = mods_setor(cat)
-        pega = todos if qtd is None else todos[qtd[0]:qtd[1]]
-        for k, larg in pega:
-            cc = cats[cat]
+moveis_g = []
+for m_ in MOVEIS:
+    bays = []
+    for bi, bay in enumerate(m_['bays']):
+        segs = []
+        for si, (cat, wcm) in enumerate(bay):
+            cc = cats.get(cat)
+            if not cc: continue
+            k = next(ix for ix, o in enumerate(cc['onde']) if o[0] == m_['id'] and o[1] == bi and o[2] == si)
             niv = [dict(n=n['n'], r=(n['rots'][k] if k < len(n['rots']) else ''), it=[item_guia(q) for q in n['mods'][k]] if k < len(n['mods']) else []) for n in cc['niveis']]
-            segs.append(dict(c=cat, k=k + 1, t=int(cc['f'] + .999), w=larg, nv=niv))
-    # módulo físico de 0,90 m: meio módulo de um setor faz par com o próximo meio módulo da mesma ilha
-    bays = []; fila_ = list(segs)
-    while fila_:
-        sg = fila_.pop(0)
-        if sg['w'] >= 1.0: bays.append([sg]); continue
-        par = next((x_ for x_ in fila_ if x_['w'] < 1.0), None)
-        if par: fila_.remove(par); bays.append([sg, par])
-        else: bays.append([sg])
-    zonas_g.append(dict(id=zid, nome=znome, desc=zdesc, bays=bays))
+            segs.append(dict(c=cat, w=wcm, nv=niv))
+        bays.append(segs)
+    moveis_g.append(dict(id=m_['id'], nome=m_['nome'], grupo=m_['grupo'], x0=m_['x0'], x1=m_['x1'], y0=m_['y0'], y1=m_['y1'], alt=m_['alt'], niv=m_['niv'],
+                         olha=m_['olha'], nota=m_['nota'], bays=bays))
 gr_ = cats.get('Granel')
 granel_g = [dict(s=t['sku'], n=t['nome'], fam=t['fam'], e=float(u[u.sku == t['sku']].estoque.iloc[0]) if len(u[u.sku == t['sku']]) else 0.0) for t in gr_['tubos']] if gr_ else []
+# granel nos três móveis de hoje, na ordem das famílias: Granel P (1,25 m), Granel 18 (2,10 m, dispensers) e Granel M (0,90 m)
+GRM = [('GP', 'Granel P', 1.56, 2.81, 5.94, 6.39, 12), ('G18', 'Granel 18', 2.81, 4.91, 5.94, 6.39, 18), ('GM', 'Granel M', 4.91, 5.81, 5.94, 6.39, 99)]
+k0 = 0
+for gid, gnome, a_, b_, c_, d_, n_ in GRM:
+    moveis_g.append(dict(id=gid, nome=gnome, grupo='granel', x0=a_, x1=b_, y0=c_, y1=d_, alt=2.0, niv=0, olha='y-',
+                         nota='Granel de hoje: nenhum pote sai do lugar. Placa de granel visível da porta e potinho de prova.', tubos=granel_g[k0:k0 + n_], k0=k0))
+    k0 += n_
+# o resto da loja, para o mapa e a vista em 3D
+OBJ = [dict(t='vitrine', n='Vitrine', x0=0.0, x1=0.3, y0=0.3, y1=1.5), dict(t='porta', n='Entrada', x0=0.0, x1=0.3, y0=1.5, y1=2.6),
+       dict(t='vitrine', n='Vitrine', x0=0.0, x1=0.3, y0=3.37, y1=5.37),
+       dict(t='kombucha', n='Kombucha', x0=2.2, x1=2.98, y0=3.78, y1=4.73), dict(t='balcao', n='Balança e moinho', x0=3.6, x1=4.0, y0=3.82, y1=4.55),
+       dict(t='balcao', n='Balcão do granel', x0=4.0, x1=6.42, y0=3.82, y1=4.55), dict(t='balcao', n='Expositor', x0=6.48, x1=7.44, y0=3.86, y1=4.36),
+       dict(t='frio', n='Freezer', x0=9.0, x1=10.3, y0=0.0, y1=0.63), dict(t='caixa', n='Caixa', x0=10.63, x1=12.66, y0=1.12, y1=1.81),
+       dict(t='caixa', n='', x0=12.66, x1=12.89, y0=0.91, y1=1.64), dict(t='balcao', n='Produtos', x0=12.82, x1=13.84, y0=0.0, y1=0.2),
+       dict(t='mesa', n='', x0=10.57, x1=11.14, y0=3.42, y1=3.99), dict(t='mesa', n='', x0=12.0, x1=13.17, y0=3.42, y1=3.99),
+       dict(t='mesa', n='', x0=10.57, x1=11.14, y0=5.18, y1=5.74), dict(t='mesa', n='', x0=12.0, x1=13.17, y0=5.18, y1=5.74),
+       dict(t='cafe', n='Balcão do café', x0=10.47, x1=13.27, y0=5.84, y1=6.34), dict(t='mesames', n='Mesa do mês, em teste', x0=8.3, x1=9.5, y0=3.5, y1=4.6)]
+for g, a_, b_, *_ in GON:
+    for xx, lado in ((a_, 'frente'), (b_, 'fundo')):
+        OBJ.append(dict(t='ponta', n=f'Ponta da gôndola {g}', x0=xx - .18 if lado == 'frente' else xx, x1=xx if lado == 'frente' else xx + .18, y0=1.56, y1=2.35))
 tirar = u[u.acao.str.startswith('Parado') & (u.estoque > 0)].sort_values(['setor', 'desc'])
 guardar = u[(u.acao == 'Fora do planograma: reduz ou sai aos poucos') & (u.estoque > 0)].sort_values(['setor', 'desc'])
 lst = lambda t: [dict(s=(int(r_.sku) if pd.notna(r_.sku) else None), n=str(r_.desc).title(), m=str(r_.marca).title() if pd.notna(r_.marca) else '', st=str(r_.setor), e=float(r_.estoque)) for r_ in t.itertuples()]
-guia = dict(zonas=zonas_g, granel=granel_g, tirar=lst(tirar), guardar=lst(guardar),
+guia = dict(moveis=moveis_g, obj=OBJ, granel=granel_g, tirar=lst(tirar), guardar=lst(guardar),
             pedido=[dict(pri=r_.Prioridade[3:], m=r_.Marca, s=int(r_.SKU), n=r_.Produto, st=r_.Setor, lg=r_.Lugar, q=int(r_.Pedir), un=r_.Unidade) for r_ in P.itertuples()],
             resumo=dict(estoque=int(len(e)), plano=int(len(pos)), novo=int(len(inc)), pedir=int(len(P)), tirar=int(len(tirar)), guardar=int(len(guardar))))
 (R / 'analise/pinheiros_guia.json').write_text(json.dumps(guia, ensure_ascii=False))
-print('guia:', {z['nome']: len(z['bays']) for z in zonas_g}, 'granel', len(granel_g), 'tirar', len(tirar), 'guardar', len(guardar))
+print('guia:', len(moveis_g), 'móveis', sum(len(m_['bays']) for m_ in moveis_g if m_['grupo'] != 'granel'), 'módulos', 'granel', len(granel_g), 'tirar', len(tirar), 'guardar', len(guardar))
+print(rs.round(0).to_string()); print('no planograma:', len(pos), '| incorpora:', len(inc))
+for c_, (o_, nf_, n_) in ocupacao(M, cats).items(): print(f'  {c_:18s} {round(sum(cats[c_]["larg"])):4d} cm/nível  ocupação {o_*100:5.1f}%  fora {nf_}')

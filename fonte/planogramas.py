@@ -150,7 +150,7 @@ def _centro(it):
         for q,e in enumerate(bl): (b2.append(e) if q%2==0 else b2.insert(0,e))
         cen=cen+b2 if j%2==0 else b2+cen
     return cen
-def escolher(x,cat,f,nuc=None):
+def escolher(x,cat,f,nuc=None,larg_in=None):
     "Escolhe e posiciona. Cada tábua (módulo x nível) tem uma subcategoria e uma faixa de tamanho."
     nuc=nuc or set();n=max(1,x.loja.nunique())
     g=x.groupby(['sku','desc','marca','prat']).agg(v=('valor','sum'),q=('qtd','sum'),l=('loja','nunique'),r=('mes3','max')).reset_index()
@@ -158,6 +158,7 @@ def escolher(x,cat,f,nuc=None):
     nuc=set(nuc)|set(g.loc[g.marca==MARCA_PROPRIA,'sku'])
     g=g[g.r|g.sku.isin(nuc)];g=g.assign(fz=~g.sku.isin(nuc)).sort_values(['fz','v'],ascending=[True,False])
     inteiros=int(f+.999);larg=[UTIL if m+1<=f else UTIL/2 for m in range(inteiros)]
+    if larg_in: inteiros=len(larg_in);larg=[float(v) for v in larg_in] # largura útil real de cada módulo, em cm (loja de Pinheiros)
     LIM=LIMITE.get(T_ATUAL,4);teto=ALVO.get(T_ATUAL,{}).get(cat)
     cand=[];conta={}
     for r in g.itertuples():
